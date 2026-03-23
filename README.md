@@ -48,22 +48,19 @@ npx organism-ai
 cd ~/.claude/skills/organism && git pull origin main
 ```
 
-To define your product's purpose (recommended first step):
-```
-/organism:north-star
-```
-
-6 questions. 5 minutes. After that, every session starts grounded.
+Type `/organism` and it takes over.
 
 ## How It Works
 
-### Three Modes
+### Four Modes
 
-**Birth** — No NORTH-STAR.md found. The organism walks you through defining your product: who it's for, what pain it solves, whether demand exists, who the competitors are, and what to build first. Takes ~15 minutes. You come out with a north star, a roadmap, and a focus.
+**Onboard** — You have an existing codebase but no organism yet. The organism maps your code with 7 parallel explorers, reads your README and docs, infers who you're building for and why, then asks you to confirm or correct. You fill in the gaps it can't read from code (pricing, distribution, one metric). Takes ~10 minutes. No starting from zero on a project you already understand.
 
-**Pulse** — You're returning to an existing project. The organism reads your state, tells you where things stand in product language, states the current focus, and recommends the next step. Takes 30 seconds. You're oriented.
+**Birth** — You're starting from scratch. The organism walks you through defining your product: who it's for, what pain it solves, whether demand exists, who the competitors are, and what to build first. Takes ~15-20 minutes. You come out with a north star, a roadmap, and a focus.
 
-**Work** — You give a task. The organism runs its organs internally: checks the task against your north star, selects the right tier (Quick/Standard/Full), designs before building, tests before implementing, verifies before claiming done, and delivers a health check when the work is complete. You just see your product getting built.
+**Pulse** — You're returning to a project the organism already knows. It reads your state, tells you where things stand in product language, states the current focus, and recommends the next step. Takes 30 seconds.
+
+**Work** — You give a task. The organism runs its organs internally: checks the task against your north star, selects the right tier (Quick/Standard/Full), designs before building, tests before implementing, verifies before claiming done, and delivers a health check when the work is complete.
 
 ### Health Checks
 

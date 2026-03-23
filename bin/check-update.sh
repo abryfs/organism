@@ -1,6 +1,6 @@
 #!/bin/bash
-# Organism auto-update check — runs on SessionStart hook
-# Compares local VERSION against remote, prompts if behind
+# Organism auto-update — runs on SessionStart hook
+# Compares local VERSION against remote, auto-pulls if behind
 
 ORGANISM_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 VERSION_FILE="$ORGANISM_DIR/VERSION"
@@ -11,12 +11,10 @@ fi
 
 LOCAL_VERSION=$(cat "$VERSION_FILE" | tr -d '[:space:]')
 
-# Fetch remote without pulling (quiet, fast, timeout 5s)
+# Fetch remote (quiet, fast, timeout 5s)
 cd "$ORGANISM_DIR"
 git fetch origin main --quiet 2>/dev/null &
 FETCH_PID=$!
-
-# Wait max 5 seconds for fetch
 ( sleep 5 && kill $FETCH_PID 2>/dev/null ) &
 TIMER_PID=$!
 wait $FETCH_PID 2>/dev/null
@@ -33,7 +31,11 @@ if [ "$LOCAL_VERSION" = "$REMOTE_VERSION" ]; then
   exit 0
 fi
 
-# Version differs — notify via JSON output
+# Version differs — auto-pull
+git pull origin main --quiet 2>/dev/null
+
+NEW_VERSION=$(cat "$VERSION_FILE" | tr -d '[:space:]')
+
 cat <<EOF
-{"systemMessage": "Organism update available: $LOCAL_VERSION → $REMOTE_VERSION. Run /organism:update to upgrade."}
+{"systemMessage": "Organism auto-updated: $LOCAL_VERSION → $NEW_VERSION"}
 EOF
