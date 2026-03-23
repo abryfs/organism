@@ -1,0 +1,31 @@
+bin/check-update.sh
+  26badda32f6ee5f2 2-3,14,34-37,40
+package.json
+  26badda32f6ee5f2 3
+README.md
+  26badda32f6ee5f2 51,55,57,59,61,63
+VERSION
+  26badda32f6ee5f2 1
+CHANGELOG.md
+  26badda32f6ee5f2 3-14,21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "0da37644dcd76ab40bed30918bf61b29c73496ff",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 31,
+      "total_deletions": 20,
+      "accepted_lines": 31,
+      "overriden_lines": 0
+    }
+  }
+}
