@@ -24,17 +24,25 @@ All three are required. Each contributes to Brain, Spine, Hands, and Gut — GSD
 
 ## Install
 
-Open Claude Code and paste this. Claude does the rest:
+**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/)
 
-> Install organism: run **`git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism && cd ~/.claude/skills/organism && ./setup`** then add an "organism" section to CLAUDE.md that says to use /organism as the main entry point for all work, lists the available skills: /organism, /organism:north-star, /organism:demand, /organism:competitive, /organism:interview, /organism:feedback, /organism:reality-check, /organism:user-lens, /organism:health-check, /organism:sync-check, /organism:split, /organism:update, and notes that Organism requires GSD, Superpowers, and gstack as its three systems.
+### Step 1: Install on your machine
 
-Or install from npm:
+Open Claude Code and paste this. Claude does the rest.
+
+> Install organism: run **`git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism && cd ~/.claude/skills/organism && ./setup`** then add an "organism" section to CLAUDE.md that says to use /organism as the main entry point for all work, lists the available skills: /organism, /organism:north-star, /organism:demand, /organism:competitive, /organism:interview, /organism:feedback, /organism:reality-check, /organism:user-lens, /organism:health-check, /organism:sync-check, /organism:split, /organism:update. Then check if GSD, Superpowers, and gstack are installed — if any are missing, install them: GSD via `npx get-shit-done-cc`, Superpowers via `/plugins` then enable superpowers, gstack via `git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`. All three are required.
+
+### Step 2: Add to your repo so teammates get it (optional)
+
+> Add organism to this project: run **`cp -Rf ~/.claude/skills/organism .claude/skills/organism && rm -rf .claude/skills/organism/.git`** then add an "organism" section to this project's CLAUDE.md listing all available skills and noting that GSD, Superpowers, and gstack are required. If organism skills aren't working, run `cd .claude/skills/organism && ./setup`.
+
+### Or install from npm
 
 ```bash
 npx organism-ai
 ```
 
-To update:
+### Update
 
 ```bash
 cd ~/.claude/skills/organism && git pull origin main
