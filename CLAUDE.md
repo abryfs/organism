@@ -199,10 +199,7 @@ HEALTH CHECK
 
   What's next: [the focus — already decided, not a question]
 
-  Completeness: [when relevant — edge cases covered, test paths
-  hit, error states handled. e.g., "8/10 edge cases covered,
-  missing: offline mode, expired session." Only include when
-  the task has measurable completeness.]
+  Completeness: [N/10]
 
   Parked: [ideas that came up but aren't the focus]
 
