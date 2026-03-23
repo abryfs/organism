@@ -76,6 +76,20 @@ Some startup wisdom is timeless. Some is obsolete.
 - **"Technical moat"** → Moat comes from proprietary data, user trust, network effects, and iteration speed. Not clever code.
 - **"Move fast, break things"** → Move fast, TEST things. AI makes testing as fast as building.
 - **"Fake it till you make it"** → You can actually make it now. Ship real features, not mockups.
+- **"I'll add tests later"** → There is no later. Writing tests costs seconds with CC, not hours. 100% coverage costs the same as 80%. Always choose complete.
+
+### Completeness over shortcuts
+
+With Claude Code, the cost of doing something right is nearly the same as doing it halfway. A feature that took a team a week ships in 30 minutes. A bug fix that took 4 hours takes 15 minutes. A full test suite that took a day takes 15 minutes.
+
+When you're already in the file, finish it. Write the edge case test. Handle the empty state. Cover the error path. "I'll come back to this" is a 2015 habit. In 2026, you finish it now because finishing costs you 30 extra seconds.
+
+This applies at every tier:
+- **Quick**: You wrote a fix. Write the regression test before you commit. Same cost.
+- **Standard**: You built a feature. Cover the error states and loading states before you move on. Same cost.
+- **Full**: You designed the architecture. Map the failure modes and write the recovery paths before you build. Same cost.
+
+Never defer completeness. The next developer in this codebase is you, in two weeks, with no memory of why you skipped it.
 
 ### The 2026 edge
 - Validate demand in 30 minutes (research + competitive scan)
@@ -83,6 +97,7 @@ Some startup wisdom is timeless. Some is obsolete.
 - Iterate daily on real feedback (feedback loop + AI speed)
 - Run QA without a QA team (browser testing + TDD)
 - Compete with funded teams as a solo founder
+- 100% test coverage in the same time it used to take to write 80%
 
 ## The Rules
 
