@@ -6,7 +6,7 @@ Built for founder-engineers — people who write code AND own the product.
 
 ## What It Actually Is
 
-Organism is a CLAUDE.md file and 12 skill files. It's opinionated prompt engineering, not a framework. When you install it, your Claude Code sessions gain:
+Organism is a CLAUDE.md file and 11 skill files. It's opinionated prompt engineering, not a framework. When you install it, your Claude Code sessions gain:
 
 - **A focus** — one thing at a time, everything else gets parked
 - **A north star** — who you're building for, why they'd pay, how you'll know you're winning
@@ -30,7 +30,7 @@ All three are required. Each contributes to Brain, Spine, Hands, and Gut — GSD
 
 Open Claude Code and paste this. Claude does the rest.
 
-> Install organism: run **`git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism && cd ~/.claude/skills/organism && ./setup`** then add an "organism" section to CLAUDE.md that says to use /organism as the main entry point for all work, lists the available skills: /organism, /organism:north-star, /organism:demand, /organism:competitive, /organism:interview, /organism:feedback, /organism:reality-check, /organism:user-lens, /organism:health-check, /organism:sync-check, /organism:split, /organism:update. Then check if GSD, Superpowers, and gstack are installed — if any are missing, install them: GSD via `npx get-shit-done-cc`, Superpowers via `/plugins` then enable superpowers, gstack via `git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`. All three are required.
+> Install organism: run **`git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism && cd ~/.claude/skills/organism && ./setup`** then add an "organism" section to CLAUDE.md that says to use /organism as the main entry point for all work, lists the available skills: /organism, /organism:north-star, /organism:demand, /organism:competitive, /organism:interview, /organism:feedback, /organism:reality-check, /organism:user-lens, /organism:health-check, /organism:sync-check, /organism:split. Organism auto-updates on session start. Then check if GSD, Superpowers, and gstack are installed — if any are missing, install them: GSD via `npx get-shit-done-cc`, Superpowers via `/plugins` then enable superpowers, gstack via `git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`. All three are required.
 
 ### Step 2: Add to your repo so teammates get it (optional)
 
@@ -124,7 +124,6 @@ The organism's default answer to new ideas is **no** unless they serve the focus
 | `/organism:health-check` | On-demand product status pulse |
 | `/organism:sync-check` | Verify docs, maps, and code are consistent |
 | `/organism:split` | Spawn 3-agent team for architecture/launch work (requires Agent Teams) |
-| `/organism:update` | Check for and apply updates |
 
 Skills run internally during normal work. You don't invoke them — the organism does. The commands above are for explicit overrides when you want to trigger something specific.
 
