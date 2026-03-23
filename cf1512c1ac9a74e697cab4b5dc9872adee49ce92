@@ -1,0 +1,27 @@
+VERSION
+  26badda32f6ee5f2 1
+package.json
+  26badda32f6ee5f2 3
+README.md
+  26badda32f6ee5f2 45-46,49-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "cf1512c1ac9a74e697cab4b5dc9872adee49ce92",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 4,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
