@@ -25,6 +25,12 @@ All three are required. Each contributes to Brain, Spine, Hands, and Gut — GSD
 ## Install
 
 ```bash
+npx organism-ai
+```
+
+Or clone directly:
+
+```bash
 git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism
 cd ~/.claude/skills/organism && ./setup
 ```
@@ -32,7 +38,7 @@ cd ~/.claude/skills/organism && ./setup
 To update:
 
 ```bash
-cd ~/.claude/skills/organism && git pull origin main
+npx organism-ai update
 ```
 
 Then start any Claude Code session. Type `/organism` and it takes over.
