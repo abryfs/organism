@@ -1,0 +1,68 @@
+#!/bin/bash
+set -e
+
+echo "Setting up Organism..."
+
+# Detect installation location
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SKILL_NAME="organism"
+
+# Check if Claude Code is available
+if ! command -v claude &> /dev/null; then
+    echo "Warning: Claude Code CLI not found in PATH."
+    echo "Install from: https://claude.ai/claude-code"
+    echo "Organism will still work when Claude Code is available."
+fi
+
+# Enable Agent Teams (optional, for /split command)
+SETTINGS_FILE="$HOME/.claude/settings.json"
+if [ -f "$SETTINGS_FILE" ]; then
+    if ! grep -q "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" "$SETTINGS_FILE" 2>/dev/null; then
+        echo ""
+        echo "Agent Teams is not enabled in your settings."
+        echo "The /organism:split command requires it."
+        echo "To enable, add to $SETTINGS_FILE:"
+        echo '  "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" }'
+        echo ""
+        echo "Organism works without it — split mode is optional."
+    fi
+fi
+
+# Check for optional dependencies
+echo ""
+echo "Checking optional dependencies..."
+
+if command -v gsd 2>/dev/null || [ -d "$HOME/.claude/get-shit-done" ]; then
+    echo "  GSD: found (Brain will use it for state management)"
+else
+    echo "  GSD: not found (Brain will use lightweight state tracking)"
+fi
+
+if [ -d "$HOME/.claude/plugins/cache/claude-plugins-official/superpowers" ]; then
+    echo "  Superpowers: found (Spine will use it for TDD enforcement)"
+else
+    echo "  Superpowers: not found (Spine will use built-in discipline rules)"
+fi
+
+if [ -d "$HOME/.claude/skills/gstack" ]; then
+    echo "  gstack: found (Hands will use it for browser testing)"
+else
+    echo "  gstack: not found (Hands will use standard verification)"
+fi
+
+echo ""
+echo "Organism is ready."
+echo ""
+echo "Next steps:"
+echo "  1. Start a Claude Code session in your project"
+echo "  2. Run /organism:north-star to define your product's purpose"
+echo "  3. Start building — Organism's rules are active automatically"
+echo ""
+echo "Skills available:"
+echo "  /organism:north-star     — Define your product's north star"
+echo "  /organism:reality-check  — Validate features against reality"
+echo "  /organism:user-lens      — Test from user perspectives"
+echo "  /organism:health-check   — Get a product status pulse"
+echo "  /organism:sync-check     — Verify docs match code"
+echo "  /organism:split          — Spawn full organism (3 agents)"
+echo ""
