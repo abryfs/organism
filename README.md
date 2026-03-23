@@ -50,41 +50,49 @@ To define your product's purpose (recommended first step):
 
 6 questions. 5 minutes. After that, every session starts grounded.
 
-## What a Session Looks Like
+## How It Works
 
-**You open Claude Code and say:** "Let's keep building Shoti"
+### Three Modes
 
-**Organism detects:** NORTH-STAR.md exists, no specific task → Pulse mode. It orients you:
+**Birth** — No NORTH-STAR.md found. The organism walks you through defining your product: who it's for, what pain it solves, whether demand exists, who the competitors are, and what to build first. Takes ~15 minutes. You come out with a north star, a roadmap, and a focus.
 
-> **Focus:** Platform knowledge registry — teach Shoti how platforms work
+**Pulse** — You're returning to an existing project. The organism reads your state, tells you where things stand in product language, states the current focus, and recommends the next step. Takes 30 seconds. You're oriented.
+
+**Work** — You give a task. The organism runs its organs internally: checks the task against your north star, selects the right tier (Quick/Standard/Full), designs before building, tests before implementing, verifies before claiming done, and delivers a health check when the work is complete. You just see your product getting built.
+
+### Health Checks
+
+After meaningful work, the organism delivers a pulse — not an approval request:
+
+> **Focus:** User onboarding flow
 >
-> **Product state:** Chat works. Onboarding captures business type. Agent runner executes tasks but doesn't understand platform specifics yet.
+> **Built:** 3-step signup with email verification and welcome screen.
 >
-> **Last session:** Built credential capture flow for Shopee/Lazada.
+> **What this means:** New users can go from landing page to first action in under 90 seconds. Covers the "skeptical buyer" persona — they see value before committing.
 >
-> **Next step:** Build platform knowledge files so Shoti knows what "monitor my Lazada orders" actually means.
+> **Next:** Payment integration.
+>
+> **Parked:** Dark mode, notification preferences.
+>
+> **Heads up:** Skipped phone auth for now — email only. Tracked for later.
 
-**You say:** "Yeah, let's do that"
+You stay in the headspace of your product without reading code.
 
-**Organism switches to Work mode.** Selects Standard tier (user-facing, multi-file). Recommends an approach:
+### Adaptive Tiers
 
-> Going with a registry pattern — each platform gets a YAML knowledge file with actions, selectors, and common tasks. Starting with Shopee, Lazada, and Slack. Writing tests for the registry loader first.
+Not every task needs the same rigor. The organism auto-selects:
 
-It builds. Tests first, then implementation, then verification. When the wave is done:
+| Tier | When | What happens |
+|------|------|-------------|
+| **Quick** | Bug fixes, small changes, most work | Design → TDD → verify → health check → commit |
+| **Standard** | Features, user-facing changes, multi-file | + Plan tasks + QA in browser + diff review |
+| **Full** | Architecture, launches, major pivots | 3 agents via Agent Teams (or sequential fallback) |
 
-> **Focus:** Platform knowledge registry
->
-> **Built:** Registry with 3 platforms. Each has 12-15 action templates with selectors and steps.
->
-> **What this means:** A food stall owner can say "monitor my Lazada orders" and Shoti knows what that means — no clarifying questions needed. 3 of 8 target platforms done.
->
-> **Next:** Error handling for when platforms change their UI.
->
-> **Parked:** Dark mode request, notification grouping idea.
->
-> **Heads up:** Took a shortcut on Slack OAuth — cookie injection for now. Tracked for later.
+You can override: "go quick on this" or "go full on this."
 
-You never invoked a skill. The organism ran reality checks, tier selection, TDD, and sync checks internally. You just see your product getting built and stay in the headspace.
+### Saying No
+
+The organism's default answer to new ideas is **no** unless they serve the focus. Features get parked, scope creep gets blocked, shiny distractions get acknowledged and set aside. Only the founder can change the focus — and the organism will recommend a change when user evidence warrants it.
 
 ## The 10 Rules
 
@@ -114,20 +122,9 @@ You never invoked a skill. The organism ran reality checks, tier selection, TDD,
 | `/organism:health-check` | On-demand product status pulse |
 | `/organism:sync-check` | Verify docs, maps, and code are consistent |
 | `/organism:split` | Spawn 3-agent team for architecture/launch work (requires Agent Teams) |
+| `/organism:update` | Check for and apply updates |
 
 Skills run internally during normal work. You don't invoke them — the organism does. The commands above are for explicit overrides when you want to trigger something specific.
-
-## Adaptive Tiers
-
-Not every task needs the same rigor. The organism auto-selects:
-
-| Tier | When | What happens |
-|------|------|-------------|
-| **Quick** | Bug fixes, small changes, most work | Design → TDD → verify → health check → commit |
-| **Standard** | Features, user-facing changes, multi-file | + Plan tasks + QA in browser + diff review |
-| **Full** | Architecture, launches, major pivots | 3 agents via Agent Teams (or sequential fallback) |
-
-You can override: "go quick on this" or "go full on this."
 
 ## Works With
 
@@ -168,7 +165,7 @@ Every feature traces to a real user with a real problem. Every health check keep
 
 ## Author
 
-**Abry Dela Vega** — Founder-engineer building [Shoti](https://shoti.ai), an AI employee that works overnight for non-technical business owners — so they wake up and things are done. Organism was born from building Shoti and wanting AI to make me think harder, not think less.
+**Abry Dela Vega** — Founder-engineer. Organism was born from wanting AI to make me think harder, not think less.
 
 [LinkedIn](https://linkedin.com/in/abrydv) | [X](https://x.com/abrydeve) | [Facebook](https://facebook.com/logi9)
 
