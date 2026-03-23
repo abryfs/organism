@@ -24,23 +24,20 @@ All three are required. Each contributes to Brain, Spine, Hands, and Gut — GSD
 
 ## Install
 
+Open Claude Code and paste this. Claude does the rest:
+
+> Install organism: run **`git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism && cd ~/.claude/skills/organism && ./setup`** then add an "organism" section to CLAUDE.md that says to use /organism as the main entry point for all work, lists the available skills: /organism, /organism:north-star, /organism:demand, /organism:competitive, /organism:interview, /organism:feedback, /organism:reality-check, /organism:user-lens, /organism:health-check, /organism:sync-check, /organism:split, /organism:update, and notes that Organism requires GSD, Superpowers, and gstack as its three systems.
+
+Or install from npm:
+
 ```bash
 npx organism-ai
 ```
 
-Or clone directly:
-
-```bash
-git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism
-cd ~/.claude/skills/organism && ./setup
-```
-
-**Restart Claude Code after installing.** Skills are discovered on session start. Once restarted, type `/organism` and it takes over.
-
 To update:
 
 ```bash
-npx organism-ai update
+cd ~/.claude/skills/organism && git pull origin main
 ```
 
 To define your product's purpose (recommended first step):
