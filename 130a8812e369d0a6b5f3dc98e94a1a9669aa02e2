@@ -1,0 +1,37 @@
+VERSION
+  26badda32f6ee5f2 1
+CHANGELOG.md
+  26badda32f6ee5f2 1-11
+skills/update/SKILL.md
+  26badda32f6ee5f2 1-57
+setup
+  26badda32f6ee5f2 4,7,9,11,14,16-17,19,21,26-33,35-36,38,40,43-44,46,50,52,55,57,59-70
+README.md
+  26badda32f6ee5f2 37,39,41-47,49,51,53,55,57-67,69
+package.json
+  26badda32f6ee5f2 1-24
+cli.js
+  26badda32f6ee5f2 1-103
+bin/check-update.sh
+  26badda32f6ee5f2 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "130a8812e369d0a6b5f3dc98e94a1a9669aa02e2",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 309,
+      "total_deletions": 95,
+      "accepted_lines": 309,
+      "overriden_lines": 0
+    }
+  }
+}
