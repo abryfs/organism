@@ -1,0 +1,55 @@
+skills/demand/SKILL.md
+  26badda32f6ee5f2 1-116
+skills/split/SKILL.md
+  26badda32f6ee5f2 1-154
+skills/reality-check/SKILL.md
+  26badda32f6ee5f2 1-89
+skills/feedback/SKILL.md
+  26badda32f6ee5f2 1-133
+skills/user-lens/SKILL.md
+  26badda32f6ee5f2 1-87
+skills/sync-check/SKILL.md
+  26badda32f6ee5f2 1-77
+skills/organism/SKILL.md
+  26badda32f6ee5f2 1-230
+skills/north-star/SKILL.md
+  26badda32f6ee5f2 1-91
+setup
+  26badda32f6ee5f2 1-68
+LICENSE
+  26badda32f6ee5f2 1-21
+skills/interview/SKILL.md
+  26badda32f6ee5f2 1-152
+SPEC.md
+  26badda32f6ee5f2 1,3
+skills/competitive/SKILL.md
+  26badda32f6ee5f2 1-143
+.gitignore
+  26badda32f6ee5f2 1-4
+skills/health-check/SKILL.md
+  26badda32f6ee5f2 1-96
+README.md
+  26badda32f6ee5f2 1-187
+CLAUDE.md
+  26badda32f6ee5f2 1-264
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "617d89fd70b8a744a594865c6bc9430de88f62d2",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 2149,
+      "total_deletions": 237,
+      "accepted_lines": 1914,
+      "overriden_lines": 0
+    }
+  }
+}
