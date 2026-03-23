@@ -1,0 +1,23 @@
+README.md
+  26badda32f6ee5f2 27,29,31,34,40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "6125c191c89e7bf2f171cd759ede386e1b6e1acb",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 9,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
