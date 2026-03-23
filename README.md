@@ -19,8 +19,20 @@ It works standalone. It gets stronger if you also use [GSD](https://github.com/c
 ## Install
 
 ```bash
-git clone https://github.com/AbreAbry/organism.git ~/.claude/skills/organism
+npx organism-ai
+```
+
+Or clone directly:
+
+```bash
+git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism
 cd ~/.claude/skills/organism && ./setup
+```
+
+To update:
+
+```bash
+npx organism-ai update
 ```
 
 Then start any Claude Code session. The CLAUDE.md rules activate automatically.
