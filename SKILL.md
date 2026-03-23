@@ -9,6 +9,23 @@ description: The main entry point. Use at the start of any session or when the f
 
 One command. The organism figures out the rest. The founder never juggles skills.
 
+## UI Rule: Use AskUserQuestion for All Choices
+
+Whenever the founder needs to make a decision, use Claude Code's native `AskUserQuestion` tool with selectable options. Never ask the founder to type a choice when they can click one.
+
+Use AskUserQuestion for:
+- Mode confirmation ("I detected Onboard mode. Correct?")
+- Onboard inferences ("Does this match your mental model?")
+- North star confirmations ("Your users are PH solopreneurs. Correct?")
+- Focus changes ("Switch focus or park this idea?")
+- Tier overrides ("Recommending Standard tier for this task")
+- Reality check outcomes ("Build / Simplify / Defer")
+- Birth mode demand results ("Demand is strong / weak / needs more research")
+
+Use free-text input only for open-ended questions where options can't cover the answer (e.g., "Describe the specific person who will use this product").
+
+AskUserQuestion supports 2-4 options per question, with labels and descriptions. Put the recommended option first with "(Recommended)" in the label. The user can always select "Other" for custom input.
+
 ## How It Works
 
 When invoked, Organism reads the project state and activates the appropriate mode automatically.
@@ -53,7 +70,9 @@ From the codebase map and docs, construct a draft understanding:
 **Tests:** [coverage level, frameworks, what's tested and what's not]
 **State:** [how mature — MVP? production? prototype?]
 
-Does this match your mental model? Correct anything that's wrong."
+Then use AskUserQuestion:
+- Question: "Does this match your mental model?"
+- Options: [Yes, looks right (Recommended)] [Partially — let me correct a few things] [No, this is off]
 
 Don't ask 6 questions from zero. Present what you found and let the founder correct.
 
@@ -116,19 +135,31 @@ Don't ask all 6 at once. One at a time, conversational. Recommend when the found
 
 Run the demand skill internally. WebSearch for real signals — forum posts, reviews, competitor mentions. Don't show the founder the research process. Show the conclusion:
 
-"I found [N] discussions about this problem on [sources]. Users describe the pain as '[exact quote]'. Competitors charge $[X-Y]/mo but users complain about [gap]. The demand signal is [strong/moderate/weak]."
+"I found [N] discussions about this problem on [sources]. Users describe the pain as '[exact quote]'. Competitors charge $[X-Y]/mo but users complain about [gap]."
+
+Then use AskUserQuestion:
+- Question: "The demand signal is [strong/moderate/weak]. How do you want to proceed?"
+- Options: [Proceed — demand validates the idea (Recommended)] [Pivot — demand is weak, rethink the user or the problem] [Research more — need more data before deciding]
 
 **3. Competitive Scan (5 minutes)**
 
-Run the competitive skill internally. Identify direct, adjacent, and incumbent competitors. Don't produce a report. Produce a statement:
+Run the competitive skill internally. Identify direct, adjacent, and incumbent competitors. Present the findings:
 
-"Your main competitors are [A] and [B]. They both [approach]. The gap nobody fills is [X]. That's your wedge."
+"Your main competitors are [A] and [B]. They both [approach]. The gap nobody fills is [X]."
+
+Then use AskUserQuestion:
+- Question: "This gap is your wedge. Does this match how you see the opportunity?"
+- Options: [Yes, that's the wedge (Recommended)] [The wedge is different — let me explain] [I need to think about this]
 
 **4. Reality Synthesis**
 
 Combine north star + demand + competitive into a reality check:
 
-"Here's what I know: You're building [product] for [persona] who currently [current solution]. The demand is [assessment] because [evidence]. Your competitive advantage is [advantage]. The risk is [risk]."
+"You're building [product] for [persona] who currently [current solution]. The demand is [assessment] because [evidence]. Your competitive advantage is [advantage]. The risk is [risk]."
+
+Then use AskUserQuestion:
+- Question: "Ready to structure the roadmap based on this?"
+- Options: [Yes, structure it (Recommended)] [Adjust something first] [Start over — the direction is wrong]
 
 **5. Structure**
 
@@ -170,7 +201,9 @@ SESSION RESUME
 ───────────────────────────────
 ```
 
-The founder either agrees and you start working, or redirects. Either way, they're oriented in 30 seconds.
+Then use AskUserQuestion:
+- Question: "Ready to work on [recommended next step]?"
+- Options: [Yes, let's go (Recommended)] [Different task — I want to work on something else] [Catch me up more first]
 
 ## WORK Mode — Building Something
 
@@ -184,10 +217,14 @@ INTAKE:
   → Match to north star (does this serve the persona?)
   → If doesn't serve north star: flag it, recommend alternative
 
-TIER SELECTION (automatic):
+TIER SELECTION (use AskUserQuestion if not obvious):
   → Quick:    <5 files, clear scope, non-architectural
   → Standard: User-facing, multi-file, or risky
   → Full:     Architecture, launch prep, security-critical
+  Show the recommended tier with AskUserQuestion if the task
+  could go either way. Include completeness rating estimate:
+  "This task has ~[N] edge cases and ~[N] test paths.
+   At [tier], completeness will be [X]%."
 
 DESIGN (30 seconds, internal):
   → What changes? Who's affected? What could break?
