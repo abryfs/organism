@@ -1,0 +1,39 @@
+CHANGELOG.md
+  26badda32f6ee5f2 8-9,11
+package.json
+  26badda32f6ee5f2 4-5,9-19,27,31-34,36
+setup
+  26badda32f6ee5f2 17-21,23,27-28,30,32,42-43,45,47,53-54,56,58,62
+README.md
+  26badda32f6ee5f2 9,155-157
+CLAUDE.md
+  26badda32f6ee5f2 209,224
+skills/north-star/SKILL.md
+  26badda32f6ee5f2 81-83
+skills/health-check/SKILL.md
+  26badda32f6ee5f2 28
+skills/organism/SKILL.md
+  26badda32f6ee5f2 207
+SPEC.md
+  26badda32f6ee5f2 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "2c3dd704dd76d070070b2025a8717a9d62d5d75a",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 54,
+      "total_deletions": 29,
+      "accepted_lines": 54,
+      "overriden_lines": 0
+    }
+  }
+}
