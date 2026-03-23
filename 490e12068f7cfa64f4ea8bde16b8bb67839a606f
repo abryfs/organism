@@ -1,0 +1,29 @@
+skills/organism/SKILL.md
+  26badda32f6ee5f2 61,76-78,128-133,135-138,224-225,227-228,230
+setup
+  26badda32f6ee5f2 5-8,12-14,17-27,29-30,32-63,67-77,80-81,87,89-95,98,100
+README.md
+  26badda32f6ee5f2 17,19-21,23,129,131,133-137,139,154-157,159-160,182
+CLAUDE.md
+  26badda32f6ee5f2 211,213,215-216,218-224
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "490e12068f7cfa64f4ea8bde16b8bb67839a606f",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 143,
+      "total_deletions": 97,
+      "accepted_lines": 129,
+      "overriden_lines": 0
+    }
+  }
+}
