@@ -1,0 +1,25 @@
+CLAUDE.md
+  26badda32f6ee5f2 9-10
+SKILL.md
+  26badda32f6ee5f2 20-22,31-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "89b9894290a6bb2d5387461a4a273c41dfe0f14b",
+  "prompts": {
+    "26badda32f6ee5f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf25845b-aacf-4a41-a5ad-b881b5766209",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 77,
+      "total_deletions": 2,
+      "accepted_lines": 77,
+      "overriden_lines": 0
+    }
+  }
+}
