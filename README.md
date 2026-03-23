@@ -6,7 +6,7 @@ Built for founder-engineers — people who write code AND own the product.
 
 ## What It Actually Is
 
-Organism is a CLAUDE.md file and 11 skill files. It's opinionated prompt engineering, not a framework. When you install it, your Claude Code sessions gain:
+Organism is a CLAUDE.md file and 12 skill files. It's opinionated prompt engineering, not a framework. When you install it, your Claude Code sessions gain:
 
 - **A focus** — one thing at a time, everything else gets parked
 - **A north star** — who you're building for, why they'd pay, how you'll know you're winning
@@ -152,9 +152,9 @@ Organism applies 2026 startup principles, not 2015:
 ## Requirements
 
 - [Claude Code](https://claude.ai/claude-code) (any plan — Pro, Max, or API)
-- [GSD](https://github.com/coleam00/get-shit-done-cc) — the Brain
-- [Superpowers](https://github.com/anthropics/claude-plugins-official) — the Spine
-- [gstack](https://github.com/garrytan/gstack) — the Hands
+- [GSD](https://github.com/coleam00/get-shit-done-cc) — planning, state, lifecycle
+- [Superpowers](https://github.com/anthropics/claude-plugins-official) — TDD, debugging, code review
+- [gstack](https://github.com/garrytan/gstack) — browser QA, reviews, shipping
 - For `/organism:split`: Claude Code v2.1.32+ with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 
 The setup script checks for all three and guides you through installing any that are missing.

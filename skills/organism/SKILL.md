@@ -204,6 +204,7 @@ The founder CAN invoke skills directly when they want the full output:
 - `/organism:health-check` — Get a product pulse on demand
 - `/organism:sync-check` — Force doc/code consistency check
 - `/organism:split` — Spawn three-agent organism for critical work
+- `/organism:update` — Check for and apply updates
 
 These are overrides, not the normal flow.
 

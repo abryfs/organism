@@ -78,6 +78,9 @@ Write `NORTH-STAR.md` in the project root:
 
 ## Personas
 [Custom user personas for testing, derived from the above]
+
+## Current Focus
+[THE ONE THING — the single most impactful task right now. Updated as work progresses.]
 ```
 
 Commit it. This file is read at the start of every session.

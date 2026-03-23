@@ -206,7 +206,7 @@ Applies to: error messages, onboarding copy, notification text, email templates,
 
 ## Working With Other Systems
 
-Organism works alone or with existing tools. Detection: check if the tool's artifacts exist or if its commands respond.
+Organism requires three external systems. It detects their presence automatically:
 
 ### The Three Systems
 
@@ -221,7 +221,7 @@ All three are required. Each contributes across all four organs — they're not 
 **gstack** (detected by `~/.claude/skills/gstack/` directory):
 21 skills. Persistent browser QA (~100ms/command), YC office hours for discovery, CEO/engineering/design plan reviews, ship workflow, weekly retro with metrics, systematic debugging, Codex cross-AI review, design system builder, safety guardrails, cookie import for authenticated testing.
 
-If any are missing, the setup script guides installation. The CLAUDE.md rules and organism skills are the nervous system — GSD, Superpowers, and gstack are the muscle, bone, and sinew.
+If any are missing, the setup script guides installation. The CLAUDE.md rules and organism skills are the nervous system that coordinates all three.
 
 ## Sync Enforcement
 

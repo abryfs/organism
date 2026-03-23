@@ -14,16 +14,22 @@ if ! command -v claude &> /dev/null; then
     exit 1
 fi
 
-# ── Install Organs ──────────────────────────────────────
+# Check git
+if ! command -v git &> /dev/null; then
+    echo "ERROR: git not found. Install git first."
+    exit 1
+fi
+
+# ── Install Systems ─────────────────────────────────────
 
 MISSING=0
 
-# Brain (GSD)
-echo "Checking Brain (GSD)..."
+# GSD
+echo "Checking GSD..."
 if command -v gsd 2>/dev/null || [ -d "$HOME/.claude/get-shit-done" ]; then
-    echo "  Brain: installed"
+    echo "  GSD: installed"
 else
-    echo "  Brain: not found. Installing GSD..."
+    echo "  GSD: not found. Installing..."
     npx get-shit-done-cc 2>/dev/null || {
         echo ""
         echo "  Could not auto-install GSD. Install manually:"
@@ -33,27 +39,27 @@ else
     }
 fi
 
-# Spine (Superpowers)
-echo "Checking Spine (Superpowers)..."
+# Superpowers
+echo "Checking Superpowers..."
 if [ -d "$HOME/.claude/plugins/cache/claude-plugins-official/superpowers" ]; then
-    echo "  Spine: installed"
+    echo "  Superpowers: installed"
 else
-    echo "  Spine: not found."
+    echo "  Superpowers: not found."
     echo "  Install via Claude Code: /plugins then enable 'superpowers'"
     echo ""
     MISSING=$((MISSING + 1))
 fi
 
-# Hands (gstack)
-echo "Checking Hands (gstack)..."
+# gstack
+echo "Checking gstack..."
 if [ -d "$HOME/.claude/skills/gstack" ]; then
-    echo "  Hands: installed"
+    echo "  gstack: installed"
 else
-    echo "  Hands: not found. Installing gstack..."
+    echo "  gstack: not found. Installing..."
     if [ -d "$HOME/.claude/skills" ]; then
         git clone https://github.com/garrytan/gstack.git "$HOME/.claude/skills/gstack" 2>/dev/null && {
             cd "$HOME/.claude/skills/gstack" && ./setup 2>/dev/null
-            echo "  Hands: installed"
+            echo "  gstack: installed"
         } || {
             echo "  Could not auto-install gstack. Install manually:"
             echo "    git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack"

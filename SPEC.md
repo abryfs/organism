@@ -1,6 +1,6 @@
 # Organism — Design History
 
-> This is the original design spec from the brainstorming and review process that led to Organism. It documents the thinking, the 7 review rounds, and the decisions that shaped the final product. The canonical product is in CLAUDE.md and the skills directory.
+> **Historical document.** This is the original design spec from the brainstorming process. It uses the working name "Foundry" (renamed to Organism before release) and contains early models that were revised — including a 1:1 mapping of systems to organs that was later rejected in favor of the cross-cutting model. The canonical product is in CLAUDE.md and the skills directory.
 
 ## The Problem
 

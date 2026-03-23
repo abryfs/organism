@@ -25,7 +25,7 @@ HEALTH CHECK
   Focus: [THE ONE THING — the single most impactful task right now]
   North Star: [one-liner from NORTH-STAR.md]
 
-  What just happened:
+  What was built:
   → [concrete change, in product terms not code terms]
   → [what the user can now do that they couldn't before]
 
