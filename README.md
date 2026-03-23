@@ -35,13 +35,13 @@ git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism
 cd ~/.claude/skills/organism && ./setup
 ```
 
+**Restart Claude Code after installing.** Skills are discovered on session start. Once restarted, type `/organism` and it takes over.
+
 To update:
 
 ```bash
 npx organism-ai update
 ```
-
-Then start any Claude Code session. Type `/organism` and it takes over.
 
 To define your product's purpose (recommended first step):
 ```
