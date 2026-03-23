@@ -1,60 +1,103 @@
 #!/bin/bash
 set -e
 
-echo "Setting up Organism v$(cat "$(dirname "$0")/VERSION" | tr -d '[:space:]')..."
-
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SETTINGS_FILE="$HOME/.claude/settings.json"
+VERSION=$(cat "$SCRIPT_DIR/VERSION" | tr -d '[:space:]')
+
+echo "Setting up Organism v${VERSION}..."
+echo ""
 
 # Check Claude Code
 if ! command -v claude &> /dev/null; then
-    echo "Warning: Claude Code CLI not found. Install from https://claude.ai/claude-code"
+    echo "ERROR: Claude Code CLI not found."
+    echo "Install from: https://claude.ai/claude-code"
+    exit 1
 fi
 
-# Register SessionStart hook for auto-update check
-if [ -f "$SETTINGS_FILE" ]; then
-    HOOK_CMD="$SCRIPT_DIR/bin/check-update.sh"
-    if ! grep -q "check-update.sh" "$SETTINGS_FILE" 2>/dev/null; then
+# ── Install Organs ──────────────────────────────────────
+
+MISSING=0
+
+# Brain (GSD)
+echo "Checking Brain (GSD)..."
+if command -v gsd 2>/dev/null || [ -d "$HOME/.claude/get-shit-done" ]; then
+    echo "  Brain: installed"
+else
+    echo "  Brain: not found. Installing GSD..."
+    npx get-shit-done-cc 2>/dev/null || {
         echo ""
-        echo "To enable auto-update checks, add this to your SessionStart hooks in $SETTINGS_FILE:"
+        echo "  Could not auto-install GSD. Install manually:"
+        echo "    npx get-shit-done-cc"
         echo ""
-        echo '  "SessionStart": [{ "hooks": [{ "type": "command", "command": "'"$HOOK_CMD"'", "timeout": 10 }] }]'
-        echo ""
+        MISSING=$((MISSING + 1))
+    }
+fi
+
+# Spine (Superpowers)
+echo "Checking Spine (Superpowers)..."
+if [ -d "$HOME/.claude/plugins/cache/claude-plugins-official/superpowers" ]; then
+    echo "  Spine: installed"
+else
+    echo "  Spine: not found."
+    echo "  Install via Claude Code: /plugins then enable 'superpowers'"
+    echo ""
+    MISSING=$((MISSING + 1))
+fi
+
+# Hands (gstack)
+echo "Checking Hands (gstack)..."
+if [ -d "$HOME/.claude/skills/gstack" ]; then
+    echo "  Hands: installed"
+else
+    echo "  Hands: not found. Installing gstack..."
+    if [ -d "$HOME/.claude/skills" ]; then
+        git clone https://github.com/garrytan/gstack.git "$HOME/.claude/skills/gstack" 2>/dev/null && {
+            cd "$HOME/.claude/skills/gstack" && ./setup 2>/dev/null
+            echo "  Hands: installed"
+        } || {
+            echo "  Could not auto-install gstack. Install manually:"
+            echo "    git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack"
+            echo "    cd ~/.claude/skills/gstack && ./setup"
+            echo ""
+            MISSING=$((MISSING + 1))
+        }
     fi
 fi
 
-# Agent Teams (optional)
+echo ""
+
+if [ $MISSING -gt 0 ]; then
+    echo "WARNING: $MISSING organ(s) missing. Organism works best with all three."
+    echo "Install the missing organs above, then re-run ./setup"
+    echo ""
+fi
+
+# ── Agent Teams (for /split) ───────────────────────────
+
+SETTINGS_FILE="$HOME/.claude/settings.json"
 if [ -f "$SETTINGS_FILE" ]; then
     if ! grep -q "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" "$SETTINGS_FILE" 2>/dev/null; then
-        echo "Agent Teams not enabled. /organism:split is optional — enable with:"
+        echo "Agent Teams not enabled (optional — needed for /organism:split)."
+        echo "  Add to $SETTINGS_FILE:"
         echo '  "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" }'
         echo ""
     fi
 fi
 
-# Optional dependencies
-echo "Dependencies (all optional):"
-if command -v gsd 2>/dev/null || [ -d "$HOME/.claude/get-shit-done" ]; then
-    echo "  GSD: found"
-else
-    echo "  GSD: not found"
+# ── Auto-update hook ───────────────────────────────────
+
+if [ -f "$SETTINGS_FILE" ]; then
+    HOOK_CMD="$SCRIPT_DIR/bin/check-update.sh"
+    if ! grep -q "check-update.sh" "$SETTINGS_FILE" 2>/dev/null; then
+        echo "To enable auto-update checks, add to SessionStart hooks:"
+        echo "  \"command\": \"$HOOK_CMD\""
+        echo ""
+    fi
 fi
 
-if [ -d "$HOME/.claude/plugins/cache/claude-plugins-official/superpowers" ] 2>/dev/null; then
-    echo "  Superpowers: found"
-else
-    echo "  Superpowers: not found"
-fi
+# ── Done ───────────────────────────────────────────────
 
-if [ -d "$HOME/.claude/skills/gstack" ]; then
-    echo "  gstack: found"
-else
-    echo "  gstack: not found"
-fi
-
-VERSION=$(cat "$SCRIPT_DIR/VERSION" | tr -d '[:space:]')
-echo ""
-echo "Organism $VERSION ready."
+echo "Organism v${VERSION} ready."
 echo ""
 echo "  /organism              — Start (auto-detects mode)"
 echo "  /organism:north-star   — Define product purpose"

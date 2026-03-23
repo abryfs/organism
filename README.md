@@ -14,13 +14,13 @@ Organism is a CLAUDE.md file and 11 skill files. It's opinionated prompt enginee
 - **Market grounding** — demand research, competitive scans, user interview capture
 - **Health checks** — after meaningful work, you see what your product became, in product language
 
-It works standalone. It gets stronger with these three open-source powerhouses:
+Organism is powered by three open-source systems working together — not locked to one organ each, but contributing to all of them:
 
-- **[GSD](https://github.com/coleam00/get-shit-done-cc)** — 50 commands. Project lifecycle from ideation to shipping: state management, phase planning, wave execution, verification loops, gap closure, codebase mapping, session persistence, autonomous milestone completion.
-- **[Superpowers](https://github.com/anthropics/claude-plugins-official)** — 14 skills. Development discipline: TDD enforcement, systematic debugging, brainstorming gates, implementation planning, two-stage code review, git worktree isolation, verification, rationalization prevention.
-- **[gstack](https://github.com/garrytan/gstack)** — 21 skills. Dev workflow factory: persistent browser QA, YC office hours, CEO/engineering/design plan reviews, ship workflow, weekly retro, systematic debugging, Codex cross-AI review, design system builder, safety guardrails.
+- **[GSD](https://github.com/coleam00/get-shit-done-cc)** — 50 commands. State management, phase planning, wave execution, verification loops, gap closure, codebase mapping, debugging, session persistence, autonomous milestone completion.
+- **[Superpowers](https://github.com/anthropics/claude-plugins-official)** — 14 skills. TDD enforcement, systematic debugging, brainstorming gates, implementation planning, two-stage code review, git worktree isolation, verification, rationalization prevention.
+- **[gstack](https://github.com/garrytan/gstack)** — 21 skills. Persistent browser QA, YC office hours, CEO/engineering/design plan reviews, ship workflow, weekly retro, Codex cross-AI review, design system builder, safety guardrails.
 
-None are required. Organism works in any Claude Code session.
+All three are required. Each contributes to Brain, Spine, Hands, and Gut — GSD plans AND debugs, gstack reviews AND discovers, Superpowers enforces AND architects. The organism needs all its systems working together. Setup installs any that are missing.
 
 ## Install
 
@@ -126,17 +126,17 @@ The organism's default answer to new ideas is **no** unless they serve the focus
 
 Skills run internally during normal work. You don't invoke them — the organism does. The commands above are for explicit overrides when you want to trigger something specific.
 
-## Works With
+## How the Systems Map to Organs
 
-Organism enhances but doesn't require:
+The three systems aren't locked 1:1 to organs. Each contributes across all four:
 
-| Tool | What it adds | Detection |
-|------|-------------|-----------|
-| [GSD](https://github.com/coleam00/get-shit-done-cc) | 50 commands — full project lifecycle, state persistence, wave execution, verification, gap closure | `.planning/config.json` exists |
-| [Superpowers](https://github.com/anthropics/claude-plugins-official) | 14 skills — TDD, debugging, brainstorming, planning, code review, worktree isolation | Plugin cache present |
-| [gstack](https://github.com/garrytan/gstack) | 21 skills — browser QA, plan reviews (CEO/eng/design), ship, retro, Codex review, design system | `~/.claude/skills/gstack/` exists |
+| | Brain (memory) | Spine (discipline) | Hands (touch) | Gut (market) |
+|---|---|---|---|---|
+| **GSD** | State, phases, roadmap | Verification, gap closure | Codebase mapping | Requirement tracing |
+| **Superpowers** | Planning, design gates | TDD, root cause, evidence | Worktree isolation | Brainstorming |
+| **gstack** | Office hours, retro | Code review, Codex | Browser QA, ship | CEO review, design |
 
-Without any of these, Organism still works. The CLAUDE.md rules and health checks run in any Claude Code session.
+Organism's CLAUDE.md and skills are the **nervous system** — they coordinate all three systems, add market grounding (demand, competitive, interviews, feedback), enforce focus, and keep the founder in the headspace.
 
 ## Building in 2026
 
@@ -151,9 +151,13 @@ Organism applies 2026 startup principles, not 2015:
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/claude-code) (any plan — works on Pro, Max, or API)
+- [Claude Code](https://claude.ai/claude-code) (any plan — Pro, Max, or API)
+- [GSD](https://github.com/coleam00/get-shit-done-cc) — the Brain
+- [Superpowers](https://github.com/anthropics/claude-plugins-official) — the Spine
+- [gstack](https://github.com/garrytan/gstack) — the Hands
 - For `/organism:split`: Claude Code v2.1.32+ with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
-- For browser QA, plan reviews, shipping, retro: [gstack](https://github.com/garrytan/gstack) (optional)
+
+The setup script checks for all three and guides you through installing any that are missing.
 
 ## Philosophy
 
@@ -175,4 +179,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Credits
 
-Organism stands on three open-source systems: [GSD](https://github.com/coleam00/get-shit-done-cc) by Cole Medin, [Superpowers](https://github.com/anthropics/claude-plugins-official) by Anthropic, and [gstack](https://github.com/garrytan/gstack) by Garry Tan. Organism is the coordination layer that makes them work as one.
+Organism's three organs are open-source systems by builders we respect: [GSD](https://github.com/coleam00/get-shit-done-cc) by Cole Medin, [Superpowers](https://github.com/anthropics/claude-plugins-official) by Anthropic, and [gstack](https://github.com/garrytan/gstack) by Garry Tan. Organism is the nervous system that makes them work as one body.

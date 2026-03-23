@@ -208,21 +208,20 @@ Applies to: error messages, onboarding copy, notification text, email templates,
 
 Organism works alone or with existing tools. Detection: check if the tool's artifacts exist or if its commands respond.
 
-### If GSD is installed
-Detected by: `.planning/config.json` exists or `gsd` command available.
-- Brain uses GSD's full 50-command lifecycle: state management, phase planning, wave execution, verification loops, gap closure, requirement traceability, session persistence, codebase mapping, seed planting, autonomous milestone completion
-- `.planning/` becomes the shared state directory all organs read/write
+### The Three Systems
 
-### If Superpowers is installed
-Detected by: Superpowers plugin present in `~/.claude/plugins/cache/*/superpowers/`.
-- Spine uses Superpowers' full 14-skill discipline system: TDD enforcement with rationalization prevention, systematic debugging with architectural escalation, brainstorming hard-gates, implementation planning with granularity checks, two-stage code review (spec compliance → quality), git worktree isolation, verification-before-completion
+All three are required. Each contributes across all four organs — they're not locked 1:1.
 
-### If gstack is installed
-Detected by: `~/.claude/skills/gstack/` directory exists.
-- Hands uses gstack's full 21-skill dev workflow: persistent browser QA (~100ms/command), YC office hours for discovery, CEO/engineering/design plan reviews, ship workflow, weekly retro with metrics, systematic debugging, Codex cross-AI review, design system builder, safety guardrails (careful/freeze/guard), cookie import for authenticated testing
+**GSD** (detected by `.planning/config.json` or `gsd` command):
+50 commands. State management, phase planning, wave execution, verification loops, gap closure, requirement traceability, session persistence, codebase mapping, debugging, seed planting, autonomous milestone completion. `.planning/` becomes the shared state directory all organs read/write.
 
-### If none are installed
-Organism still works. The rules and health checks run in any Claude Code session. External tools enhance but aren't required.
+**Superpowers** (detected by plugin cache in `~/.claude/plugins/cache/*/superpowers/`):
+14 skills. TDD enforcement with rationalization prevention, systematic debugging with architectural escalation, brainstorming hard-gates, implementation planning with granularity checks, two-stage code review (spec compliance → quality), git worktree isolation, verification-before-completion.
+
+**gstack** (detected by `~/.claude/skills/gstack/` directory):
+21 skills. Persistent browser QA (~100ms/command), YC office hours for discovery, CEO/engineering/design plan reviews, ship workflow, weekly retro with metrics, systematic debugging, Codex cross-AI review, design system builder, safety guardrails, cookie import for authenticated testing.
+
+If any are missing, the setup script guides installation. The CLAUDE.md rules and organism skills are the nervous system — GSD, Superpowers, and gstack are the muscle, bone, and sinew.
 
 ## Sync Enforcement
 

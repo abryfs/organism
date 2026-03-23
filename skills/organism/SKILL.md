@@ -58,10 +58,7 @@ Combine north star + demand + competitive into a reality check:
 
 **5. Structure**
 
-If GSD is available: Run `/gsd:new-project` with the context gathered above.
-If not: Create a simple roadmap in `.planning/ROADMAP.md`.
-
-Either way, produce phases with success criteria tied to the north star.
+Run `/gsd:new-project` with the context gathered above. GSD creates PROJECT.md, REQUIREMENTS.md, ROADMAP.md with phases tied to the north star. gstack's `/plan-eng-review` validates the architecture. Superpowers' brainstorming gate ensures the design is thought through before any code.
 
 **6. Health Check**
 
@@ -76,8 +73,9 @@ The project exists. The founder is back. Orient them.
 ### Sequence (30 seconds)
 
 1. Read NORTH-STAR.md (silently — for your own context)
-2. Read STATE.md or .planning/ or recent git log
-3. Deliver a session resume health check:
+2. Read GSD state: STATE.md, then .planning/ phase summaries, then recent git log (in that priority order)
+3. Check gstack retro data if available (recent shipping velocity, open issues)
+4. Deliver a session resume health check:
 
 ```
 SESSION RESUME
@@ -127,16 +125,17 @@ REALITY FILTER (internal, only surfaces if there's a flag):
   → Business reality: Unit economics still work?
   → Only surface flags. If it passes, proceed silently.
 
-BUILD (the actual work):
-  → TDD: Test first, always
-  → Atomic commits per logical chunk
-  → If GSD available: follows phase/plan structure
-  → If Superpowers available: uses TDD enforcement
-  → If gstack available: browser QA for user-facing changes
+BUILD (all three systems working together):
+  → GSD: phase/plan structure, atomic commits, state tracking
+  → Superpowers: TDD enforcement (test → fail → implement → pass),
+    rationalization prevention, worktree isolation for features
+  → gstack: browser QA for user-facing changes, /review on diffs,
+    /design-review for visual work
 
-VERIFY (internal):
-  → Run tests, read output, confirm passing
-  → If user-facing: quick user-lens check (internal)
+VERIFY (all three systems verifying):
+  → Superpowers: run tests, read output, evidence before "done"
+  → GSD: verification against requirements, gap closure if needed
+  → gstack: browser QA, /qa for user-facing, /codex for second opinion
   → If docs affected: sync check (internal)
 
 HEALTH CHECK (surfaced to founder):
@@ -222,9 +221,10 @@ ANY   → SPLIT    (founder says "go full" or scope triggers it)
 ## What This Replaces
 
 Instead of the founder thinking about:
-- "Which GSD command do I need?"
-- "Should I run Superpowers brainstorming first?"
-- "Do I need gstack's office hours?"
+- "Which of the 50 GSD commands do I need?"
+- "Should I run Superpowers brainstorming or gstack's office hours?"
 - "Is this a /gsd:quick or /gsd:plan-phase?"
+- "Do I need /plan-eng-review or /plan-design-review or both?"
+- "When do I run /review vs /codex vs Superpowers code review?"
 
-They just talk to the organism. The organism knows what it needs.
+They just talk to the organism. It knows which of the 85 combined commands/skills to invoke, in what order, and how to feed the output of one into the next. GSD, Superpowers, and gstack work together as one body — the founder just sees their product getting built.
