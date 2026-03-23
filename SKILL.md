@@ -17,7 +17,9 @@ When invoked, Organism reads the project state and activates the appropriate mod
 
 ```
 Check: Does NORTH-STAR.md exist in the project root?
-  NO  → BIRTH mode (new project)
+  NO  → Check: Does a codebase already exist? (src/, app/, lib/, or 10+ code files)
+    YES → ONBOARD mode (existing project, no organism yet)
+    NO  → BIRTH mode (new project from scratch)
   YES → Check: Does the founder have a specific, actionable task?
     CLEARLY YES → WORK mode (build something)
     AMBIGUOUS   → PULSE mode (orient first, let health check prompt a task)
@@ -25,6 +27,78 @@ Check: Does NORTH-STAR.md exist in the project root?
 ```
 
 When ambiguous (e.g., "How are we doing?", "What should I work on?", "Let's think about pricing"), default to PULSE. The health check will orient the founder and naturally lead to a task.
+
+## ONBOARD Mode — Existing Project, No Organism Yet
+
+The most common case. The founder has a codebase, maybe hundreds of commits, but no NORTH-STAR.md. The organism reads what exists and infers before asking.
+
+### Sequence
+
+**1. Map the codebase (3-5 minutes)**
+
+Run `/gsd:map-codebase` to produce the 7 documents: STACK.md, ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md, TESTING.md, INTEGRATIONS.md, CONCERNS.md. These go to `.planning/codebase/`.
+
+While that runs, read existing docs: README.md, CLAUDE.md, any PRD or spec files in the repo.
+
+**2. Infer the product (1 minute)**
+
+From the codebase map and docs, construct a draft understanding:
+
+"Based on your codebase, here's what I see:
+
+**Product:** [what it appears to be, in plain language]
+**Users:** [who it seems built for, from README/docs/UI code]
+**Stack:** [languages, frameworks, services, databases]
+**Architecture:** [how the pieces connect]
+**Tests:** [coverage level, frameworks, what's tested and what's not]
+**State:** [how mature — MVP? production? prototype?]
+
+Does this match your mental model? Correct anything that's wrong."
+
+Don't ask 6 questions from zero. Present what you found and let the founder correct.
+
+**3. Fill the gaps (2-3 minutes)**
+
+After the founder confirms or corrects, ask only what you couldn't infer:
+
+- **Pain** (if not obvious from docs): "Who uses this and what problem does it solve for them?"
+- **Desperation** (rarely in code): "Would they pay for this? What price point?"
+- **Distribution** (never in code): "How do users find this?"
+- **One metric** (sometimes in analytics code): "What's the one number that tells you this is working?"
+- **Anti-goals** (sometimes in CLAUDE.md): "What will you not build, even if users ask?"
+
+Skip any question the codebase already answered. If README says "for small business owners in the Philippines" — don't ask who uses it. Confirm: "Your users are small business owners in the Philippines. Correct?"
+
+**4. Write NORTH-STAR.md**
+
+Combine the inferred context with the founder's corrections. Include `## Current Focus` based on: recent git activity (what files changed in the last week), any open issues or TODOs, what the founder says matters most right now.
+
+**5. Structure (if no .planning/ exists)**
+
+Run `/gsd:new-project` with the gathered context, or `/gsd:new-milestone` if this is a new phase of an existing project.
+
+If `.planning/` already exists (GSD was used before organism), skip this — read the existing state instead.
+
+**6. Health check**
+
+"I've mapped your codebase and defined your north star. Here's where things stand:
+
+[Full session resume health check with Focus, Product State, and Recommended Next Step]
+
+Ready to work."
+
+### Total time: ~10 minutes. The founder corrects 3-4 inferences instead of answering 6 questions from scratch.
+
+### Onboard vs Birth
+
+| | Birth | Onboard |
+|---|---|---|
+| Codebase | None | Exists |
+| Approach | Ask 6 questions | Read code, infer, confirm |
+| North star | Built from founder's answers | Built from code + founder corrections |
+| Time | ~15-20 minutes | ~10 minutes |
+| Demand research | Full (WebSearch) | Optional (may already be validated by having users) |
+| Competitive scan | Full | Optional (founder may already know the landscape) |
 
 ## BIRTH Mode — New Project
 
