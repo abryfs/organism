@@ -210,22 +210,16 @@ Organism works alone or with existing tools. Detection: check if the tool's arti
 
 ### If GSD is installed
 Detected by: `.planning/config.json` exists or `gsd` command available.
-- Brain uses GSD for state management (`.planning/`, STATE.md, ROADMAP.md)
-- Phase lifecycle follows GSD commands (discuss → plan → execute → verify)
-- Wave-based execution with atomic commits
-- Gap closure loops via verification system
+- Brain uses GSD's full 50-command lifecycle: state management, phase planning, wave execution, verification loops, gap closure, requirement traceability, session persistence, codebase mapping, seed planting, autonomous milestone completion
+- `.planning/` becomes the shared state directory all organs read/write
 
 ### If Superpowers is installed
 Detected by: Superpowers plugin present in `~/.claude/plugins/cache/*/superpowers/`.
-- Spine uses Superpowers' TDD enforcement and rationalization prevention
-- Code review uses two-stage process (spec compliance → quality)
-- Git worktree isolation for feature branches
+- Spine uses Superpowers' full 14-skill discipline system: TDD enforcement with rationalization prevention, systematic debugging with architectural escalation, brainstorming hard-gates, implementation planning with granularity checks, two-stage code review (spec compliance → quality), git worktree isolation, verification-before-completion
 
 ### If gstack is installed
 Detected by: `~/.claude/skills/gstack/` directory exists.
-- Hands uses gstack's persistent browser for QA testing
-- Visual review, engineering review, ship workflow
-- Anti-slop enforcement on user-facing copy
+- Hands uses gstack's full 21-skill dev workflow: persistent browser QA (~100ms/command), YC office hours for discovery, CEO/engineering/design plan reviews, ship workflow, weekly retro with metrics, systematic debugging, Codex cross-AI review, design system builder, safety guardrails (careful/freeze/guard), cookie import for authenticated testing
 
 ### If none are installed
 Organism still works. The rules and health checks run in any Claude Code session. External tools enhance but aren't required.

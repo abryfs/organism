@@ -14,7 +14,13 @@ Organism is a CLAUDE.md file and 11 skill files. It's opinionated prompt enginee
 - **Market grounding** — demand research, competitive scans, user interview capture
 - **Health checks** — after meaningful work, you see what your product became, in product language
 
-It works standalone. It gets stronger if you also use [GSD](https://github.com/coleam00/get-shit-done-cc) (state management), [Superpowers](https://github.com/anthropics/claude-plugins-official) (TDD enforcement), or [gstack](https://github.com/garrytan/gstack) (browser testing). But none are required.
+It works standalone. It gets stronger with these three open-source powerhouses:
+
+- **[GSD](https://github.com/coleam00/get-shit-done-cc)** — 50 commands. Project lifecycle from ideation to shipping: state management, phase planning, wave execution, verification loops, gap closure, codebase mapping, session persistence, autonomous milestone completion.
+- **[Superpowers](https://github.com/anthropics/claude-plugins-official)** — 14 skills. Development discipline: TDD enforcement, systematic debugging, brainstorming gates, implementation planning, two-stage code review, git worktree isolation, verification, rationalization prevention.
+- **[gstack](https://github.com/garrytan/gstack)** — 21 skills. Dev workflow factory: persistent browser QA, YC office hours, CEO/engineering/design plan reviews, ship workflow, weekly retro, systematic debugging, Codex cross-AI review, design system builder, safety guardrails.
+
+None are required. Organism works in any Claude Code session.
 
 ## Install
 
@@ -129,9 +135,9 @@ Organism enhances but doesn't require:
 
 | Tool | What it adds | Detection |
 |------|-------------|-----------|
-| [GSD](https://github.com/coleam00/get-shit-done-cc) | State management, phase lifecycle, wave execution | `.planning/config.json` exists |
-| [Superpowers](https://github.com/anthropics/claude-plugins-official) | TDD enforcement, rationalization prevention, code review | Plugin cache present |
-| [gstack](https://github.com/garrytan/gstack) | Persistent browser, visual QA, eng/design reviews | `~/.claude/skills/gstack/` exists |
+| [GSD](https://github.com/coleam00/get-shit-done-cc) | 50 commands — full project lifecycle, state persistence, wave execution, verification, gap closure | `.planning/config.json` exists |
+| [Superpowers](https://github.com/anthropics/claude-plugins-official) | 14 skills — TDD, debugging, brainstorming, planning, code review, worktree isolation | Plugin cache present |
+| [gstack](https://github.com/garrytan/gstack) | 21 skills — browser QA, plan reviews (CEO/eng/design), ship, retro, Codex review, design system | `~/.claude/skills/gstack/` exists |
 
 Without any of these, Organism still works. The CLAUDE.md rules and health checks run in any Claude Code session.
 
@@ -150,7 +156,7 @@ Organism applies 2026 startup principles, not 2015:
 
 - [Claude Code](https://claude.ai/claude-code) (any plan — works on Pro, Max, or API)
 - For `/organism:split`: Claude Code v2.1.32+ with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
-- For browser testing: [gstack](https://github.com/garrytan/gstack) (optional)
+- For browser QA, plan reviews, shipping, retro: [gstack](https://github.com/garrytan/gstack) (optional)
 
 ## Philosophy
 
