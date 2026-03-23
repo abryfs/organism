@@ -42,13 +42,15 @@ Open Claude Code and paste this. Claude does the rest.
 npx organism-ai
 ```
 
+After install, type `/organism`. It detects your project state and picks the right mode automatically. No other commands needed to start.
+
 ### Update
+
+Auto-updates on every session start. To update manually:
 
 ```bash
 cd ~/.claude/skills/organism && git pull origin main
 ```
-
-Type `/organism` and it takes over.
 
 ## How It Works
 
