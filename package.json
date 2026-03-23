@@ -1,0 +1,24 @@
+{
+  "name": "organism-ai",
+  "version": "0.1.0",
+  "description": "An ecosystem of AI intelligences for founder-engineers. Brain, Spine, Hands, Gut — working side by side, not sequentially.",
+  "bin": {
+    "organism": "./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abryfs/organism.git"
+  },
+  "keywords": [
+    "claude-code",
+    "ai",
+    "founder",
+    "tdd",
+    "agent-teams",
+    "skills",
+    "anti-vibe-coding"
+  ],
+  "author": "Abry Dela Vega <abry@shoti.ai>",
+  "license": "MIT",
+  "homepage": "https://github.com/abryfs/organism"
+}

@@ -34,63 +34,39 @@ To define your product's purpose (recommended first step):
 
 ## What a Session Looks Like
 
-```
-You: "Let's keep building Shoti"
+**You open Claude Code and say:** "Let's keep building Shoti"
 
-Organism (Pulse mode — detects NORTH-STAR.md exists):
+**Organism detects:** NORTH-STAR.md exists, no specific task → Pulse mode. It orients you:
 
-  HEALTH CHECK
-  ───────────────────────────────
-    Focus: Platform knowledge registry — teach Shoti how platforms work
-    North Star: "Every business owner wakes up and things are done"
+> **Focus:** Platform knowledge registry — teach Shoti how platforms work
+>
+> **Product state:** Chat works. Onboarding captures business type. Agent runner executes tasks but doesn't understand platform specifics yet.
+>
+> **Last session:** Built credential capture flow for Shopee/Lazada.
+>
+> **Next step:** Build platform knowledge files so Shoti knows what "monitor my Lazada orders" actually means.
 
-    Product state:
-    → Chat works. Users can talk to Shoti and get responses.
-    → Onboarding captures business type and platforms used.
-    → Agent runner executes tasks but doesn't understand platform specifics.
+**You say:** "Yeah, let's do that"
 
-    Last session: Built credential capture flow for Shopee/Lazada.
+**Organism switches to Work mode.** Selects Standard tier (user-facing, multi-file). Recommends an approach:
 
-    Recommended next step: Build platform knowledge files so Shoti knows
-    what "monitor my Lazada orders" actually means — which pages to visit,
-    which elements to click, what data to extract.
-  ───────────────────────────────
+> Going with a registry pattern — each platform gets a YAML knowledge file with actions, selectors, and common tasks. Starting with Shopee, Lazada, and Slack. Writing tests for the registry loader first.
 
-You: "Yeah, let's do that"
+It builds. Tests first, then implementation, then verification. When the wave is done:
 
-Organism (Work mode — Standard tier, user-facing):
+> **Focus:** Platform knowledge registry
+>
+> **Built:** Registry with 3 platforms. Each has 12-15 action templates with selectors and steps.
+>
+> **What this means:** A food stall owner can say "monitor my Lazada orders" and Shoti knows what that means — no clarifying questions needed. 3 of 8 target platforms done.
+>
+> **Next:** Error handling for when platforms change their UI.
+>
+> **Parked:** Dark mode request, notification grouping idea.
+>
+> **Heads up:** Took a shortcut on Slack OAuth — cookie injection for now. Tracked for later.
 
-  "Going with a registry pattern — each platform gets a YAML knowledge
-   file with actions, selectors, and common tasks. Starting with Shopee,
-   Lazada, and Slack since those are the top 3 for PH solopreneurs.
-
-   Writing tests for the registry loader first."
-
-  [... builds, tests, commits ...]
-
-  HEALTH CHECK
-  ───────────────────────────────
-    Focus: Platform knowledge registry
-    North Star: "Every business owner wakes up and things are done"
-
-    What was built:
-    → Platform registry with 3 platforms (Shopee, Lazada, Slack)
-    → Each platform: 12-15 action templates with selectors and steps
-    → Registry loader with validation and fallback handling
-
-    What this means:
-    → A food stall owner can say "monitor my Lazada orders"
-      and Shoti knows what that means without asking 10 questions
-    → Coverage: 3 of 8 target platforms done
-
-    What's next: Error handling for when platforms change their UI
-
-    Parked: Dark mode request, notification grouping idea
-
-    Heads up: Took a shortcut on Slack OAuth — using cookie injection.
-    Tracked for proper auth later.
-  ───────────────────────────────
-```
+You never invoked a skill. The organism ran reality checks, tier selection, TDD, and sync checks internally. You just see your product getting built and stay in the headspace.
 
 ## The 10 Rules
 
