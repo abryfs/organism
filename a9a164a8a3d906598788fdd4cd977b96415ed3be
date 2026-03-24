@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "a9a164a8a3d906598788fdd4cd977b96415ed3be",
+  "prompts": {
+    "d0e046c3df8dd6ee": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43ecd7d2-2ef6-4787-b964-9e8e6cc74c98",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 1475,
+      "total_deletions": 482,
+      "accepted_lines": 1324,
+      "overriden_lines": 0
+    }
+  }
+}
