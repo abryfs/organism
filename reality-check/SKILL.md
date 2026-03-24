@@ -7,7 +7,10 @@ description: Use before building user-facing features, after planning, or when s
 
 ## Purpose
 
-Catch features that work in code but fail in the real world. Run this before committing significant effort to any user-facing change.
+Catch features that work in code but fail in the real world. This skill runs in two modes:
+
+- **Quick mode** (Step 6 of the coordination protocol): 5-second post-build check. Same 5 filters, compressed. Only flags issues — doesn't produce a report. Runs automatically after Spine verifies.
+- **Full mode** (explicit invocation or Standard+ pre-build): Complete 5-filter evaluation with written output. Run before committing significant effort to any user-facing change.
 
 ## Process
 
@@ -79,6 +82,21 @@ REALITY CHECK: [Feature Name]
 
 If everything passes, say so briefly and move on. Don't create ceremony for the sake of it.
 
+## Quick Mode (Post-Build Gut Check)
+
+When running as Step 6 of the coordination protocol, compress to:
+
+```
+□ Serves the persona from NORTH-STAR.md?
+□ User would find and use this?
+□ Works in their context (device, time, attention span)?
+□ Error states are human-friendly?
+```
+
+If all pass: proceed silently. If any flag: surface to founder in the health check "Heads up" section with the specific concern and recommended action.
+
+Quick mode is 5 seconds. It doesn't produce a file. It's a final sanity check that what passed technically also passes for real users.
+
 ## When to Skip
 
 - Internal tooling (no user-facing impact)
@@ -86,4 +104,4 @@ If everything passes, say so briefly and move on. Don't create ceremony for the 
 - Doc updates
 - Config changes
 
-The reality check is for features that touch user experience or product direction. Not for everything.
+The reality check is for features that touch user experience or product direction. Not for everything. But the quick mode post-build check (Step 6) runs on all user-facing work — it's cheap enough to never skip.
