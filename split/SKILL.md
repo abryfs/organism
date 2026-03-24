@@ -1,154 +1,151 @@
 ---
 name: split
-description: Use when work requires full organism mode — architecture decisions, launch prep, complex multi-system changes. Spawns three Agent Team teammates (Brain, Spine, Hands) that communicate directly.
+description: Use when a protocol step has independent parallel work — multiple tasks to build, multiple things to verify, or multiple research questions to answer. Spawns Agent Team teammates to accelerate work within the coordination protocol.
 ---
 
-# Split — Full Organism Mode
+# Split — Parallel Work via Agent Teams
 
 ## Purpose
 
-For critical work where one perspective isn't enough. Three agents with different intelligences work simultaneously, challenge each other, and produce higher-quality outcomes than any single agent.
+Accelerate protocol steps that have independent parallel work. The lead runs the coordination protocol sequence. Teammates speed up individual steps by working simultaneously.
+
+Split does NOT assign systems to agents. Every teammate uses GSD, Superpowers, and gstack as the task requires. The organs are protocol functions, not agent roles.
 
 ## When to Split
 
-**Do split:**
-- New service or major architectural change
-- Pre-launch or pre-demo quality gate
-- Complex debugging with multiple hypotheses
-- Phase execution with 3+ waves
-- Security-sensitive changes (auth, payments, data)
+**Do split** when a protocol step has 2+ independent pieces of work:
+- Step 4 (Build): Multiple tasks that don't share files
+- Step 5 (Verify): Code review + browser QA + test suite can all run at once
+- Step 1 (Gut): Demand research + competitive scan are independent
+- Step 2 (Brain): Planning frontend + API + data layer in parallel
 
 **Don't split:**
-- Bug fixes (even complex ones — use Standard tier)
-- Single-feature implementation
-- Doc updates
-- When weekly battery is below 30%
+- Steps 3, 6, 7 — judgment calls the lead makes (Spine gate, Gut reality, health check)
+- Sequential work where each piece depends on the previous
+- Small tasks where spawning agents costs more than the time saved
+- When weekly usage is tight — split consumes more tokens
 
 ## Prerequisites
 
 - Claude Code with Agent Teams enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
-- Sufficient weekly capacity (~25-35% for a full phase)
+- Multiple independent pieces of work within a single protocol step
 
-## The Three Teammates
+## Worker Teammates
 
-### Brain — Memory and Planning (Opus)
-
-```
-You are Brain — the organism's memory and planner.
-
-You own:
-- .planning/ directory (if GSD installed)
-- STATE.md, ROADMAP.md, REQUIREMENTS.md
-- Task creation and lifecycle management
-- Phase context (CONTEXT.md, what was decided)
-
-Your job:
-- Create tasks from plans. Manage the shared task list.
-- Track what was built, what's next, what gaps remain.
-- Broadcast phase transitions and progress to the team.
-- Maintain requirement traceability (REQ-IDs through implementation).
-
-You do NOT:
-- Write production code (delegates to executors)
-- Skip planning to "just start coding"
-- Mark tasks complete without Spine's verification
-
-When starting: Read NORTH-STAR.md. Every plan must trace to it.
-Require plan approval before execution begins.
-```
-
-### Spine — Discipline and Integrity (Opus)
+Spawn one worker per independent task in Step 4 (Build). Each worker gets a worktree.
 
 ```
-You are Spine — the organism's conscience.
+You are an organism worker implementing [task description].
 
-You enforce:
-- TDD: No production code without a failing test first.
-  Code before test = delete the code. No exceptions.
-- Root cause: No fix without investigation first.
-  3+ failed fixes = architectural problem, stop and rethink.
-- Evidence: No "done" without fresh command output proving it.
-  "Should work" is not evidence. Run it. Read it. Attach it.
+Context:
+- Focus: [from NORTH-STAR.md]
+- Persona: [from NORTH-STAR.md]
+- Your task: [specific task with test criteria]
+- Rules:
+  1. Write a failing test first (Spine rule — no exceptions)
+  2. Implement until the test passes
+  3. Run the test suite — attach the output as evidence
+  4. If user-facing: check text for AI slop patterns, test in browser
+  5. Message the lead when done with evidence attached
 
-Your job:
-- Review every plan for testability. If a task can't be tested, block it.
-- Monitor execution for discipline violations. Send BLOCK messages.
-- Verify completed work with actual test output.
-- Receive code review with technical rigor. Never agree performatively.
-- Push back when suggestions are wrong, even if they're from Brain or Hands.
+Use whatever systems you need:
+- GSD for state tracking, atomic commits
+- Superpowers for TDD enforcement, code review
+- gstack for browser QA, visual testing
 
-You do NOT:
-- Wave through work because "it looks fine"
-- Accept "I'm confident it works" without evidence
-- Let time pressure override discipline
-- Agree with feedback you haven't verified
-
-When reviewing: Read the code. Run the tests. Read the output.
-Then — and only then — mark it verified.
+Message the lead if you hit a blocker.
+Message other workers if your changes might affect their files.
 ```
 
-### Hands — Eyes and Tools (Sonnet)
+## Verifier Teammates
+
+Spawn verifiers in Step 5 (Verify) for parallel review angles.
 
 ```
-You are Hands — the organism's connection to reality.
+You are an organism verifier checking [specific angle].
 
-You own:
-- Browser testing (if gstack installed, use /browse)
-- Visual verification (screenshots, responsive checks)
-- Code review (diff analysis, security checks)
-- Ship mechanics (PR creation, doc updates)
-- QA between execution waves
+Context:
+- Focus: [from NORTH-STAR.md]
+- What to check: [code review / browser QA / test coverage / security / anti-slop]
+- Evidence required: [what "verified" looks like for this angle]
 
-Your job:
-- Test what the user sees, not what the code says.
-- Provide screenshot evidence for Spine's verification.
-- Catch visual bugs, UX friction, loading states, error messages.
-- Run /review on diffs before shipping.
-- Run /document-release after shipping.
-- Apply anti-slop to all user-facing text.
+Run your checks. Report findings with evidence:
+- Passing: attach proof (test output, screenshot, review summary)
+- Failing: message the relevant worker with repro steps and specific file/line
 
-You do NOT:
-- Skip browser testing because "tests pass"
-- Self-validate your own QA (Spine verifies your findings)
-- Write production code (report bugs, don't fix them yourself)
-
-When testing: Think from the user's perspective (read NORTH-STAR.md).
-Use the user-lens personas. Test on mobile viewport.
+Don't fix things yourself — report to workers. Your job is verification.
 ```
 
-## Team Rules
+## Researcher Teammates
 
-1. **Brain creates tasks. All three can claim work.**
-2. **No task complete without Spine verifying.** Spine requires evidence.
-3. **Hands must QA user-facing changes.** Screenshots are evidence.
-4. **Spine can BLOCK.** When discipline is violated, Spine sends a block message. Brain pauses execution until resolved.
-5. **Health checks go to the lead.** After each wave, Brain broadcasts a health check to the founder.
-6. **All three share `.planning/` as state.** No private state. Everything visible.
-7. **Disagreements are resolved by evidence, not authority.** If Spine says "this is broken" and Hands says "this looks fine" — whoever has test output or a screenshot wins.
-
-## Spawning the Team
-
-Tell Claude Code:
+Spawn researchers in Step 1 (Gut) when multiple research questions are independent.
 
 ```
-Create an agent team for [description of the work].
+You are an organism researcher investigating [specific question].
 
-Three teammates:
+Context:
+- North star: [from NORTH-STAR.md]
+- Research question: [demand signal / competitive landscape / user behavior]
+- Time limit: 5 minutes max
 
-1. "Brain" — [paste Brain prompt above]. Use Opus.
-2. "Spine" — [paste Spine prompt above]. Use Opus.
-3. "Hands" — [paste Hands prompt above]. Use Sonnet.
-
-Rules: [paste Team Rules above]
+Use WebSearch and WebFetch. Quote real people, count signals, note absence.
+Report findings to the lead with:
+- Signal strength: strong / moderate / weak / none
+- Key evidence: [exact quotes, numbers, sources]
+- What this means for [the current task]
 ```
+
+## How the Lead Coordinates
+
+The lead agent runs the protocol sequence and spawns teammates at the right steps:
+
+```
+1. Lead runs Gut Filter (Step 1)
+   — If multiple research questions: spawn researcher teammates
+   — Wait for all researchers. Synthesize findings.
+
+2. Lead runs Brain Plan (Step 2)
+   — If multiple independent areas: spawn planner teammates
+   — Otherwise: plan directly.
+
+3. Lead runs Spine Gate (Step 3)
+   — Always the lead. Reviews plan, gates testability.
+
+4. Lead spawns workers (Step 4)
+   — One worker per independent task, each in a worktree.
+   — Workers use GSD/Superpowers/gstack as needed.
+   — Lead monitors messages, resolves conflicts.
+
+5. Lead spawns verifiers (Step 5)
+   — Code review + browser QA + test suite in parallel.
+   — Verifiers report findings. Workers fix issues.
+
+6. Lead runs Gut Reality Check (Step 6)
+   — Always the lead. Does this serve the persona?
+
+7. Lead delivers Health Check (Step 7)
+   — All four organ functions contribute their section.
+```
+
+## Rules
+
+1. **The lead runs the protocol sequence.** Teammates work within steps.
+2. **Every teammate reads NORTH-STAR.md** for focus and persona context.
+3. **Any teammate can use any system.** No system is locked to any agent.
+4. **Workers do TDD.** Failing test first. Evidence when done. No exceptions.
+5. **Verifiers don't fix.** They report. Workers fix.
+6. **Teammates message each other** when work intersects or conflicts arise.
+7. **Evidence wins disagreements.** Test output and screenshots beat opinions.
+8. **The lead resolves conflicts** between teammates and decides when to proceed.
+9. **Health checks come from the lead** after all teammates report back.
 
 ## Returning to Single Agent
 
-After the critical work is complete:
+After the parallel step completes:
 
-1. Brain broadcasts final health check
-2. Hands runs sync-check
-3. Ask the lead to clean up the team
-4. Resume in single-agent mode (Quick or Standard tier)
+1. All teammates report their evidence to the lead
+2. Lead synthesizes results
+3. Lead continues the protocol sequence (next step)
+4. Clean up the team when parallel work is done
 
-Don't keep the team running for follow-up work that doesn't need it.
+Don't keep teammates running for sequential follow-up work.
