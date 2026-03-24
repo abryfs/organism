@@ -1,6 +1,6 @@
 {
   "name": "organism-ai",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "type": "commonjs",
   "description": "Claude Code skills that make AI sessions remember context, enforce discipline, and stay grounded in what users need. Powered by GSD, Superpowers, and gstack.",
   "bin": {
@@ -13,6 +13,8 @@
     "LICENSE",
     "setup",
     "bin/",
+    "hooks/",
+    "systems.json",
     "competitive/",
     "demand/",
     "feedback/",
