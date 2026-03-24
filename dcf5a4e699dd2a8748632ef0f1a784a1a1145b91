@@ -1,0 +1,23 @@
+README.md
+  d0e046c3df8dd6ee 5,9,11-16,18,20-22,24,60,62,64,66,70,72,74,76,78,80,82-84,90,92,94-96,102,104,106-119,127,137,139-165,169,171,173-175,177,192-195,202,204,206,208-284,286,288-291,295,301,305
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "dcf5a4e699dd2a8748632ef0f1a784a1a1145b91",
+  "prompts": {
+    "d0e046c3df8dd6ee": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43ecd7d2-2ef6-4787-b964-9e8e6cc74c98",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 174,
+      "overriden_lines": 0
+    }
+  }
+}
