@@ -20,86 +20,238 @@ if ! command -v git &> /dev/null; then
     exit 1
 fi
 
-# ── Install Systems ─────────────────────────────────────
+# ── Detect & Install Systems ───────────────────────────
 
 MISSING=0
+INSTALLED=0
 
-# GSD
-echo "Checking GSD..."
-if command -v gsd 2>/dev/null || [ -d "$HOME/.claude/get-shit-done" ]; then
-    echo "  GSD: installed"
-else
-    echo "  GSD: not found. Installing..."
-    npx get-shit-done-cc 2>/dev/null || {
-        echo ""
-        echo "  Could not auto-install GSD. Install manually:"
-        echo "    npx get-shit-done-cc"
-        echo ""
-        MISSING=$((MISSING + 1))
-    }
-fi
+detect_system() {
+    local name="$1"
+    local check="$2"
+    local install_cmd="$3"
+    local manual_msg="$4"
 
-# Superpowers
-echo "Checking Superpowers..."
-if [ -d "$HOME/.claude/plugins/cache/claude-plugins-official/superpowers" ]; then
-    echo "  Superpowers: installed"
-else
-    echo "  Superpowers: not found."
-    echo "  Install via Claude Code: /plugins then enable 'superpowers'"
+    echo "Checking $name..."
+    if eval "$check" 2>/dev/null; then
+        echo "  $name: installed"
+        INSTALLED=$((INSTALLED + 1))
+        return 0
+    fi
+
+    if [ -n "$install_cmd" ]; then
+        echo "  $name: not found. Installing..."
+        if eval "$install_cmd" 2>/dev/null; then
+            echo "  $name: installed"
+            INSTALLED=$((INSTALLED + 1))
+            return 0
+        fi
+    fi
+
+    echo "  $name: not found."
+    if [ -n "$manual_msg" ]; then
+        echo "  $manual_msg"
+    fi
     echo ""
     MISSING=$((MISSING + 1))
-fi
+    return 1
+}
 
-# gstack
-echo "Checking gstack..."
-if [ -d "$HOME/.claude/skills/gstack" ]; then
-    echo "  gstack: installed"
-else
-    echo "  gstack: not found. Installing..."
-    if [ -d "$HOME/.claude/skills" ]; then
-        git clone https://github.com/garrytan/gstack.git "$HOME/.claude/skills/gstack" 2>/dev/null && {
-            cd "$HOME/.claude/skills/gstack" && ./setup 2>/dev/null
-            echo "  gstack: installed"
-        } || {
-            echo "  Could not auto-install gstack. Install manually:"
-            echo "    git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack"
-            echo "    cd ~/.claude/skills/gstack && ./setup"
-            echo ""
-            MISSING=$((MISSING + 1))
-        }
-    fi
+# Core systems
+detect_system "GSD" \
+    "command -v gsd || [ -d '$HOME/.claude/get-shit-done' ]" \
+    "npx get-shit-done-cc" \
+    "Install manually: npx get-shit-done-cc"
+
+detect_system "Superpowers" \
+    "ls -d '$HOME/.claude/plugins/cache/'*'/superpowers' 2>/dev/null | head -1 | grep -q superpowers" \
+    "" \
+    "Install via Claude Code: /plugins then enable 'superpowers'"
+
+detect_system "gstack" \
+    "[ -d '$HOME/.claude/skills/gstack' ]" \
+    "git clone https://github.com/garrytan/gstack.git '$HOME/.claude/skills/gstack' && cd '$HOME/.claude/skills/gstack' && ./setup" \
+    "Install: git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup"
+
+# Optional MCP servers (detect only, don't install)
+echo ""
+echo "Checking optional systems..."
+if grep -rq "context7" "$HOME/.claude/settings"* 2>/dev/null; then
+    echo "  Context7 (MCP): detected"
+fi
+if grep -rq "serena" "$HOME/.claude/settings"* 2>/dev/null; then
+    echo "  Serena (MCP): detected"
 fi
 
 echo ""
+echo "$INSTALLED core system(s) installed."
 
 if [ $MISSING -gt 0 ]; then
-    echo "WARNING: $MISSING organ(s) missing. Organism works best with all three."
-    echo "Install the missing organs above, then re-run ./setup"
+    echo "WARNING: $MISSING core system(s) missing. Organism works best with all three."
+    echo "Install the missing systems above, then re-run ./setup"
+    echo ""
+    echo "New systems can be added to systems.json and detected here."
     echo ""
 fi
 
-# ── Agent Teams (for /split) ───────────────────────────
+# ── Settings file ──────────────────────────────────────
 
 SETTINGS_FILE="$HOME/.claude/settings.json"
-if [ -f "$SETTINGS_FILE" ]; then
-    if ! grep -q "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" "$SETTINGS_FILE" 2>/dev/null; then
-        echo "Agent Teams not enabled (optional — needed for /organism:split)."
-        echo "  Add to $SETTINGS_FILE:"
-        echo '  "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" }'
-        echo ""
-    fi
+if [ ! -f "$SETTINGS_FILE" ]; then
+    mkdir -p "$(dirname "$SETTINGS_FILE")"
+    echo '{}' > "$SETTINGS_FILE"
 fi
 
-# ── Auto-update hook ───────────────────────────────────
+# ── Agent Teams ────────────────────────────────────────
 
-if [ -f "$SETTINGS_FILE" ]; then
-    HOOK_CMD="$SCRIPT_DIR/bin/check-update.sh"
-    if ! grep -q "check-update.sh" "$SETTINGS_FILE" 2>/dev/null; then
-        echo "To enable auto-update checks, add to SessionStart hooks:"
-        echo "  \"command\": \"$HOOK_CMD\""
-        echo ""
-    fi
+echo "Checking Agent Teams..."
+if grep -q "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" "$SETTINGS_FILE" 2>/dev/null; then
+    echo "  Agent Teams: enabled"
+else
+    python3 -c "
+import json
+with open('$SETTINGS_FILE', 'r') as f:
+    settings = json.load(f)
+if 'env' not in settings:
+    settings['env'] = {}
+settings['env']['CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS'] = '1'
+with open('$SETTINGS_FILE', 'w') as f:
+    json.dump(settings, f, indent=2)
+    f.write('\n')
+" 2>/dev/null && echo "  Agent Teams: enabled" || {
+        echo "  Could not auto-enable. Add to $SETTINGS_FILE:"
+        echo '    "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" }'
+    }
 fi
+
+# ── Hooks ──────────────────────────────────────────────
+
+echo "Installing hooks..."
+
+# Use node/jq-free JSON manipulation via python (available on macOS)
+# Falls back to manual instructions if python isn't available
+install_hooks() {
+    local settings="$SETTINGS_FILE"
+    local session_hook="$SCRIPT_DIR/hooks/session-start.sh"
+    local edit_hook="$SCRIPT_DIR/hooks/post-edit.sh"
+
+    # Create settings.json if it doesn't exist
+    if [ ! -f "$settings" ]; then
+        mkdir -p "$(dirname "$settings")"
+        echo '{}' > "$settings"
+    fi
+
+    python3 -c "
+import json, sys
+
+settings_path = '$settings'
+session_hook = '$session_hook'
+edit_hook = '$edit_hook'
+
+with open(settings_path, 'r') as f:
+    settings = json.load(f)
+
+if 'hooks' not in settings:
+    settings['hooks'] = {}
+
+hooks = settings['hooks']
+
+def has_organism_hook(entries):
+    for entry in entries:
+        for h in entry.get('hooks', []):
+            if 'organism' in h.get('command', ''):
+                return True
+    return False
+
+# SessionStart hook
+if 'SessionStart' not in hooks:
+    hooks['SessionStart'] = []
+if not has_organism_hook(hooks['SessionStart']):
+    hooks['SessionStart'].append({
+        'hooks': [{'type': 'command', 'command': session_hook}]
+    })
+
+# PostToolUse hook for Edit/Write
+if 'PostToolUse' not in hooks:
+    hooks['PostToolUse'] = []
+if not has_organism_hook(hooks['PostToolUse']):
+    hooks['PostToolUse'].append({
+        'matcher': 'Edit|Write',
+        'hooks': [{'type': 'command', 'command': edit_hook}]
+    })
+
+with open(settings_path, 'w') as f:
+    json.dump(settings, f, indent=2)
+    f.write('\n')
+
+print('done')
+" 2>/dev/null
+}
+
+if install_hooks; then
+    echo "  SessionStart hook: installed (validation + update + focus)"
+    echo "  PostToolUse hook: installed (TDD enforcement on Edit/Write)"
+else
+    echo "  Could not auto-install hooks. Add manually to $SETTINGS_FILE:"
+    echo '    "hooks": {'
+    echo '      "SessionStart": [{ "hooks": [{ "type": "command", "command": "'"$SCRIPT_DIR"'/hooks/session-start.sh" }] }],'
+    echo '      "PostToolUse": [{ "matcher": "Edit|Write", "hooks": [{ "type": "command", "command": "'"$SCRIPT_DIR"'/hooks/post-edit.sh" }] }]'
+    echo '    }'
+fi
+echo ""
+
+# ── Default Tier ───────────────────────────────────────
+
+CONFIG_DIR="$HOME/.organism"
+CONFIG_FILE="$CONFIG_DIR/config.json"
+mkdir -p "$CONFIG_DIR"
+
+if [ ! -f "$CONFIG_FILE" ] || ! grep -q "tier" "$CONFIG_FILE" 2>/dev/null; then
+    echo "Choose your default tier (you can change this anytime):"
+    echo ""
+    echo "  quick    — One agent, protocol runs internally. Cheapest."
+    echo "  standard — Visible organ outputs. Agent Teams for parallel work. (Recommended)"
+    echo "  full     — Agent Teams on every parallelizable step. Most thorough, highest usage."
+    echo ""
+    read -p "Default tier [standard]: " TIER_CHOICE
+    TIER_CHOICE="${TIER_CHOICE:-standard}"
+
+    case "$TIER_CHOICE" in
+        quick|standard|full)
+            if [ ! -f "$CONFIG_FILE" ]; then
+                echo "{}" > "$CONFIG_FILE"
+            fi
+            python3 -c "
+import json
+p = '$CONFIG_FILE'
+d = json.load(open(p)) if open(p).read().strip() else {}
+d['tier'] = '$TIER_CHOICE'
+with open(p, 'w') as f:
+    json.dump(d, f, indent=2)
+    f.write('\n')
+" 2>/dev/null
+            echo "  Default tier: $TIER_CHOICE"
+            ;;
+        *)
+            echo "  Invalid choice. Defaulting to standard."
+            python3 -c "
+import json
+p = '$CONFIG_FILE'
+d = {}
+d['tier'] = 'standard'
+with open(p, 'w') as f:
+    json.dump(d, f, indent=2)
+    f.write('\n')
+" 2>/dev/null
+            ;;
+    esac
+    echo ""
+    echo "  Change anytime: ~/.claude/skills/organism/bin/protocol.sh tier <quick|standard|full>"
+    echo ""
+else
+    CURRENT_TIER=$(python3 -c "import json; print(json.load(open('$CONFIG_FILE')).get('tier', 'standard'))" 2>/dev/null)
+    echo "Default tier: $CURRENT_TIER (change with: bin/protocol.sh tier <quick|standard|full>)"
+fi
+echo ""
 
 # ── Done ───────────────────────────────────────────────
 

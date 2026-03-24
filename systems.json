@@ -1,0 +1,87 @@
+{
+  "_doc": "Organism system registry. Each system provides skills that the coordination protocol routes to. Add new systems here, then update the routing table in CLAUDE.md.",
+  "systems": {
+    "gsd": {
+      "name": "GSD (Get Shit Done)",
+      "detect": [".planning/config.json", "command:gsd", "~/.claude/get-shit-done"],
+      "repo": "https://github.com/coleam00/get-shit-done-cc",
+      "install": "npx get-shit-done-cc",
+      "skills": {
+        "planning": ["new-project", "new-milestone", "discuss-phase", "plan-phase", "research-phase"],
+        "execution": ["execute-phase", "fast", "quick", "autonomous", "workstreams"],
+        "state": ["progress", "stats", "health", "resume-work", "pause-work", "next"],
+        "verification": ["verify-work", "validate-phase", "audit-milestone", "audit-uat"],
+        "debugging": ["debug"],
+        "knowledge": ["map-codebase", "note", "plant-seed", "thread"],
+        "shipping": ["ship", "pr-branch", "complete-milestone"]
+      },
+      "protocol_steps": {
+        "brain-plan": ["plan-phase", "quick", "discuss-phase", "new-project"],
+        "hands-build": ["execute-phase", "fast", "workstreams"],
+        "spine-verify": ["verify-work", "validate-phase", "audit-uat"],
+        "health-check": ["progress", "stats"]
+      }
+    },
+    "superpowers": {
+      "name": "Superpowers",
+      "detect": ["~/.claude/plugins/cache/*/superpowers"],
+      "repo": "https://github.com/anthropics/claude-plugins-official",
+      "install": "/plugins → enable superpowers",
+      "skills": {
+        "tdd": ["test-driven-development"],
+        "debugging": ["systematic-debugging"],
+        "planning": ["brainstorming", "writing-plans", "executing-plans"],
+        "code_review": ["requesting-code-review", "receiving-code-review"],
+        "verification": ["verification-before-completion"],
+        "parallel": ["subagent-driven-development", "dispatching-parallel-agents"],
+        "git": ["using-git-worktrees", "finishing-a-development-branch"]
+      },
+      "protocol_steps": {
+        "spine-gate": ["test-driven-development", "writing-plans", "brainstorming"],
+        "hands-build": ["test-driven-development", "executing-plans", "using-git-worktrees"],
+        "spine-verify": ["verification-before-completion", "requesting-code-review"]
+      }
+    },
+    "gstack": {
+      "name": "gstack",
+      "detect": ["~/.claude/skills/gstack"],
+      "repo": "https://github.com/garrytan/gstack",
+      "install": "git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup",
+      "skills": {
+        "discovery": ["office-hours", "plan-ceo-review", "ask"],
+        "design": ["design-consultation", "plan-design-review", "design-review", "frontend-design"],
+        "architecture": ["plan-eng-review"],
+        "browser_qa": ["browse", "qa", "qa-only", "setup-browser-cookies"],
+        "code_review": ["review", "codex"],
+        "shipping": ["ship", "land-and-deploy", "document-release"],
+        "monitoring": ["canary", "benchmark"],
+        "safety": ["careful", "freeze", "unfreeze", "guard"],
+        "operations": ["retro", "loop", "schedule"],
+        "writing": ["stop-slop", "nano-banana"],
+        "debugging": ["investigate"],
+        "meta": ["autoplan", "git-ai-search"]
+      },
+      "protocol_steps": {
+        "gut-filter": ["office-hours", "plan-ceo-review"],
+        "brain-plan": ["plan-eng-review", "plan-design-review", "office-hours"],
+        "spine-gate": ["plan-eng-review", "plan-design-review"],
+        "hands-build": ["browse", "frontend-design"],
+        "spine-verify": ["review", "codex", "qa", "design-review", "stop-slop", "canary", "benchmark"],
+        "health-check": ["retro"]
+      }
+    }
+  },
+  "mcp_servers": {
+    "_doc": "MCP servers that extend organism capabilities. Detected automatically if configured.",
+    "context7": {
+      "name": "Context7",
+      "purpose": "Up-to-date documentation lookup for any library",
+      "protocol_steps": ["brain-plan", "hands-build"]
+    },
+    "serena": {
+      "name": "Serena",
+      "purpose": "Semantic code analysis — symbol-level reading, editing, and relationship mapping",
+      "protocol_steps": ["brain-plan", "spine-gate", "spine-verify"]
+    }
+  }
+}
