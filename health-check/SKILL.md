@@ -19,33 +19,40 @@ Keep the founder's mental model of their product fresh and accurate. They should
 
 ## Format
 
+Each organ owns its section of the health check. This is the one place all four organs' outputs are visible together.
+
 ```
 HEALTH CHECK
 ───────────────────────────────
-  Focus: [THE ONE THING — the single most impactful task right now]
-  North Star: [one-liner from NORTH-STAR.md]
+  Focus: [THE ONE THING]                     ← Gut
+  North Star: [one-liner from NORTH-STAR.md]  ← Gut
 
-  What was built:
+  What was built:                             ← Hands
   → [concrete change, in product terms not code terms]
-  → [what the user can now do that they couldn't before]
+  → [evidence: tests passing, screenshot if user-facing]
 
-  What this means:
+  What this means:                            ← Brain
   → [connect to north star — how does this serve the persona?]
   → [progress indicator — X of Y capabilities done, or similar]
 
-  What's next:
+  What's next:                                ← Brain
   → [the focus, already decided — not a question]
   → [estimated scope: quick/standard/full]
 
-  Parked: [ideas/requests that came up but aren't the focus]
+  Quality:                                    ← Spine
+  → Completeness: [N/10]
+  → Tests: [passing/failing/missing]
+  → Overrides: [N gates bypassed this session]
 
-  Heads up: [optional — only if there's something the founder
-  should know: tradeoff made, tech debt taken, risk accepted,
-  assumption that needs validation]
+  Parked: [ideas/requests that came up but    ← Gut
+  aren't the focus]
 
-  Founder action needed: [optional — only if the next step
-  requires something only the human can do: user call, account
-  setup, investor meeting. Include what you prepared for them.]
+  Heads up: [tradeoffs made, tech debt,       ← All four
+  risks, gate overrides with context]
+
+  Founder action needed: [optional — only if
+  the next step requires something only the
+  human can do. Include what you prepared.]
 ───────────────────────────────
 ```
 
