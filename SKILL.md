@@ -3,7 +3,7 @@ name: organism
 description: The main entry point. Use at the start of any session or when the founder gives a task. Automatically detects context, activates the right mode, and runs internal skills without manual invocation.
 ---
 
-# Organism — Main Entry Point
+# Organism: Main Entry Point
 
 ## Purpose
 
@@ -45,7 +45,7 @@ Check: Does NORTH-STAR.md exist in the project root?
 
 When ambiguous (e.g., "How are we doing?", "What should I work on?", "Let's think about pricing"), default to PULSE. The health check will orient the founder and naturally lead to a task.
 
-## ONBOARD Mode — Existing Project, No Organism Yet
+## ONBOARD Mode: Existing Project, No Organism Yet
 
 The most common case. The founder has a codebase, maybe hundreds of commits, but no NORTH-STAR.md. The organism reads what exists and infers before asking.
 
@@ -68,11 +68,11 @@ From the codebase map and docs, construct a draft understanding:
 **Stack:** [languages, frameworks, services, databases]
 **Architecture:** [how the pieces connect]
 **Tests:** [coverage level, frameworks, what's tested and what's not]
-**State:** [how mature — MVP? production? prototype?]
+**State:** [how mature: MVP? production? prototype?]
 
 Then use AskUserQuestion:
 - Question: "Does this match your mental model?"
-- Options: [Yes, looks right (Recommended)] [Partially — let me correct a few things] [No, this is off]
+- Options: [Yes, looks right (Recommended)] [Partially, let me correct a few things] [No, this is off]
 
 Don't ask 6 questions from zero. Present what you found and let the founder correct.
 
@@ -86,19 +86,30 @@ After the founder confirms or corrects, ask only what you couldn't infer:
 - **One metric** (sometimes in analytics code): "What's the one number that tells you this is working?"
 - **Anti-goals** (sometimes in CLAUDE.md): "What will you not build, even if users ask?"
 
-Skip any question the codebase already answered. If README says "for small business owners in the Philippines" — don't ask who uses it. Confirm: "Your users are small business owners in the Philippines. Correct?"
+Skip any question the codebase already answered. If README says "for small business owners in the Philippines", don't ask who uses it. Confirm: "Your users are small business owners in the Philippines. Correct?"
 
-**4. Write NORTH-STAR.md**
+**4. Market Grounding (optional, 5 minutes)**
 
-Combine the inferred context with the founder's corrections. Include `## Current Focus` based on: recent git activity (what files changed in the last week), any open issues or TODOs, what the founder says matters most right now.
+If the product has users or is close to launch, Gut runs a quick check:
+- Quick demand check: Are people still talking about this problem? Any new forum threads, reviews, or competitor mentions?
+- Quick competitive check: Who else is in this space now? Any new entrants since the project started?
+- Surface findings only if they change the picture the codebase tells
 
-**5. Structure (if no .planning/ exists)**
+Skip if the product is internal tooling, a personal project, or a pre-launch prototype with no market yet. The founder can also skip this.
+
+These findings feed into the NORTH-STAR.md written in the next step — grounding the north star in current market reality, not just what the code says.
+
+**5. Write NORTH-STAR.md**
+
+Combine the inferred context with the founder's corrections and any market grounding from step 4. Include `## Current Focus` based on: recent git activity (what files changed in the last week), any open issues or TODOs, what the founder says matters most right now.
+
+**6. Structure (if no .planning/ exists)**
 
 Run `/gsd:new-project` with the gathered context, or `/gsd:new-milestone` if this is a new phase of an existing project.
 
-If `.planning/` already exists (GSD was used before organism), skip this — read the existing state instead.
+If `.planning/` already exists (GSD was used before organism), skip this. Read the existing state instead.
 
-**6. Health check**
+**7. Health check**
 
 "I've mapped your codebase and defined your north star. Here's where things stand:
 
@@ -119,7 +130,7 @@ Ready to work."
 | Demand research | Full (WebSearch) | Optional (may already be validated by having users) |
 | Competitive scan | Full | Optional (founder may already know the landscape) |
 
-## BIRTH Mode — New Project
+## BIRTH Mode: New Project
 
 The project doesn't exist yet or has no north star. The organism runs its full birth sequence:
 
@@ -133,7 +144,7 @@ Don't ask all 6 at once. One at a time, conversational. Recommend when the found
 
 **2. Demand Research (5 minutes)**
 
-Run the demand skill internally. WebSearch for real signals — forum posts, reviews, competitor mentions. Don't show the founder the research process. Show the conclusion:
+Run the demand skill internally. WebSearch for real signals: forum posts, reviews, competitor mentions. Don't show the founder the research process. Show the conclusion:
 
 "I found [N] discussions about this problem on [sources]. Users describe the pain as '[exact quote]'. Competitors charge $[X-Y]/mo but users complain about [gap]."
 
@@ -175,12 +186,19 @@ Run `/gsd:new-project` with the context gathered above. GSD creates PROJECT.md, 
 
 The project exists. The founder is back. Orient them.
 
-### Sequence (30 seconds)
+### Sequence (30 seconds — 2 minutes if market pulse needed)
 
 1. Read NORTH-STAR.md (silently — for your own context)
 2. Read GSD state: STATE.md, then .planning/ phase summaries, then recent git log (in that priority order)
 3. Check gstack retro data if available (recent shipping velocity, open issues)
-4. Deliver a session resume health check:
+4. **Gut Market Pulse** (optional, adds ~2 minutes):
+   - If more than 2 weeks since last competitive check, or the founder mentions competitors:
+     - Quick WebSearch for competitor activity (new features, pricing changes, launches)
+     - Check if the competitive landscape shifted
+     - Surface findings only if something changed
+   - If `research/outcomes-*` files exist, check if recent outcome data needs processing
+   - Skip if last research is recent or the product is pre-launch
+5. Deliver a session resume health check:
 
 ```
 SESSION RESUME
@@ -205,101 +223,197 @@ Then use AskUserQuestion:
 - Question: "Ready to work on [recommended next step]?"
 - Options: [Yes, let's go (Recommended)] [Different task — I want to work on something else] [Catch me up more first]
 
-## WORK Mode — Building Something
+## WORK Mode — The Coordination Protocol
 
-The founder has a task. The organism processes it through its internal organs without the founder invoking skills manually.
+The founder has a task. The organism processes it through all four organs in sequence. Each organ produces a structured micro-output. Gates between organs prevent skipping steps.
 
-### Internal Processing (invisible to founder)
+The founder doesn't invoke skills. The protocol runs on every task, scaled by tier (see CLAUDE.md for tier definitions). At Quick tier, organs run in the background and only gates surface. At Standard+, each organ shows its work.
 
+**Protocol state tracking:** The organism tracks steps, gates, overrides, and teammates using `bin/protocol.sh`. The PostToolUse hook blocks code edits until Steps 1-3 complete. At Standard/Full tier, the protocol checks that teammates were spawned for parallelizable steps.
+
+```bash
+# Start of task (include tier — affects Agent Teams enforcement)
+~/.claude/skills/organism/bin/protocol.sh start "task description" standard
+
+# After each step completes
+~/.claude/skills/organism/bin/protocol.sh mark gut-filter "alignment result"
+~/.claude/skills/organism/bin/protocol.sh mark brain-plan "N tasks"
+~/.claude/skills/organism/bin/protocol.sh mark spine-gate "approved"
+
+# Spawn teammates for parallel work (Standard/Full — required)
+~/.claude/skills/organism/bin/protocol.sh teammate "worker: auth module"
+~/.claude/skills/organism/bin/protocol.sh teammate "worker: API endpoints"
+
+# (code edits now allowed by the hook)
+~/.claude/skills/organism/bin/protocol.sh mark hands-build "evidence"
+
+# Spawn verifiers for parallel review (Standard/Full — required)
+~/.claude/skills/organism/bin/protocol.sh teammate "verifier: code review"
+~/.claude/skills/organism/bin/protocol.sh teammate "verifier: browser QA"
+
+~/.claude/skills/organism/bin/protocol.sh mark spine-verify "verified"
+~/.claude/skills/organism/bin/protocol.sh mark gut-reality "passes"
+~/.claude/skills/organism/bin/protocol.sh mark health-check "delivered"
+~/.claude/skills/organism/bin/protocol.sh complete
+
+# For Quick tier — no teammates required
+~/.claude/skills/organism/bin/protocol.sh start "bug fix" quick
+
+# For non-code tasks — skip the protocol entirely
+~/.claude/skills/organism/bin/protocol.sh skip "updating README"
 ```
-INTAKE:
-  → Parse what the founder wants
-  → Match to north star (does this serve the persona?)
-  → If doesn't serve north star: flag it, recommend alternative
 
-TIER SELECTION (use AskUserQuestion if not obvious):
-  → Quick:    <5 files, clear scope, non-architectural
-  → Standard: User-facing, multi-file, or risky
-  → Full:     Architecture, launch prep, security-critical
-  Show the recommended tier with AskUserQuestion if the task
-  could go either way. Include completeness rating estimate:
-  "This task has ~[N] edge cases and ~[N] test paths.
-   At [tier], completeness will be [X]%."
+### Step 1: Gut Filter
 
-DESIGN (30 seconds, internal):
-  → What changes? Who's affected? What could break?
-  → If Standard/Full: capture approach before coding
+Read NORTH-STAR.md. Check focus alignment. Check `research/` and `interviews/` for relevant context.
 
-REALITY FILTER (internal, only surfaces if there's a flag):
-  → User reality: Which persona? Can they use this on their phone?
-  → Technical reality: Works on slow connection? Handles errors?
-  → Business reality: Unit economics still work?
-  → Only surface flags. If it passes, proceed silently.
-
-BUILD (all three systems working together):
-  → GSD: phase/plan structure, atomic commits, state tracking
-  → Superpowers: TDD enforcement (test → fail → implement → pass),
-    rationalization prevention, worktree isolation for features
-  → gstack: browser QA for user-facing changes, /review on diffs,
-    /design-review for visual work
-
-VERIFY (all three systems verifying):
-  → Superpowers: run tests, read output, evidence before "done"
-  → GSD: verification against requirements, gap closure if needed
-  → gstack: browser QA, /qa for user-facing, /codex for second opinion
-  → If docs affected: sync check (internal)
-
-HEALTH CHECK (surfaced to founder):
-  → What was built, what it means, what's next
-  → Only flag genuine concerns in "heads up"
+**Output** (internal for Quick, visible for Standard+):
 ```
+Alignment: [serves focus / tangential / off-focus]
+Context: [relevant demand/interview findings, or "none"]
+Risk: [market/user risk if any]
+```
+
+**GATE:** If off-focus → AskUserQuestion:
+- Question: "This doesn't align with focus [X]. What do you want to do?"
+- Options: [Park it] [Switch focus to this] [Override — build it anyway]
+- Override → logged in health check.
+
+**Tier selection** also happens here. Use AskUserQuestion if the task could go either way:
+- Quick: <5 files, clear scope, non-architectural
+- Standard: User-facing, multi-file, or risky
+- Full: Architecture, launch prep, security-critical
+
+### Step 2: Brain Plan
+
+Consume Gut's context. Plan the work.
+
+For Standard+: check `research/` artifacts for demand evidence that should shape scope or priority. If relevant interview data exists, reference it.
+
+**Output:**
+```
+Tier: [Quick/Standard/Full] with reasoning
+Tasks: [numbered, each with test criteria]
+Scope: [what's in, what's deliberately out]
+```
+
+For Quick: this is 30 seconds of internal planning. For Standard+: visible task breakdown the founder can see and override.
+
+### Step 3: Spine Gate
+
+Review Brain's plan for discipline before any code is written.
+
+**Checks:**
+- □ Every task has test criteria
+- □ Design was considered (what changes, who's affected, what breaks)
+- □ Evidence requirements are defined per task
+- □ No task is vague ("improve X" → blocked, "add Y handler for Z case" → ok)
+
+**GATE:** If any task fails checks → Brain revises before execution starts. For Quick: a 10-second internal pass. For Standard+: written review visible to the founder.
+
+### Step 4: Hands Build
+
+Execute the approved plan. TDD per task. All three systems contribute:
+- **GSD:** phase/plan structure, atomic commits, state tracking
+- **Superpowers:** TDD enforcement (test → fail → implement → pass), rationalization prevention, worktree isolation
+- **gstack:** browser QA for user-facing changes (Standard+)
+
+**Per task:**
+1. Write failing test (Spine's criteria)
+2. Verify it fails
+3. Implement
+4. Verify it passes
+5. Browser QA if user-facing (Standard+)
+
+**Output:** evidence per task (test output, screenshots for user-facing)
+
+### Step 5: Spine Verify
+
+Check Hands' evidence against the plan's criteria.
+
+**Per task:**
+- □ Test exists and passes (fresh output, not assumed)
+- □ Evidence attached (not "should work")
+- □ For user-facing: visual verification done
+
+**GATE:** Missing evidence → task not done. No exceptions. If docs were affected: trigger sync check.
+
+### Step 6: Gut Reality Check
+
+Does the output serve real users? Run the reality-check filters in quick mode.
+
+**Checks** (5 seconds for Quick, written for Standard+):
+- □ Serves the persona from NORTH-STAR.md
+- □ User would find and use this
+- □ Works in their context (device, time, attention span)
+- □ Error states are human-friendly
+
+Flag anything that passes technically but fails for users.
+
+### Step 7: Health Check
+
+All four organs contribute their section. See CLAUDE.md for the format with organ ownership.
 
 ### What the Founder Sees
 
+The protocol runs behind the scenes. The founder sees the work and the gates:
+
 ```
-Founder: "Build the platform discovery feature"
+Founder: "Add a retry mechanism for failed API calls"
 
-Organism: "Going with a registry-based approach — each platform
-gets a knowledge file with actions, selectors, and common tasks.
-Starting with Slack, Shopee, and Lazada since those are the top 3
-for PH solopreneurs. Override if you want different platforms.
+[Gut filter — internal, 5 seconds]
+Serves focus (reliability for paying users). No override needed.
 
-Writing tests for the registry loader first."
+Organism: "Adding retry with exponential backoff for the 3 external
+APIs (Shopee, Lazada, Slack). Writing tests for retry logic first —
+covering timeout, 500 errors, and rate limiting."
 
-[... builds ...]
+[Brain planned 3 tasks. Spine confirmed testability. Building.]
+
+[... builds with TDD ...]
+
+[Spine verified: 3/3 tasks have passing tests.]
+[Gut check: users hit API failures daily. This directly reduces
+the #1 support complaint. Passes.]
 
 Organism: "HEALTH CHECK
 ──────────────
-  Built: Platform knowledge registry with 3 platforms
-  → Users can say 'monitor my Shopee orders' and Shoti
-    knows what that means (actions, selectors, login flow)
-  → Each platform has 12-15 action templates
+  Focus: Reliability for paying users
 
-  What this means: A food stall owner's first task will
-  'just work' for Shopee, Lazada, and Slack without Shoti
-  asking clarifying questions about platform mechanics.
+  What was built:
+  → API calls now retry 3x with exponential backoff
+  → Users see 'Retrying...' instead of error screens
 
-  Next: Error handling for when platforms change their UI.
+  What this means:
+  → Directly addresses the #1 support complaint
+  → 3 of 5 reliability tasks complete
 
-  Heads up: Took a shortcut on Slack OAuth — using cookie
-  injection for now. Tracked for proper auth in Phase 3.
+  Quality:
+  → 9 tests passing (timeout, 500, rate limit × 3 APIs)
+  → 0 gates overridden
+
+  What's next: Error reporting dashboard (same focus)
 ──────────────"
 ```
 
-The founder never ran a skill. The organism ran north-star alignment, reality check, tier selection, TDD, user-lens, and sync-check internally. The founder just sees the work and the awareness pulse.
+The founder never ran a skill. The organism ran the full coordination protocol (Gut alignment, Brain planning, Spine gating, Hands building, Spine verification, Gut reality check) in the background. The founder sees gates when they fire and the health check when work is done.
 
 ## Internal vs. Explicit Mode
 
-Every skill has two modes:
+Every skill has two modes. The coordination protocol runs at every tier. The tier controls visibility.
 
-- **Internal** (during WORK mode): Run silently. Produce condensed conclusions, not full reports. Only surface findings that need the founder's attention.
-- **Explicit** (founder invokes directly): Produce full artifacts — reports, research files, templates.
+- **Internal** (during WORK mode): Organs run in the background. They produce condensed conclusions. Only gates and flags surface to the founder.
+- **Explicit** (founder invokes directly): Full artifacts, reports, research files, templates.
+
+Quick tier: protocol runs in the background. Only gates surface.
+Standard tier: each organ produces a visible micro-artifact.
+Full tier: each organ runs as a separate agent via Split.
+
+The protocol never gets skipped. At Quick tier it compresses. At Full tier it parallelizes.
 
 Example: demand research.
 - Internal (BIRTH step 2): "I found strong demand signals — 12 Reddit threads about this pain, competitors charge $30-80/mo." No file written.
 - Explicit (`/organism:demand`): Full report written to `research/demand-[topic]-YYYY-MM-DD.md`.
-
-Skills detect which mode they're in based on whether the founder invoked them directly or the organism is running them as part of a larger flow.
 
 ## Explicit Skill Override
 
