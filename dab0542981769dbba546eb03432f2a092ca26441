@@ -1,0 +1,57 @@
+test/protocol-enforcement.sh
+  d0e046c3df8dd6ee 1-161
+SPEC-v0.3.1.md
+  d0e046c3df8dd6ee 1-186
+hooks/post-edit.sh
+  d0e046c3df8dd6ee 4,6-11,16-21,23-32,39,43,49-71,76-80,83,87,107-108
+hooks/session-start.sh
+  d0e046c3df8dd6ee 3-7,10-19,28-70,85-93,98-99,101
+bin/protocol.sh
+  d0e046c3df8dd6ee 100-101,105-108
+NORTH-STAR.md
+  d0e046c3df8dd6ee 1-33
+test/test-helpers.sh
+  d0e046c3df8dd6ee 1-131
+test/validation.sh
+  d0e046c3df8dd6ee 1-140
+bin/outcomes.sh
+  d0e046c3df8dd6ee 1-91,93-145
+  e0f5c74f3e082e1e 92
+VERSION
+  e0f5c74f3e082e1e 1
+SKILL.md
+  d0e046c3df8dd6ee 232,234,237,240,245,248,250,256,258-260
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "dab0542981769dbba546eb03432f2a092ca26441",
+  "prompts": {
+    "d0e046c3df8dd6ee": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43ecd7d2-2ef6-4787-b964-9e8e6cc74c98",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 1011,
+      "total_deletions": 106,
+      "accepted_lines": 945,
+      "overriden_lines": 0
+    },
+    "e0f5c74f3e082e1e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f96aeea6-993c-4f12-b0fe-20d84bc55ff1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
