@@ -97,9 +97,15 @@ with open('$STATE_FILE', 'w') as f:
         ACTIVE=$(python3 -c "import json; d=json.load(open('$STATE_FILE')); print(d.get('active', False))" 2>/dev/null)
         SKIPPED=$(python3 -c "import json; d=json.load(open('$STATE_FILE')); print(d.get('skipped', False))" 2>/dev/null)
 
-        # If protocol not active or skipped, allow everything
-        if [ "$ACTIVE" != "True" ] || [ "$SKIPPED" = "True" ]; then
+        # If protocol explicitly skipped (non-code task), allow everything
+        if [ "$SKIPPED" = "True" ]; then
             exit 0
+        fi
+
+        # If protocol not active, block production code edits
+        if [ "$ACTIVE" != "True" ]; then
+            echo "{\"systemMessage\": \"PROTOCOL: No active protocol. Start with: protocol.sh start \\\"task description\\\" before editing production code.\"}"
+            exit 2
         fi
 
         # Check prerequisites for each step

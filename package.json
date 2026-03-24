@@ -4,7 +4,7 @@
   "type": "commonjs",
   "description": "Claude Code skills that make AI sessions remember context, enforce discipline, and stay grounded in what users need. Powered by GSD, Superpowers, and gstack.",
   "bin": {
-    "organism": "./cli.js"
+    "organism": "cli.js"
   },
   "files": [
     "cli.js",

@@ -229,38 +229,35 @@ The founder has a task. The organism processes it through all four organs in seq
 
 The founder doesn't invoke skills. The protocol runs on every task, scaled by tier (see CLAUDE.md for tier definitions). At Quick tier, organs run in the background and only gates surface. At Standard+, each organ shows its work.
 
-**Protocol state tracking:** The organism tracks steps, gates, overrides, and teammates using `bin/protocol.sh`. The PostToolUse hook blocks code edits until Steps 1-3 complete. At Standard/Full tier, the protocol checks that teammates were spawned for parallelizable steps.
+**Protocol enforcement:** The PostToolUse hook reads stdin JSON from Claude Code (tool_name, tool_input.file_path) and blocks production code edits until Steps 1-3 complete. If no protocol is active, production code edits are blocked. The hook returns exit code 2 with a `decision: block` message that Claude Code surfaces to the agent.
+
+**You MUST call protocol.sh at the start of every task.** The hook blocks all production code edits when no protocol is active. This is not optional.
 
 ```bash
-# Start of task (include tier — affects Agent Teams enforcement)
+# FIRST THING when a task starts — required
 ~/.claude/skills/organism/bin/protocol.sh start "task description" standard
 
-# After each step completes
+# After each step completes — required, hook checks these
 ~/.claude/skills/organism/bin/protocol.sh mark gut-filter "alignment result"
 ~/.claude/skills/organism/bin/protocol.sh mark brain-plan "N tasks"
 ~/.claude/skills/organism/bin/protocol.sh mark spine-gate "approved"
 
-# Spawn teammates for parallel work (Standard/Full — required)
+# Spawn teammates for parallel work (Standard/Full)
 ~/.claude/skills/organism/bin/protocol.sh teammate "worker: auth module"
-~/.claude/skills/organism/bin/protocol.sh teammate "worker: API endpoints"
 
-# (code edits now allowed by the hook)
+# NOW code edits are allowed — hook verified Steps 1-3
+
 ~/.claude/skills/organism/bin/protocol.sh mark hands-build "evidence"
-
-# Spawn verifiers for parallel review (Standard/Full — required)
-~/.claude/skills/organism/bin/protocol.sh teammate "verifier: code review"
-~/.claude/skills/organism/bin/protocol.sh teammate "verifier: browser QA"
-
 ~/.claude/skills/organism/bin/protocol.sh mark spine-verify "verified"
 ~/.claude/skills/organism/bin/protocol.sh mark gut-reality "passes"
 ~/.claude/skills/organism/bin/protocol.sh mark health-check "delivered"
 ~/.claude/skills/organism/bin/protocol.sh complete
 
-# For Quick tier — no teammates required
-~/.claude/skills/organism/bin/protocol.sh start "bug fix" quick
-
-# For non-code tasks — skip the protocol entirely
+# For non-code tasks (docs, config, research) — skip protocol
 ~/.claude/skills/organism/bin/protocol.sh skip "updating README"
+
+# Learning loop — after shipping to users
+~/.claude/skills/organism/bin/outcomes.sh log "feature" --predicted "what you expected" --actual "what happened"
 ```
 
 ### Step 1: Gut Filter
