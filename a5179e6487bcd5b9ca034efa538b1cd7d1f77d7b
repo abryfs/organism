@@ -1,0 +1,29 @@
+hooks/session-start.sh
+  d0e046c3df8dd6ee 1-42
+hooks/post-edit.sh
+  d0e046c3df8dd6ee 1-68
+bin/validate.sh
+  d0e046c3df8dd6ee 1-106
+bin/protocol.sh
+  d0e046c3df8dd6ee 1-282
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "a5179e6487bcd5b9ca034efa538b1cd7d1f77d7b",
+  "prompts": {
+    "d0e046c3df8dd6ee": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43ecd7d2-2ef6-4787-b964-9e8e6cc74c98",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1288,
+      "overriden_lines": 0
+    }
+  }
+}
