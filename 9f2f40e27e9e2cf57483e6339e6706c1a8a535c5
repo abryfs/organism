@@ -1,0 +1,23 @@
+split/SKILL.md
+  d0e046c3df8dd6ee 3,6,10,12,16-20,23-26,31,33,35,38,40-57,60,62,65,67-70,72-76,79,81,84-95,98,100,103-105,107-109,111-117,119-121,123-124,126-127,130-140,144,146-149,151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "9f2f40e27e9e2cf57483e6339e6706c1a8a535c5",
+  "prompts": {
+    "d0e046c3df8dd6ee": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43ecd7d2-2ef6-4787-b964-9e8e6cc74c98",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 604,
+      "overriden_lines": 0
+    }
+  }
+}
