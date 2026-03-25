@@ -416,6 +416,7 @@ Example: demand research.
 
 The founder CAN invoke skills directly when they want the full output:
 
+**Build Side (the product):**
 - `/organism:north-star` — Redefine product direction
 - `/organism:demand` — Research market demand for a specific question
 - `/organism:competitive` — Scan competitive landscape
@@ -426,7 +427,40 @@ The founder CAN invoke skills directly when they want the full output:
 - `/organism:health-check` — Get a product pulse on demand
 - `/organism:sync-check` — Force doc/code consistency check
 - `/organism:split` — Spawn three-agent organism for critical work
-These are overrides, not the normal flow. Updates happen automatically via the SessionStart hook.
+
+**Business Side (the company):**
+- `/organism:voice` — Marketing, positioning, outreach, pitch, storytelling (routes to sub-skills)
+- `/organism:position` — Run a positioning exercise (April Dunford 10-step)
+- `/organism:pitch` — Prepare investor pitch materials
+- `/organism:outreach` — Draft targeted outreach (users, investors, partners, hires)
+- `/organism:story` — Craft the product narrative (StoryBrand, SUCCESs)
+- `/organism:legs` — Distribution strategy and user acquisition (routes to sub-skills)
+- `/organism:channels` — Research and rank distribution channels (Bullseye Framework)
+- `/organism:launch` — Plan a launch (ProductHunt, HN, Reddit, Indie Hackers)
+- `/organism:first-users` — The zero-to-ten playbook
+- `/organism:growth` — Analyze channels, growth loops, scaling strategy
+- `/organism:blood` — Financial health, pricing, unit economics, fundraising (routes to sub-skills)
+- `/organism:pricing` — Run a pricing exercise (Van Westendorp, Gabor-Granger)
+- `/organism:unit-economics` — Calculate CAC, LTV, margins, burn multiple
+- `/organism:fundraise` — Fundraising strategy, investor lists, term sheet review
+- `/organism:investors` — Research specific investors, find warm paths
+- `/organism:financial-model` — Build or update the financial model
+- `/organism:heart` — Team, culture, hiring (routes to sub-skills)
+- `/organism:culture` — Define company culture and values
+- `/organism:hire` — Plan a specific hire (role, comp, channels, interview design)
+- `/organism:comp` — Research compensation benchmarks for a role
+- `/organism:team-plan` — Map team structure for next 6-12 months
+
+**Founder Side (the person):**
+- `/organism:eyes` — Outward awareness + inward clarity (routes to sub-skills)
+- `/organism:find` — Find a specific person and the warm path to them
+- `/organism:scan` — Scan for opportunities (grants, accelerators, partnerships)
+- `/organism:reflect` — Founder reflection session (bias detection, pattern review)
+- `/organism:premortem` — Pre-mortem before major decisions
+- `/organism:pivot-check` — Structured pivot/persevere/quit assessment
+- `/organism:briefing` — Deep background dossier on a person before a meeting
+
+These are overrides, not the normal flow. The organism invokes the right skill internally during the coordination protocol.
 
 ## Mode Transitions
 
