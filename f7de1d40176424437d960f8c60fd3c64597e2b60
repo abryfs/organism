@@ -1,0 +1,87 @@
+voice/SKILL.md
+  e0f5c74f3e082e1e 1-191
+pitch/SKILL.md
+  e0f5c74f3e082e1e 1-209
+scan/SKILL.md
+  e0f5c74f3e082e1e 1-182
+SPEC-v0.4.md
+  e0f5c74f3e082e1e 1-731
+blood/SKILL.md
+  e0f5c74f3e082e1e 1-271
+premortem/SKILL.md
+  e0f5c74f3e082e1e 1-211
+first-users/SKILL.md
+  e0f5c74f3e082e1e 1-256
+NORTH-STAR.md
+  e0f5c74f3e082e1e 5,9,11-17,19,23,25,27-69,71-76,80,85-89,93
+growth/SKILL.md
+  e0f5c74f3e082e1e 1-304
+outreach/SKILL.md
+  e0f5c74f3e082e1e 1-197
+SKILL.md
+  e0f5c74f3e082e1e 419,430-463
+unit-economics/SKILL.md
+  e0f5c74f3e082e1e 1-208
+financial-model/SKILL.md
+  e0f5c74f3e082e1e 1-286
+hire/SKILL.md
+  e0f5c74f3e082e1e 1-254
+investors/SKILL.md
+  e0f5c74f3e082e1e 1-205
+find/SKILL.md
+  e0f5c74f3e082e1e 1-212
+comp/SKILL.md
+  e0f5c74f3e082e1e 1-205
+culture/SKILL.md
+  e0f5c74f3e082e1e 1-158
+heart/SKILL.md
+  e0f5c74f3e082e1e 1-257
+reflect/SKILL.md
+  e0f5c74f3e082e1e 1-190
+pivot-check/SKILL.md
+  e0f5c74f3e082e1e 1-267
+channels/SKILL.md
+  e0f5c74f3e082e1e 1-246
+eyes/SKILL.md
+  e0f5c74f3e082e1e 1-217
+story/SKILL.md
+  e0f5c74f3e082e1e 1-246
+pricing/SKILL.md
+  e0f5c74f3e082e1e 1-167
+launch/SKILL.md
+  e0f5c74f3e082e1e 1-279
+package.json
+  e0f5c74f3e082e1e 3,5,29-56
+position/SKILL.md
+  e0f5c74f3e082e1e 1-198
+VERSION
+  e0f5c74f3e082e1e 1
+briefing/SKILL.md
+  e0f5c74f3e082e1e 1-230
+team-plan/SKILL.md
+  e0f5c74f3e082e1e 1-228
+fundraise/SKILL.md
+  e0f5c74f3e082e1e 1-244
+legs/SKILL.md
+  e0f5c74f3e082e1e 1-266
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "f7de1d40176424437d960f8c60fd3c64597e2b60",
+  "prompts": {
+    "e0f5c74f3e082e1e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f96aeea6-993c-4f12-b0fe-20d84bc55ff1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "abryfs <69842068+abryfs@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 7315,
+      "total_deletions": 78,
+      "accepted_lines": 7253,
+      "overriden_lines": 0
+    }
+  }
+}
