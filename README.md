@@ -1,27 +1,55 @@
 # Organism
 
-A set of Claude Code skills that make your AI sessions remember context, enforce discipline, test with real browsers, and stay grounded in what actual users need.
+Nine organs for founder-engineers. Build the right thing, sell it to real people, price it to survive, fund it, hire for it, and see clearly through the noise.
 
-Built for founder-engineers who write code AND own the product.
+AI made building cheap. Everything else is still hard. Organism handles the everything else.
 
 ## What It Actually Is
 
-Organism is a CLAUDE.md file and 11 skill files. Opinionated prompt engineering, applied as a coordination protocol. When you install it, your Claude Code sessions gain:
+Organism is a CLAUDE.md file and 39 skill files across 9 organs. Opinionated prompt engineering applied as a coordination protocol. When you install it, your Claude Code sessions gain:
 
-- **A coordination protocol** where four organs (Gut, Brain, Spine, Hands) hand off to each other with gates between them
+- **Nine organs across three sides** of the founder's job: build the product, build the company, build yourself
+- **A coordination protocol** where organs hand off to each other with gates between them
+- **100 named pitfalls** — the documented failure patterns from startup history, sourced from YC, a16z, Paul Graham, Annie Duke, and 60+ other references. Each organ checks your decisions against its pitfall database.
 - **A focus** that gates every task against your north star before work begins
-- **Discipline** with teeth: Spine blocks untestable plans and unverified claims
-- **Market grounding** where demand research and user interviews feed into Brain's planning
-- **Anti-slop enforcement** where Spine catches AI writing patterns before they ship
-- **Health checks** where all four organs contribute, in product language
+- **Discipline with teeth** — Spine blocks untestable plans, Blood blocks unprofitable scaling, Heart blocks hiring before PMF, Eyes blocks self-deception
 
-Organism is powered by three open-source systems. Each contributes across all four organs:
+### The Three Sides
 
-- **[GSD](https://github.com/coleam00/get-shit-done-cc)** (50+ commands): Full project lifecycle — planning (new-project, discuss/plan/execute phases), state tracking, verification loops with gap closure, codebase mapping with 7 parallel explorers, persistent debugging, seed planting, workstreams, autonomous milestone completion, cross-AI peer review, session persistence across context resets.
-- **[Superpowers](https://github.com/anthropics/claude-plugins-official)** (14 skills): Development discipline — TDD enforcement with 27+ rationalization closures, systematic debugging with architectural escalation, brainstorming hard-gates, implementation planning with granularity checks, two-stage code review, git worktree isolation, verification-before-completion, subagent-driven development, parallel agent dispatch.
-- **[gstack](https://github.com/garrytan/gstack)** (30+ skills): Full product workflow — YC office hours for discovery, CEO/engineering/design plan reviews with 0-10 scoring, persistent browser QA (~100ms/cmd), automated QA test-fix loops, Codex cross-AI review in 3 modes, design system builder, ship/deploy/canary pipeline, weekly retro with metrics, safety guardrails (freeze/guard/careful), post-deploy monitoring, anti-slop enforcement, image generation.
+**Build Side** (the product) — exists since v0.1:
+- **Gut** — Market instinct. Demand research, competitive intelligence, user interviews, feedback processing. "Is this the right thing to build?"
+- **Brain** — Memory and planning. State tracking, phases, roadmap, lifecycle. "What's the plan?"
+- **Spine** — Integrity. TDD enforcement, evidence requirements, quality gates. "Is it solid?"
+- **Hands** — Touch. Browser QA, visual verification, deployment. "Does it work?"
 
-All three are required. GSD plans and debugs, gstack reviews and discovers, Superpowers enforces and architects. The organism coordinates them through its coordination protocol. Setup installs any that are missing.
+**Business Side** (the company) — new in v0.4:
+- **Voice** — How you tell the world. Marketing, positioning, outreach, pitch decks, storytelling. Turns internal understanding into language that lands with real people.
+- **Legs** — How you find people. Distribution strategy, first users, growth channels, go-to-market. Goes where the users are.
+- **Blood** — How you survive. Revenue path, pricing, unit economics, fundraising, investors. No blood, no organism.
+- **Heart** — Who builds this with you. First hires, culture, values, team structure, compensation. Not just recruitment — the kind of company you're building.
+
+**Founder Side** (the person) — new in v0.4:
+- **Eyes** — What you see clearly. Outward: find people, investors, warm paths, opportunities. Inward: cognitive biases, self-deception, pivot timing, burnout detection. The organ that sees what you don't want to see.
+
+### The Pitfall Layer
+
+Every organ carries the documented history of failures in its domain. Not generic advice — specific, named patterns that have killed startups.
+
+- **Voice** checks: "You're describing features instead of benefits. That's The Feature Dump Pitch — the #1 reason investor decks fail."
+- **Legs** checks: "You're scaling before PMF. 74% of startups that scale prematurely fail." (Startup Genome Report)
+- **Blood** checks: "Your CAC exceeds your LTV. That's The Dollar Bill Problem — you're paying people to be customers." (David Sacks)
+- **Heart** checks: "You're hiring to avoid doing sales yourself. That's the Delegation-of-Discomfort Hire." (a16z)
+- **Eyes** checks: "You've pivoted 3 times in 2 weeks. That's Shiny Object Syndrome, not iteration." (Fred Brooks)
+
+100 pitfalls total. Each fires as Block (stop everything), Warn (flag and continue), or Note (log for awareness). The founder always decides — but the organism never stays silent when it recognizes a pattern.
+
+Organism is powered by three open-source systems. Each contributes across the build-side organs:
+
+- **[GSD](https://github.com/coleam00/get-shit-done-cc)** (50+ commands): Full project lifecycle — planning, state tracking, verification loops, codebase mapping, persistent debugging, workstreams, session persistence.
+- **[Superpowers](https://github.com/anthropics/claude-plugins-official)** (14 skills): Development discipline — TDD enforcement with 27+ rationalization closures, systematic debugging, brainstorming hard-gates, code review, git worktree isolation.
+- **[gstack](https://github.com/garrytan/gstack)** (30+ skills): Full product workflow — YC office hours, plan reviews, persistent browser QA, automated QA loops, ship/deploy/canary pipeline, safety guardrails, anti-slop enforcement.
+
+All three are required for the build side. The business and founder organs (Voice, Legs, Blood, Heart, Eyes) work with Claude Code's built-in tools — WebSearch, WebFetch, Read/Write — no additional systems needed.
 
 ## Install
 
@@ -31,11 +59,11 @@ All three are required. GSD plans and debugs, gstack reviews and discovers, Supe
 
 Open Claude Code and paste this. Claude does the rest.
 
-> Install organism: run **`git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism && cd ~/.claude/skills/organism && ./setup`** then add an "organism" section to CLAUDE.md that says to use /organism as the main entry point for all work, lists the available skills: /organism, /organism:north-star, /organism:demand, /organism:competitive, /organism:interview, /organism:feedback, /organism:reality-check, /organism:user-lens, /organism:health-check, /organism:sync-check, /organism:split. Organism auto-updates on session start. Then check if GSD, Superpowers, and gstack are installed — if any are missing, install them: GSD via `npx get-shit-done-cc`, Superpowers via `/plugins` then enable superpowers, gstack via `git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`. All three are required.
+> Install organism: run **`git clone https://github.com/abryfs/organism.git ~/.claude/skills/organism && cd ~/.claude/skills/organism && ./setup`** then add an "organism" section to CLAUDE.md that says to use /organism as the main entry point for all work, listing available skills from the Build Side (/organism:north-star, demand, competitive, interview, feedback, reality-check, user-lens, health-check, sync-check, split), Business Side (/organism:voice, position, pitch, outreach, story, legs, channels, launch, first-users, growth, blood, pricing, unit-economics, fundraise, investors, financial-model, heart, culture, hire, comp, team-plan), and Founder Side (/organism:eyes, find, scan, reflect, premortem, pivot-check, briefing). Then check if GSD, Superpowers, and gstack are installed — if any are missing, install them: GSD via `npx get-shit-done-cc`, Superpowers via `/plugins` then enable superpowers, gstack via `git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`. All three are required for the build side.
 
 ### Step 2: Add to your repo so teammates get it (optional)
 
-> Add organism to this project: run **`cp -Rf ~/.claude/skills/organism .claude/skills/organism && rm -rf .claude/skills/organism/.git`** then add an "organism" section to this project's CLAUDE.md listing all available skills and noting that GSD, Superpowers, and gstack are required. If organism skills aren't working, run `cd .claude/skills/organism && ./setup`.
+> Add organism to this project: run **`cp -Rf ~/.claude/skills/organism .claude/skills/organism && rm -rf .claude/skills/organism/.git`** then add an "organism" section to this project's CLAUDE.md listing all available skills and noting that GSD, Superpowers, and gstack are required for the build side. If organism skills aren't working, run `cd .claude/skills/organism && ./setup`.
 
 ### Or install from npm
 
@@ -57,84 +85,185 @@ cd ~/.claude/skills/organism && git pull origin main
 
 ### Four Modes
 
-**Onboard.** You have an existing codebase but no organism yet. The organism maps your code with 7 parallel explorers, reads your README and docs, infers who you're building for and why, then asks you to confirm or correct. You fill in the gaps it can't read from code (pricing, distribution, one metric). Takes ~10 minutes. No starting from zero on a project you already understand.
+**Onboard.** You have an existing codebase but no organism yet. The organism maps your code with 7 parallel explorers, reads your README and docs, infers who you're building for and why, then asks you to confirm or correct. Takes ~10 minutes.
 
-**Birth.** You're starting from scratch. The organism walks you through defining your product: who it's for, what pain it solves, whether demand exists, who the competitors are, and what to build first. Takes ~15-20 minutes. You come out with a north star, a roadmap, and a focus.
+**Birth.** You're starting from scratch. The organism walks you through defining your product: who it's for, what pain it solves, whether demand exists, who the competitors are, and what to build first. Takes ~15-20 minutes.
 
-**Pulse.** You're returning to a project the organism already knows. It reads your state, tells you where things stand in product language, states the current focus, and recommends the next step. Takes 30 seconds.
+**Pulse.** You're returning to a project the organism already knows. It reads your state, tells you where things stand, states the focus, and recommends the next step. Takes 30 seconds.
 
-**Work.** You give a task. The organism runs the coordination protocol: Gut checks alignment against your north star, Brain plans with market context, Spine gates the plan for testability, Hands builds with TDD, Spine verifies with evidence, Gut checks if real users would care, then all four contribute to a health check. Gates between organs block the agent from skipping steps.
+**Work.** You give a task. The coordination protocol runs — every organ that's relevant participates. Gates block shortcuts. Health checks summarize what happened.
+
+### How Tasks Flow Through the Organs
+
+The new organs work in two modes: **participating** in build tasks, or **leading** their own workflows.
+
+**Mode 1: Participating in build tasks**
+
+When you say "build the pricing page," the build protocol runs. The new organs add checks at relevant steps — they don't add new steps:
+
+```
+Step 1 (Gut):    Does this serve the focus?
+                 Blood: Do we have pricing research? What should we charge?
+                 Voice: Do we have positioning? The page needs messaging.
+                 Eyes:  Are we building this because users need it, or avoiding sales?
+
+Step 2 (Brain):  Plan the tasks.
+                 Legs:  Can users find this page? What's the path from discovery?
+                 Blood: What does comparable pricing look like?
+
+Steps 3-5:      Build side runs normally. Spine gates, Hands builds, Spine verifies.
+
+Step 6 (Gut):    Does this serve real users?
+                 Voice: Would the persona understand this page?
+                 Legs:  How does a user get here?
+
+Step 7:          Health check — all relevant organs contribute.
+                 Blood: Pricing health alongside product health.
+                 Eyes:  Founder state — any patterns to flag?
+```
+
+New organs only speak when they have something relevant to say. Blood stays silent during a bug fix. Legs stays silent during a database migration. The tier controls visibility:
+
+- **Quick**: Only Block-severity pitfalls surface from new organs.
+- **Standard**: One-line micro-outputs at relevant steps.
+- **Full**: Full analysis from every relevant organ.
+
+**Mode 2: Leading their own workflows**
+
+When the task isn't building, a new organ takes the lead:
+
+| You say... | Lead organ | Build organs support |
+|---|---|---|
+| "How should we price this?" | Blood | Voice writes pricing page copy, Legs checks channel fit |
+| "I need users" | Legs | Voice drafts content, Eyes finds people |
+| "I need to raise money" | Blood | Voice preps the pitch, Eyes researches investors |
+| "Should I hire?" | Heart | Blood checks affordability, Eyes checks if it's delegation-of-discomfort |
+| "Am I doing the right thing?" | Eyes | All organs contribute their perspective |
+| "How do I explain this product?" | Voice | Gut provides persona, Legs identifies the channel |
+
+Same coordination protocol. Different organ leads. Gates still fire — Spine still requires evidence, Gut still checks alignment. The new organs extend discipline to new domains.
 
 ### Health Checks
 
 After meaningful work, the organism delivers a pulse. Each organ owns its section:
 
-> **Focus:** User onboarding flow *(Gut)*
+> **Focus:** Pricing strategy for launch *(Gut)*
 >
-> **Built:** 3-step signup with email verification and welcome screen. 7 tests passing. *(Hands)*
+> **Built:** 3-tier pricing page with annual/monthly toggle. 5 tests passing. *(Hands)*
 >
-> **What this means:** New users go from landing page to first action in under 90 seconds. Covers the "skeptical buyer" persona. *(Brain)*
+> **What this means:** Users can self-select based on team size. Covers the "skeptical buyer" persona — free trial, no credit card. *(Brain)*
 >
-> **Next:** Payment integration. *(Brain)*
+> **Pricing:** $29/$79/$199 tiers. Comparable products charge $39-149. LTV:CAC at 4.2:1. Runway: 14 months. *(Blood)*
 >
-> **Quality:** Completeness 7/10. Tests passing. 0 gates overridden. *(Spine)*
+> **Distribution:** Pricing page is linked from homepage but not from the primary acquisition channel (HN posts). Add a CTA. *(Legs)*
 >
-> **Parked:** Dark mode, notification preferences. *(Gut)*
+> **Next:** Launch prep — first 10 users via manual outreach. *(Brain)*
 >
-> **Heads up:** Skipped phone auth for now, email only. Tracked for later.
-
-You stay in the headspace of your product without reading code.
+> **Quality:** Completeness 8/10. Tests passing. 0 gates overridden. *(Spine)*
+>
+> **Founder state:** 3rd week of focused execution. No drift detected. No burnout signals. *(Eyes)*
+>
+> **Parked:** Dark mode, enterprise tier. *(Gut)*
 
 ### Adaptive Tiers
 
-All three tiers run the same coordination protocol (Gut → Brain → Spine → Hands → Spine verify → Gut reality → Health Check). The tier controls how much each organ shows its work:
-
-| Tier | When | Visibility |
+| Tier | When | What you see |
 |------|------|-------------|
-| **Quick** | Bug fixes, small changes, most work | Organs run in the background. Only gates surface. |
-| **Standard** | Features, user-facing changes, multi-file | Each organ shows a visible micro-artifact (3-5 lines). |
-| **Full** | Architecture, launches, major pivots | Each organ runs as a separate agent via Agent Teams. |
-
-You can override: "go quick on this" or "go full on this."
+| **Quick** | Bug fixes, small changes | Only gates and Block-severity pitfalls surface. |
+| **Standard** | Features, user-facing, multi-file | Each organ shows a micro-artifact (3-5 lines). |
+| **Full** | Architecture, launches, pivots | Full organ analysis. Agent Teams for parallel work. |
 
 ### Saying No
 
-The organism's default answer to new ideas is **no** unless they serve the focus. The Gut Alignment Gate catches off-focus work before Brain even plans it. Features get parked, scope creep gets blocked. Only the founder can change the focus, and the organism will recommend a change when user evidence warrants it.
+Default answer to new ideas is **no** unless they serve the focus. Gut catches off-focus work. Legs catches features nobody can find. Blood catches features that don't pay for themselves. Eyes catches the founder avoiding hard problems by building easy ones. Only the founder can change the focus.
 
 ## The Rules
 
-1. **Gut before Brain.** Every task gets an alignment check against the focus. Off-focus work triggers the Gut Alignment Gate.
-2. **Design before build.** Brain plans. 30-second check: what changes, who's affected, what breaks.
-3. **Test before code.** Spine gates the plan. Failing test first. Code before test = delete the code.
-4. **Root cause before fix.** Investigate, don't patch. 3 failed fixes = rethink the architecture.
-5. **Evidence before "done."** Spine verifies. Run tests. Read output. Attach it. The Spine Evidence Gate blocks without proof.
-6. **Reality before ship.** Gut checks the output against real user needs. Passing tests is necessary, not sufficient.
-7. **Recommend, don't interrogate.** Best option with reasoning. Don't ask "what do you want?"
-8. **Keep the founder in the headspace.** Health checks after meaningful work. All four organs contribute their section.
-9. **Every feature serves a real user.** Which persona? What context? Would they pay?
-10. **Say no by default.** Only the focus gets built. Everything else gets parked.
-11. **Every gate override is logged.** Override patterns reveal where the organism's judgment needs adjusting.
-12. **No slop ships.** Spine checks all user-facing text for AI writing patterns during verification. Slop found = rewrite before done.
-13. **Keep everything in sync.** Code changes → docs follow. Drift is a bug.
-14. **Never forget what we're building.** NORTH-STAR.md at session start. Every decision traces back.
+### Build Rules
+1. **Gut before Brain.** Every task gets an alignment check. Off-focus work triggers the Gut Alignment Gate.
+2. **Design before build.** Brain plans. What changes, who's affected, what breaks.
+3. **Test before code.** Spine gates the plan. Failing test first. Code before test = delete.
+4. **Root cause before fix.** Investigate, don't patch. 3 failed fixes = rethink.
+5. **Evidence before "done."** Spine verifies. Run tests, read output, attach it.
+6. **Reality before ship.** Gut checks against real users. Passing tests is necessary, not sufficient.
+
+### Business Rules
+7. **Price before build.** Blood checks unit economics before features ship. Building something unprofitable is worse than building nothing.
+8. **Distribution before polish.** Legs checks: can users find this? If not, distribution work comes before feature work.
+9. **Position before communicate.** Voice requires positioning artifacts before drafting copy. Messaging without strategy is noise.
+10. **Culture before hire.** Heart blocks hiring until a culture document exists. Culture by accident is a pitfall.
+11. **PMF before scale.** Heart and Blood gate scaling decisions. Every hire and every dollar of spend requires PMF evidence.
+
+### Founder Rules
+12. **Clarity before action.** Eyes runs before major decisions. Pre-mortems, kill criteria, bias checks.
+13. **Sell before build more.** Eyes flags "building to avoid selling" — the #1 technical founder trap.
+14. **Rest before collapse.** Eyes tracks burnout signals. Shadow burnout kills founders who think they're fine.
+
+### Always Rules
+15. **Recommend, don't interrogate.** Best option with reasoning.
+16. **Keep the founder in the headspace.** Health checks after meaningful work. All organs contribute.
+17. **Say no by default.** Only the focus gets built. Everything else gets parked.
+18. **Every gate override is logged.** Patterns reveal where judgment needs adjusting.
+19. **No slop ships.** Spine checks code, Voice checks copy. AI patterns get rewritten.
+20. **Never forget what we're building.** NORTH-STAR.md at session start. Every decision traces back.
 
 ## Skills
 
+### Build Side (the product)
+
 | Skill | What it does |
 |-------|-------------|
-| `/organism` | Main entry point. Auto-detects Birth/Pulse/Work mode. |
-| `/organism:north-star` | Define product purpose, users, and success metric (6 questions, 5 min) |
-| `/organism:demand` | Research real demand: forums, reviews, search trends, competitor traction |
-| `/organism:competitive` | Competitor landscape scan, ongoing watch, positioning analysis |
-| `/organism:interview` | Prepare user interview guides, capture insights, synthesize patterns |
-| `/organism:feedback` | Ingest user feedback (tickets, reviews, DMs) → product decisions |
-| `/organism:reality-check` | 5 filters: user, market, technical, business, time reality |
-| `/organism:user-lens` | Test from 5 perspectives: new user, skeptic, non-technical, power user, churning |
+| `/organism` | Main entry point. Auto-detects Birth/Onboard/Pulse/Work mode. |
+| `/organism:north-star` | Define product purpose, users, and success metric |
+| `/organism:demand` | Research real demand: forums, reviews, trends, competitor traction |
+| `/organism:competitive` | Competitor landscape scan and positioning analysis |
+| `/organism:interview` | Prepare user interview guides, capture insights |
+| `/organism:feedback` | Ingest user feedback → product decisions |
+| `/organism:reality-check` | 5 filters: user, market, technical, business, time |
+| `/organism:user-lens` | Test from 5 user perspectives |
 | `/organism:health-check` | On-demand product status pulse |
 | `/organism:sync-check` | Verify docs, maps, and code are consistent |
-| `/organism:split` | Spawn 3-agent team for architecture/launch work (requires Agent Teams) |
+| `/organism:split` | Spawn 3-agent team for critical work |
 
-Skills run as part of the coordination protocol during normal work. You don't invoke them. The organism does. The commands above are explicit overrides for when you want to trigger something specific.
+### Business Side (the company)
+
+| Skill | Organ | What it does |
+|-------|-------|-------------|
+| `/organism:voice` | Voice | Entry point: positioning, pitch, outreach, or story |
+| `/organism:position` | Voice | Positioning exercise (April Dunford 10-step) |
+| `/organism:pitch` | Voice | Investor pitch materials, tailored per investor |
+| `/organism:outreach` | Voice | Targeted outreach: users, investors, partners, hires |
+| `/organism:story` | Voice | Product narrative (StoryBrand, SUCCESs) |
+| `/organism:legs` | Legs | Entry point: assess distribution state, detect growth stage |
+| `/organism:channels` | Legs | Research and rank channels (Bullseye Framework, ICE scoring) |
+| `/organism:launch` | Legs | Plan a launch: ProductHunt, HN, Reddit, IH |
+| `/organism:first-users` | Legs | Zero-to-ten playbook (Lenny's 7 strategies) |
+| `/organism:growth` | Legs | Growth loops, channel optimization, scaling strategy |
+| `/organism:blood` | Blood | Entry point: financial health, pricing, unit economics |
+| `/organism:pricing` | Blood | Pricing exercise (Van Westendorp, Gabor-Granger) |
+| `/organism:unit-economics` | Blood | CAC, LTV, margins, burn multiple with benchmarks |
+| `/organism:fundraise` | Blood | Fundraising strategy, term sheet review, dilution modeling |
+| `/organism:investors` | Blood | Research investors: portfolio, thesis, warm paths |
+| `/organism:financial-model` | Blood | Three-statement model, runway, Default Alive/Dead |
+| `/organism:heart` | Heart | Entry point: team state assessment, readiness gate |
+| `/organism:culture` | Heart | Define culture and values (Netflix/Stripe/5-word frameworks) |
+| `/organism:hire` | Heart | Plan a hire: role, comp, channels, interview design |
+| `/organism:comp` | Heart | Compensation benchmarks for a specific role |
+| `/organism:team-plan` | Heart | Team structure for next 6-12 months |
+
+### Founder Side (the person)
+
+| Skill | Direction | What it does |
+|-------|-----------|-------------|
+| `/organism:eyes` | Both | Entry point: scan outward or reflect inward |
+| `/organism:find` | Outward | Find a specific person and the warm path to them |
+| `/organism:scan` | Outward | Opportunities: grants, accelerators, partnerships |
+| `/organism:briefing` | Outward | Deep background dossier before a meeting |
+| `/organism:reflect` | Inward | Decision review, bias detection, pattern surfacing |
+| `/organism:premortem` | Inward | "Assume this failed. Why?" + kill criteria |
+| `/organism:pivot-check` | Inward | Pivot, persevere, or quit — evidence-based |
+
+Skills run as part of the coordination protocol during work. You don't invoke them. The organism does. The commands above are explicit overrides for when you want to trigger something specific.
 
 ## Validation & Hooks
 
@@ -144,48 +273,60 @@ The organism ships with real enforcement, not just instructions.
 
 | Hook | Event | What it does |
 |------|-------|-------------|
-| `hooks/session-start.sh` | SessionStart | Validates NORTH-STAR.md, checks focus, detects stale research, reminds about coordination protocol, runs auto-update |
-| `hooks/post-edit.sh` | PostToolUse (Edit/Write) | Checks if production code has a corresponding test file. Surfaces Spine feedback when tests are missing. |
+| `hooks/session-start.sh` | SessionStart | Validates NORTH-STAR.md, checks focus, detects stale research, validates systems.json, runs auto-update |
+| `hooks/post-edit.sh` | PostToolUse (Edit/Write) | Blocks production code edits when protocol steps 1-3 aren't complete. Exit code 2 with decision:block message. |
 
 Hooks install automatically during `./setup`. They merge into your existing `~/.claude/settings.json` without overwriting other hooks.
 
+### Protocol Enforcement
+
+The coordination protocol is enforced by real hooks, not just instructions:
+
+```bash
+# Protocol blocks code edits until Gut, Brain, Spine run
+protocol.sh start "task description" standard
+protocol.sh mark gut-filter "alignment result"
+protocol.sh mark brain-plan "3 tasks"
+protocol.sh mark spine-gate "approved"
+# NOW code edits are allowed
+
+# Learning loop — after shipping to users
+outcomes.sh log "feature" --predicted "what you expected" --actual "what happened"
+```
+
+41 tests verify the enforcement works. See `test/` directory.
+
 ### Validation
 
-Run `bin/validate.sh` against any project directory:
 ```bash
 ~/.claude/skills/organism/bin/validate.sh /path/to/project
 ```
 
-Checks:
-- NORTH-STAR.md exists with required sections (focus, persona, anti-goals)
-- Research artifacts aren't stale (>30 days = warning)
-- Demand research has outcome tracking (predictions vs. reality)
-- .planning/ state is healthy
-
-Exit codes: 0 (pass), 1 (warnings), 2 (errors).
+Checks: NORTH-STAR.md exists with required sections, research isn't stale, .planning/ state is healthy. Exit codes: 0 (pass), 1 (warnings), 2 (errors).
 
 ## How the Systems Map to Organs
 
-No system is locked to one organ. Each contributes across all four. The organism routes the right skill from the right system to the right protocol step.
+No system is locked to one organ. The organism routes the right skill from the right system to the right protocol step.
 
-| | Gut (alignment) | Brain (planning) | Spine (discipline) | Hands (verification) |
+| | Gut | Brain | Spine | Hands |
 |---|---|---|---|---|
-| **GSD** | Requirement tracing, backlog review | State, phases, roadmap, workstreams, seeds | Verification loops, gap closure, audit | Codebase mapping, debugging, session persistence |
-| **Superpowers** | Brainstorming hard-gates | Planning with granularity, worktree isolation | TDD enforcement, root cause, evidence, code review | Subagent-driven dev, parallel dispatch |
-| **gstack** | Office hours, CEO review, design consultation | Plan-eng-review, retro with metrics | Code review, Codex challenge, stop-slop, safety guards | Browser QA, design review, ship, canary, benchmark |
+| **GSD** | Requirement tracing, backlog | State, phases, roadmap, workstreams | Verification loops, gap closure | Codebase mapping, debugging |
+| **Superpowers** | Brainstorming hard-gates | Planning with granularity, worktrees | TDD enforcement, root cause, code review | Subagent-driven dev, parallel dispatch |
+| **gstack** | Office hours, CEO review | Plan-eng-review, retro | Code review, Codex, stop-slop, safety | Browser QA, design review, ship, canary |
 
-Organism adds what none of the three systems have: demand research, competitive intelligence, user interview capture, feedback synthesis, focus enforcement, and the coordination protocol that makes them work as one body.
+The business and founder organs (Voice, Legs, Blood, Heart, Eyes) use Claude Code's built-in capabilities — WebSearch for research, WebFetch for data, Read/Write for artifacts, AskUserQuestion for decisions. No additional systems required, though MCP servers can extend them.
 
 ## Building in 2026
 
-Organism applies 2026 startup principles, not 2015:
-
 - Ship an MVP in days, not months. Longer means overbuilding.
-- Automate from day 1. AI makes automation the starting point, not the optimization.
+- Automate from day 1. AI makes automation the starting point.
 - Your first employees are AI agents. Scale with agents before hiring humans.
 - Moat comes from proprietary data, user trust, and iteration speed. Not clever code.
 - Move fast and TEST things. AI makes testing as fast as building.
-- Talk to real users. AI didn't change human psychology. You still need their words.
+- Talk to real users. AI didn't change human psychology.
+- **Price before you build.** Unit economics that don't work at 10 users won't work at 10,000.
+- **Distribute before you polish.** The best product nobody finds is the same as no product.
+- **Know when to quit.** When building costs near zero, the signal to stop disappears. Set kill criteria.
 
 ## Requirements
 
@@ -195,33 +336,33 @@ Organism applies 2026 startup principles, not 2015:
 - [gstack](https://github.com/garrytan/gstack): browser QA, reviews, shipping
 - For `/organism:split`: Claude Code v2.1.32+ with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 
-The setup script checks for all three and guides you through installing any that are missing.
+GSD, Superpowers, and gstack are required for the build side. The setup script checks for all three and guides you through installing any that are missing. Business and founder organs work without additional systems.
 
 ## Philosophy
 
-AI writes code fast. Organism makes sure you don't waste that speed building the wrong thing.
+AI writes code fast. Organism makes sure you don't waste that speed.
 
-The organs enforce the questions that matter: Who is this for? Would they pay? Does it work on their phone at 11pm? What breaks first? Gut asks. Brain plans. Spine gates. Hands verifies. Gates between them block shortcuts.
+Not just on building the wrong thing — on selling it wrong, pricing it wrong, funding it wrong, hiring wrong, and fooling yourself about all of the above.
 
-The coordination protocol runs on every task. The four organs produce structured outputs that feed into each other. You stay focused on your product. The organism stays focused on discipline.
+Nine organs enforce the questions that matter across the full founder lifecycle. Gut asks "who is this for?" Blood asks "can you make money?" Legs asks "can users find it?" Voice asks "can you explain it?" Heart asks "who builds it with you?" Eyes asks "are you seeing clearly?" Brain plans it. Spine enforces it. Hands verify it.
+
+The coordination protocol runs on every task. Gates between organs block shortcuts. 100 named pitfalls catch patterns before they become fatal. The founder stays focused on decisions. The organism stays focused on discipline.
 
 ## Contributing a System
 
-The organism is open to any repo that improves the founder-engineer workflow. GSD, Superpowers, and gstack are the core systems, but they're not the only ones. If your repo makes one of the organ functions stronger, it can become part of the organism.
+The organism is open to any repo that improves the founder-engineer workflow. GSD, Superpowers, and gstack are the core build-side systems, but they're not the only ones. If your repo strengthens any organ — build, business, or founder — it can become part of the organism.
 
 ### What qualifies
 
 A system qualifies if it:
-1. **Provides skills or commands** that serve one or more organ functions (Gut, Brain, Spine, Hands)
+1. **Provides skills or commands** that serve one or more organ functions
 2. **Can be detected** automatically (directory exists, command available, config file present)
 3. **Works with Claude Code** (skill files, MCP server, CLI tool, or plugin)
-4. **Doesn't duplicate without improving.** If it overlaps with an existing system, it should be measurably better at the overlap.
+4. **Doesn't duplicate without improving.** If it overlaps with an existing system, it should be measurably better.
 
 ### How to add your system
 
 **1. Register it in `systems.json`**
-
-Add an entry describing your system, how to detect it, and which protocol steps it serves:
 
 ```json
 {
@@ -230,13 +371,10 @@ Add an entry describing your system, how to detect it, and which protocol steps 
     "detect": ["~/.claude/skills/your-system", "command:your-cmd"],
     "repo": "https://github.com/you/your-system",
     "install": "git clone ... && ./setup",
-    "skills": {
-      "category": ["skill-1", "skill-2"]
-    },
+    "skills": { "category": ["skill-1", "skill-2"] },
     "protocol_steps": {
       "gut-filter": ["skill-that-helps-alignment"],
-      "spine-gate": ["skill-that-enforces-quality"],
-      "hands-build": ["skill-that-helps-implementation"]
+      "spine-gate": ["skill-that-enforces-quality"]
     }
   }
 }
@@ -244,51 +382,28 @@ Add an entry describing your system, how to detect it, and which protocol steps 
 
 **2. Map your skills to protocol steps**
 
-The coordination protocol has 7 steps. Your system contributes to whichever steps make sense:
-
 | Step | Function | Your system helps here if it... |
 |------|----------|-------------------------------|
-| Step 1: Gut Filter | Alignment, market context | Validates demand, checks competitive landscape, assesses user fit |
-| Step 2: Brain Plan | Planning, state, task breakdown | Manages state, creates plans, structures work, discovers requirements |
-| Step 3: Spine Gate | Testability, design review | Enforces TDD, reviews architecture, checks plan quality |
-| Step 4: Hands Build | Implementation, TDD, QA | Writes code, runs tests, verifies in browser, manages deploys |
-| Step 5: Spine Verify | Evidence, code review, QA | Reviews diffs, runs QA suites, scores quality, catches security issues |
-| Step 6: Gut Reality | User grounding | Tests from user perspective, validates against persona, checks accessibility |
-| Step 7: Health Check | Status, metrics | Provides progress data, metrics, shipping velocity |
+| Step 1: Gut Filter | Alignment, market context | Validates demand, checks competition, assesses fit |
+| Step 2: Brain Plan | Planning, state, task breakdown | Manages state, creates plans, structures work |
+| Step 3: Spine Gate | Testability, design review | Enforces TDD, reviews architecture, checks quality |
+| Step 4: Hands Build | Implementation, TDD, QA | Writes code, runs tests, verifies in browser |
+| Step 5: Spine Verify | Evidence, code review, QA | Reviews diffs, runs QA, scores quality |
+| Step 6: Gut Reality | User grounding | Tests from user perspective, validates against persona |
+| Step 7: Health Check | Status, metrics | Provides progress data, metrics |
 
-**3. Add detection to the setup script**
-
-Add a `detect_system` call in the `setup` script:
-
-```bash
-detect_system "Your System" \
-    "[ -d '$HOME/.claude/skills/your-system' ]" \
-    "git clone https://github.com/you/your-system.git '$HOME/.claude/skills/your-system'" \
-    "Install: git clone ..."
-```
-
-**4. Update the routing table in CLAUDE.md**
-
-Add your skills to the Protocol Routing Table at the steps where they contribute. The organism routes to available skills at each step. If your system is installed, its skills appear as options.
-
-**5. Submit a PR**
-
-Include:
-- Updated `systems.json` with your system entry
-- Updated `setup` script with detection
-- Updated CLAUDE.md routing table
-- A brief explanation of which organ functions your system strengthens and why
+**3. Add detection to setup, update CLAUDE.md routing table, submit a PR.**
 
 ### MCP servers
 
-MCP servers (Context7, Serena, etc.) extend the organism through tool access rather than skill files. They get registered in the `mcp_servers` section of `systems.json` and are detected by checking Claude Code's MCP configuration.
+MCP servers extend the organism through tool access. They get registered in the `mcp_servers` section of `systems.json` and are detected by checking Claude Code's MCP configuration.
 
 ### Guidelines
 
-- **Don't fight existing systems.** If gstack already does browser QA well, don't add a competing browser QA system. Add something that fills a gap or is measurably better.
-- **Map to protocol steps.** Every skill should be routable to at least one protocol step. If it doesn't fit any step, it might not belong in the organism.
-- **Test your integration.** Run `bin/validate.sh` after adding your system. Run a real task through the coordination protocol and verify your skills get invoked at the right steps.
-- **Document what changed.** The founder should understand what your system adds without reading your repo's entire README.
+- **Don't fight existing systems.** Fill gaps or be measurably better at the overlap.
+- **Map to protocol steps.** Every skill should be routable to at least one step.
+- **Test your integration.** Run a real task through the protocol and verify invocation.
+- **Document what changed.** The founder should understand the addition without reading your entire README.
 
 ## Author
 
@@ -303,3 +418,5 @@ MIT. See [LICENSE](LICENSE).
 ## Credits
 
 Organism ships with three core systems by builders we respect: [GSD](https://github.com/coleam00/get-shit-done-cc) by Cole Medin, [Superpowers](https://github.com/anthropics/claude-plugins-official) by Anthropic, and [gstack](https://github.com/garrytan/gstack) by Garry Tan. The organism is the nervous system that routes their skills through a coordination protocol. New systems are welcome.
+
+The 100 pitfalls are sourced from: Y Combinator, a16z, First Round Review, Annie Duke ("Quit"), Daniel Kahneman ("Thinking, Fast and Slow"), Nassim Taleb ("The Black Swan"), April Dunford ("Obviously Awesome"), Donald Miller ("StoryBrand"), Chip & Dan Heath ("Made to Stick"), Brian Balfour (Reforge), Peter Thiel ("Zero to One"), Paul Graham, Andrew Chen, David Sacks, the Startup Genome Report, and 40+ other researchers, investors, and founders who documented what goes wrong so others don't have to learn it the hard way.
