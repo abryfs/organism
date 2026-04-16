@@ -13,7 +13,6 @@ set -eu
 ORGANISM_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 PROTOCOL="$ORGANISM_DIR/bin/protocol.sh"
 SCOPE_INFER="$ORGANISM_DIR/bin/scope-infer.py"
-CONFIG_FILE="$HOME/.organism/config.json"
 
 INPUT=$(cat)
 [ -z "$INPUT" ] && exit 0
@@ -93,10 +92,10 @@ case "$SCOPE" in
     ;;
   moderate|significant)
     if [ "$CURSOR_MODE" = "warn_once" ]; then
-      local_tier="standard"
-      [ "$SCOPE" = "significant" ] && local_tier="full"
-      echo "ORGANISM: $SCOPE scope edit ($REASON). Cursor detected — allowing, but consider: protocol.sh start \"<task>\" $local_tier" >&2
-      "$PROTOCOL" start "auto: $SCOPE edit (cursor)" "$local_tier" > /dev/null 2>&1 || true
+      CURSOR_TIER="standard"
+      [ "$SCOPE" = "significant" ] && CURSOR_TIER="full"
+      echo "ORGANISM: $SCOPE scope edit ($REASON). Cursor detected — allowing, but consider: protocol.sh start \"<task>\" $CURSOR_TIER" >&2
+      "$PROTOCOL" start "auto: $SCOPE edit (cursor)" "$CURSOR_TIER" > /dev/null 2>&1 || true
       "$PROTOCOL" mark spine-gate "cursor companion" > /dev/null 2>&1 || true
       exit 0
     fi
