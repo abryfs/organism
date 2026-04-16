@@ -1,0 +1,25 @@
+test/scope-inference.sh
+  36eac8daa94fb904 103-131
+hooks/post-edit.sh
+  36eac8daa94fb904 16-39,81,114,124
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "d56d741486646d6db7dd40bb264b22989aae6239",
+  "prompts": {
+    "36eac8daa94fb904": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fa171b67-f6a9-431a-8b3f-feabac06d7ae",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "abryfs",
+      "messages": [],
+      "total_additions": 56,
+      "total_deletions": 2,
+      "accepted_lines": 56,
+      "overriden_lines": 0
+    }
+  }
+}
