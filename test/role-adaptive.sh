@@ -216,4 +216,47 @@ test_v04_config_auto_upgrades() {
 }
 run_test "v0.4 config auto-upgrades" test_v04_config_auto_upgrades
 
+# Test 15: v0.4 upgrade runs role-detect in project dir (not shell PWD)
+test_upgrade_uses_project_dir_for_companion_detection() {
+  mkdir -p "$TMP_HOME/.organism"
+  echo '{"tier":"standard"}' > "$TMP_HOME/.organism/config.json"
+
+  # Create a project dir WITHOUT any companions
+  local proj="$TMP_HOME/cleanproj"
+  mkdir -p "$proj"
+
+  # Pollute the shell's cwd with a .cursorrules so if the bug is present,
+  # companion detection would pick it up from the wrong dir
+  local polluted="$TMP_HOME/polluted"
+  mkdir -p "$polluted"
+  echo "rules" > "$polluted/.cursorrules"
+
+  # Run hook from polluted dir with cwd pointing at cleanproj
+  cd "$polluted"
+  echo "{\"cwd\":\"$proj\"}" | "$ORGANISM_DIR/hooks/session-start.sh" > /dev/null 2>&1
+  cd - > /dev/null
+
+  # Companions should be [] (from cleanproj), NOT ["cursor"] (from polluted cwd)
+  local companions=$(python3 -c "import json; print(json.dumps(json.load(open('$TMP_HOME/.organism/config.json'))['companions']))")
+  assert_eq "$companions" "[]" "companion detection used PROJECT_DIR, not shell PWD"
+}
+run_test "Upgrade uses PROJECT_DIR for companions" test_upgrade_uses_project_dir_for_companion_detection
+
+# Test 16: upgrade failure surfaces an error message
+test_upgrade_failure_surfaces_error() {
+  # Make .organism + config.json read-only so role-detect.sh cannot overwrite
+  mkdir -p "$TMP_HOME/.organism"
+  echo '{"tier":"standard"}' > "$TMP_HOME/.organism/config.json"
+  chmod 444 "$TMP_HOME/.organism/config.json"  # file-level block (portable on macOS + Linux)
+  chmod 555 "$TMP_HOME/.organism"              # dir-level block
+
+  local output=$(echo '{"cwd":"/tmp"}' | "$ORGANISM_DIR/hooks/session-start.sh" 2>&1)
+
+  chmod 755 "$TMP_HOME/.organism"              # restore for later tests
+  chmod 644 "$TMP_HOME/.organism/config.json"
+
+  assert_contains "$output" "FAILED" "upgrade failure surfaces error message"
+}
+run_test "Upgrade failure surfaces error" test_upgrade_failure_surfaces_error
+
 summary

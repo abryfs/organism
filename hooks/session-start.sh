@@ -33,10 +33,19 @@ else
   if [ "$HAS_ROLE" != "True" ] || [ "$HAS_VERSION" != "True" ]; then
     # Auto-upgrade: preserve existing tier, default role to founder (v0.4 audience)
     EXISTING_TIER=$(python3 -c "import json; print(json.load(open('$CONFIG_FILE')).get('tier','standard'))" 2>/dev/null || echo "standard")
-    ORGANISM_ROLE="founder" \
-    ORGANISM_TIER="$EXISTING_TIER" \
-      "$ORGANISM_DIR/bin/role-detect.sh" --non-interactive > /dev/null 2>&1
-    MESSAGES+=("ORGANISM: auto-upgraded config to v0.5 (role: founder, preserved tier).")
+    UPGRADE_CWD="${PROJECT_DIR:-$HOME}"
+    (
+      cd "$UPGRADE_CWD" 2>/dev/null || cd "$HOME"
+      ORGANISM_ROLE="founder" \
+      ORGANISM_TIER="$EXISTING_TIER" \
+        "$ORGANISM_DIR/bin/role-detect.sh" --non-interactive > /dev/null
+    )
+    UPGRADE_EXIT=$?
+    if [ "$UPGRADE_EXIT" -eq 0 ]; then
+      MESSAGES+=("ORGANISM: auto-upgraded config to v0.5 (role: founder, preserved tier).")
+    else
+      MESSAGES+=("ORGANISM: v0.4→v0.5 auto-upgrade FAILED (role-detect.sh exit $UPGRADE_EXIT). Run bin/role-detect.sh manually.")
+    fi
   fi
 fi
 
