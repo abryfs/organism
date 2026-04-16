@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.5.1 — 2026-04-17
+
+**Follow-ups to v0.5.0.** Correctness + dead-code fixes flagged during v0.5.0 code review.
+
+### Fixed
+- `bin/protocol.sh`: state.json writes now use python3 + json.dump. Previously, quotes or newlines in task/step/data fields produced invalid JSON, silently dropping active-protocol tracking.
+- `hooks/post-edit.sh`: wires `session_files` accumulation so scope-infer's multi-file escalation (≥2 files → moderate, ≥6 → significant) actually fires. Previously the branch was unreachable because nothing wrote session_files.
+
+### Removed
+- `systems.json`: removed the duplicate `mcp_servers` block. `context7` and `serena` remain under the canonical `systems` map with the v0.5 schema.
+
 ## v0.5.0 — 2026-04-17
 
 **Role-adaptive rewrite.** One organism, three roles.

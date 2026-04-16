@@ -100,4 +100,33 @@ test_test_files_pass() {
 }
 run_test "Test files pass through" test_test_files_pass
 
+# Test 6: session_files accumulates across edits
+test_session_files_accumulates() {
+  rm -f "$ORGANISM_STATE_DIR/state.json"
+  local proj="$TMP/proj-sf"
+  mkdir -p "$proj/src"
+
+  invoke_hook "$proj/src/a.py" 5 "$proj" > /dev/null
+  invoke_hook "$proj/src/b.py" 5 "$proj" > /dev/null
+  invoke_hook "$proj/src/c.py" 5 "$proj" > /dev/null
+
+  local count=$(python3 -c "import json; print(len(json.load(open('$ORGANISM_STATE_DIR/state.json')).get('session_files', [])))")
+  assert_eq "$count" "3" "session_files accumulates 3 unique paths"
+}
+run_test "Session files accumulate" test_session_files_accumulates
+
+# Test 7: session_files deduplicates
+test_session_files_dedup() {
+  rm -f "$ORGANISM_STATE_DIR/state.json"
+  local proj="$TMP/proj-dd"
+  mkdir -p "$proj/src"
+
+  invoke_hook "$proj/src/same.py" 5 "$proj" > /dev/null
+  invoke_hook "$proj/src/same.py" 5 "$proj" > /dev/null
+
+  local count=$(python3 -c "import json; print(len(json.load(open('$ORGANISM_STATE_DIR/state.json')).get('session_files', [])))")
+  assert_eq "$count" "1" "repeated edit dedupes to single entry"
+}
+run_test "Session files dedupe" test_session_files_dedup
+
 summary

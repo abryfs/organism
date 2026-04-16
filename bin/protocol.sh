@@ -35,35 +35,43 @@ case "${1:-status}" in
             DEFAULT_TIER=$(python3 -c "import json; print(json.load(open('$CONFIG_DIR/config.json')).get('tier', 'standard'))" 2>/dev/null || echo "standard")
         fi
         TIER="${3:-$DEFAULT_TIER}"
-        cat > "$STATE_FILE" <<EOF
-{
-  "active": true,
-  "skipped": false,
-  "task": "$TASK",
-  "started": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "steps": {},
-  "overrides": 0,
-  "teammates": 0,
-  "tier": "$TIER"
-}
-EOF
+        python3 - "$TASK" "$TIER" <<'PY' > "$STATE_FILE"
+import json, sys, datetime
+task, tier = sys.argv[1], sys.argv[2]
+json.dump({
+    "active": True,
+    "skipped": False,
+    "task": task,
+    "started": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "steps": {},
+    "overrides": 0,
+    "teammates": 0,
+    "tier": tier,
+    "session_files": []
+}, sys.stdout, indent=2)
+sys.stdout.write("\n")
+PY
         echo "Protocol started: $TASK (tier: $TIER)"
         ;;
 
     skip)
         # For non-code tasks (docs, config, research) that don't need full protocol
-        cat > "$STATE_FILE" <<EOF
-{
-  "active": true,
-  "skipped": true,
-  "task": "${2:-non-code task}",
-  "started": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "steps": {},
-  "overrides": 0,
-  "teammates": 0,
-  "tier": "quick"
-}
-EOF
+        REASON="${2:-non-code task}"
+        python3 - "$REASON" <<'PY' > "$STATE_FILE"
+import json, sys, datetime
+reason = sys.argv[1]
+json.dump({
+    "active": True,
+    "skipped": True,
+    "task": reason,
+    "started": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "steps": {},
+    "overrides": 0,
+    "teammates": 0,
+    "tier": "quick"
+}, sys.stdout, indent=2)
+sys.stdout.write("\n")
+PY
         echo "Protocol skipped for non-code task"
         ;;
 
@@ -77,16 +85,19 @@ EOF
             exit 1
         fi
 
-        # Update state with python (available on macOS)
-        python3 -c "
-import json
-with open('$STATE_FILE', 'r') as f:
+        # Update state via python with sys.argv values (JSON-safe for arbitrary strings)
+        python3 - "$STATE_FILE" "$STEP" "$DATA" <<'PY' > "$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
+import json, sys, datetime
+state_file, step, data = sys.argv[1], sys.argv[2], sys.argv[3]
+with open(state_file) as f:
     state = json.load(f)
-state['steps']['$STEP'] = {'completed': '$(date -u +%Y-%m-%dT%H:%M:%SZ)', 'data': '$DATA'}
-with open('$STATE_FILE', 'w') as f:
-    json.dump(state, f, indent=2)
-    f.write('\n')
-"
+state.setdefault("steps", {})[step] = {
+    "completed": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "data": data
+}
+json.dump(state, sys.stdout, indent=2)
+sys.stdout.write("\n")
+PY
         echo "Marked: $STEP"
         ;;
 
@@ -195,15 +206,20 @@ with open('$STATE_FILE', 'w') as f:
     teammate)
         # Log that a teammate was spawned
         ROLE="${2:-worker}"
-        python3 -c "
-import json
-d = json.load(open('$STATE_FILE'))
-d['teammates'] = d.get('teammates', 0) + 1
-with open('$STATE_FILE', 'w') as f:
-    json.dump(d, f, indent=2)
-    f.write('\n')
-print(f\"Teammate spawned: $ROLE ({d['teammates']} total)\")
-"
+        python3 - "$STATE_FILE" "$ROLE" <<'PY' > "$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
+import json, sys, datetime
+state_file, role = sys.argv[1], sys.argv[2]
+with open(state_file) as f:
+    state = json.load(f)
+state["teammates"] = state.get("teammates", 0) + 1
+state.setdefault("teammate_list", []).append({
+    "at": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "role": role
+})
+json.dump(state, sys.stdout, indent=2)
+sys.stdout.write("\n")
+sys.stderr.write(f"Teammate spawned: {role} ({state['teammates']} total)\n")
+PY
         ;;
 
     check-teammates)

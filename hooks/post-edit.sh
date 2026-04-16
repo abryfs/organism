@@ -13,6 +13,30 @@ set -eu
 ORGANISM_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 PROTOCOL="$ORGANISM_DIR/bin/protocol.sh"
 SCOPE_INFER="$ORGANISM_DIR/bin/scope-infer.py"
+STATE_FILE="${ORGANISM_STATE_DIR:-/tmp/organism-protocol}/state.json"
+
+# Append current file_path to state.json's session_files array (deduplicated).
+# Safe to call multiple times. Skips if state.json doesn't exist or is invalid.
+append_session_file() {
+  local fp="$1"
+  local state="$STATE_FILE"
+  [ -z "$fp" ] && return 0
+  [ -f "$state" ] || return 0
+  python3 - "$state" "$fp" <<'PY' || true
+import json, sys
+state_file, fp = sys.argv[1], sys.argv[2]
+try:
+    with open(state_file) as f:
+        state = json.load(f)
+except (json.JSONDecodeError, FileNotFoundError):
+    sys.exit(0)
+files = state.setdefault("session_files", [])
+if fp not in files:
+    files.append(fp)
+    with open(state_file, "w") as f:
+        json.dump(state, f, indent=2)
+PY
+}
 
 INPUT=$(cat)
 [ -z "$INPUT" ] && exit 0
@@ -42,8 +66,6 @@ if [ -f "$CWD/.organism/off" ]; then
   exit 0
 fi
 
-STATE_FILE="${ORGANISM_STATE_DIR:-/tmp/organism-protocol}/state.json"
-
 # ── Protocol active? ──────────────────────────────────
 if [ -f "$STATE_FILE" ]; then
   ACTIVE=$(python3 -c "import json; print(json.load(open('$STATE_FILE')).get('active',False))" 2>/dev/null || echo "False")
@@ -56,6 +78,7 @@ if [ -f "$STATE_FILE" ]; then
   if [ "$ACTIVE" = "True" ]; then
     SPINE=$(python3 -c "import json; d=json.load(open('$STATE_FILE')); print(bool(d.get('steps',{}).get('spine-gate')))" 2>/dev/null || echo "False")
     if [ "$SPINE" = "True" ]; then
+      append_session_file "$FILE_PATH"
       exit 0
     fi
     echo '{"decision":"block","reason":"PROTOCOL: Spine gate not reached. Complete Step 3 (spine-gate) before editing production code."}'
@@ -88,6 +111,7 @@ case "$SCOPE" in
     "$PROTOCOL" mark gut-filter "auto: trivial scope" > /dev/null 2>&1 || true
     "$PROTOCOL" mark brain-plan "auto: 1 task" > /dev/null 2>&1 || true
     "$PROTOCOL" mark spine-gate "auto: trivial edit" > /dev/null 2>&1 || true
+    append_session_file "$FILE_PATH"
     exit 0
     ;;
   moderate|significant)
@@ -97,6 +121,7 @@ case "$SCOPE" in
       echo "ORGANISM: $SCOPE scope edit ($REASON). Cursor detected — allowing, but consider: protocol.sh start \"<task>\" $CURSOR_TIER" >&2
       "$PROTOCOL" start "auto: $SCOPE edit (cursor)" "$CURSOR_TIER" > /dev/null 2>&1 || true
       "$PROTOCOL" mark spine-gate "cursor companion" > /dev/null 2>&1 || true
+      append_session_file "$FILE_PATH"
       exit 0
     fi
     RECOMMENDED_TIER="standard"

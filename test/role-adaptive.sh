@@ -259,4 +259,17 @@ test_upgrade_failure_surfaces_error() {
 }
 run_test "Upgrade failure surfaces error" test_upgrade_failure_surfaces_error
 
+# Test 17: mcp_servers block retired (context7/serena live under systems)
+test_mcp_servers_retired() {
+  local sj="$ORGANISM_DIR/systems.json"
+  if python3 -c "import json; s=json.load(open('$sj')); exit(0 if 'mcp_servers' not in s else 1)"; then
+    echo -e "  ${GREEN}PASS${NC} mcp_servers block removed"
+    PASS=$((PASS + 1))
+  else
+    echo -e "  ${RED}FAIL${NC} mcp_servers block still present"
+    FAIL=$((FAIL + 1))
+  fi
+}
+run_test "mcp_servers retired" test_mcp_servers_retired
+
 summary
