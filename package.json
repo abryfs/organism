@@ -1,6 +1,6 @@
 {
   "name": "organism-ai",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "type": "commonjs",
   "description": "Role-adaptive nervous system for autonomous engineers at lean companies. One skill for founders, founding engineers, and ICs. Coordinates GSD, Superpowers, gstack, context7, serena, feature-dev, qodo, frontend-design, ralph-loop, claude-md-management, and skill-creator.",
   "bin": {
