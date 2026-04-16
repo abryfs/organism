@@ -184,4 +184,36 @@ test_systems_json_has_companions() {
 }
 run_test "systems.json has companions" test_systems_json_has_companions
 
+# Test 12: session-start triggers role-detect on first run (config missing)
+test_first_run_triggers_role_detect() {
+  rm -rf "$TMP_HOME/.organism"
+  local output=$(echo '{"cwd":"/tmp"}' | "$ORGANISM_DIR/hooks/session-start.sh" 2>&1)
+  assert_contains "$output" "ORGANISM_SETUP_REQUIRED" "first run prompts setup"
+}
+run_test "First run triggers role detection" test_first_run_triggers_role_detect
+
+# Test 13: session-start skips role detect when config exists
+test_existing_config_skips_setup() {
+  mkdir -p "$TMP_HOME/.organism"
+  cat > "$TMP_HOME/.organism/config.json" <<EOF
+{"role":"founder","edge":"x","companions":[],"tier_default":"standard","tier":"standard","organs_active":{},"version":"0.5.0"}
+EOF
+  local output=$(echo '{"cwd":"/tmp"}' | "$ORGANISM_DIR/hooks/session-start.sh" 2>&1)
+  assert_not_contains "$output" "ORGANISM_SETUP_REQUIRED" "no setup prompt when config exists"
+}
+run_test "Existing config skips setup prompt" test_existing_config_skips_setup
+
+# Test 14: v0.4 config auto-upgrades to 0.5.0 with role=founder
+test_v04_config_auto_upgrades() {
+  mkdir -p "$TMP_HOME/.organism"
+  echo '{"tier":"standard"}' > "$TMP_HOME/.organism/config.json"   # v0.4 shape
+  echo '{"cwd":"/tmp"}' | "$ORGANISM_DIR/hooks/session-start.sh" > /dev/null 2>&1
+
+  local role=$(python3 -c "import json; print(json.load(open('$TMP_HOME/.organism/config.json')).get('role',''))")
+  local version=$(python3 -c "import json; print(json.load(open('$TMP_HOME/.organism/config.json')).get('version',''))")
+  assert_eq "$role" "founder" "v0.4 auto-upgrade defaults to founder"
+  assert_eq "$version" "0.5.0" "version bumped to 0.5.0"
+}
+run_test "v0.4 config auto-upgrades" test_v04_config_auto_upgrades
+
 summary
