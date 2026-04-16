@@ -95,4 +95,64 @@ test_bugbot_detected_when_workflow_present() {
 }
 run_test "bugbot detected when workflow present" test_bugbot_detected_when_workflow_present
 
+# Test 7: interactive mode emits ORGANISM_SETUP_REQUIRED marker
+test_interactive_mode_emits_marker() {
+  local output=$("$ROLE_DETECT" 2>&1)
+  assert_contains "$output" "ORGANISM_SETUP_REQUIRED" "interactive mode emits setup marker"
+  assert_contains "$output" "founding_engineer" "marker lists founding_engineer role option"
+  assert_contains "$output" "founder" "marker lists founder role option"
+}
+run_test "Interactive mode emits marker" test_interactive_mode_emits_marker
+
+# Test 8: --detect-only always emits valid JSON
+test_detect_only_emits_valid_json() {
+  # Empty project
+  local tmp=$(mktemp -d)
+  pushd "$tmp" > /dev/null
+  local result=$("$ROLE_DETECT" --detect-only)
+  popd > /dev/null
+
+  # Must be parseable as JSON array
+  if echo "$result" | python3 -c "import json,sys; d=json.load(sys.stdin); assert isinstance(d, list)" 2>/dev/null; then
+    echo -e "  ${GREEN}PASS${NC} empty project emits valid JSON array"
+    PASS=$((PASS + 1))
+  else
+    echo -e "  ${RED}FAIL${NC} empty project JSON invalid: $result"
+    FAIL=$((FAIL + 1))
+  fi
+
+  # Populated project with duplicates — two cursor signals should dedupe
+  mkdir -p "$tmp/.cursor"
+  touch "$tmp/.cursorrules"
+  pushd "$tmp" > /dev/null
+  result=$("$ROLE_DETECT" --detect-only)
+  popd > /dev/null
+  rm -rf "$tmp"
+
+  if echo "$result" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+assert isinstance(d, list), 'not a list'
+assert d.count('cursor') == 1, f'cursor not deduped: {d}'
+" 2>/dev/null; then
+    echo -e "  ${GREEN}PASS${NC} populated project emits valid deduped JSON"
+    PASS=$((PASS + 1))
+  else
+    echo -e "  ${RED}FAIL${NC} populated project JSON invalid or not deduped: $result"
+    FAIL=$((FAIL + 1))
+  fi
+}
+run_test "--detect-only emits valid JSON" test_detect_only_emits_valid_json
+
+# Test 9: bogus role falls back with stderr warning
+test_bogus_role_falls_back_with_warning() {
+  rm -rf "$TMP_HOME/.organism"
+  local stderr=$(ORGANISM_ROLE="nonexistent_role" "$ROLE_DETECT" --non-interactive 2>&1 >/dev/null)
+  assert_contains "$stderr" "unknown role" "warning emitted for unknown role"
+
+  local role=$(python3 -c "import json; print(json.load(open('$TMP_HOME/.organism/config.json'))['role'])")
+  assert_eq "$role" "founding_engineer" "canonical role stored"
+}
+run_test "Unknown role falls back with warning" test_bogus_role_falls_back_with_warning
+
 summary

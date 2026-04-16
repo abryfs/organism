@@ -74,6 +74,18 @@ if [ "$MODE" = "--non-interactive" ]; then
   EDGE="${ORGANISM_EDGE:-}"
   TIER="${ORGANISM_TIER:-standard}"
   COMPANIONS=$(detect_companions "$PWD")
+
+  # Validate role against the known whitelist. Unknown values would
+  # silently adopt the founding_engineer organ map via the catch-all
+  # in organs_for_role(), but the user's typo would still land in
+  # config.json — breaking downstream `case "$role" in` consumers.
+  case "$ROLE" in
+    founder|founding_engineer|ic_engineer) ;;
+    *)
+      echo "role-detect: unknown role '$ROLE', defaulting to founding_engineer" >&2
+      ROLE="founding_engineer"
+      ;;
+  esac
 else
   # Interactive mode: emit a structured prompt block that the calling agent
   # (Claude Code) reads and converts into AskUserQuestion calls.
