@@ -155,4 +155,33 @@ test_bogus_role_falls_back_with_warning() {
 }
 run_test "Unknown role falls back with warning" test_bogus_role_falls_back_with_warning
 
+# Tests 10-11: systems.json v2 contents
+test_systems_json_has_v2_plugins() {
+  local sj="$ORGANISM_DIR/systems.json"
+  for key in context7 serena feature_dev qodo frontend_design ralph_loop claude_md_mgmt skill_creator; do
+    if python3 -c "import json,sys; sys_ = json.load(open('$sj'))['systems']; sys.exit(0 if '$key' in sys_ else 1)"; then
+      echo -e "  ${GREEN}PASS${NC} systems.json has $key"
+      PASS=$((PASS + 1))
+    else
+      echo -e "  ${RED}FAIL${NC} systems.json missing $key"
+      FAIL=$((FAIL + 1))
+    fi
+  done
+}
+run_test "systems.json has v2 plugins" test_systems_json_has_v2_plugins
+
+test_systems_json_has_companions() {
+  local sj="$ORGANISM_DIR/systems.json"
+  for key in cursor bugbot coderabbit greptile qodo_pr; do
+    if python3 -c "import json,sys; comp = json.load(open('$sj'))['companions']; sys.exit(0 if '$key' in comp else 1)"; then
+      echo -e "  ${GREEN}PASS${NC} companions has $key"
+      PASS=$((PASS + 1))
+    else
+      echo -e "  ${RED}FAIL${NC} companions missing $key"
+      FAIL=$((FAIL + 1))
+    fi
+  done
+}
+run_test "systems.json has companions" test_systems_json_has_companions
+
 summary

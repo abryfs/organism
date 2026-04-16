@@ -69,6 +69,81 @@
         "spine-verify": ["review", "codex", "qa", "design-review", "stop-slop", "canary", "benchmark"],
         "health-check": ["retro"]
       }
+    },
+    "context7": {
+      "name": "Context7",
+      "detect": ["mcp:plugin_context7_context7"],
+      "role_in_protocol": ["step_2_brain", "step_4_hands"],
+      "purpose": "Live library/framework docs lookup"
+    },
+    "serena": {
+      "name": "Serena",
+      "detect": ["mcp:plugin_serena_serena"],
+      "role_in_protocol": ["step_0_bootstrap", "step_2_brain", "step_4_hands", "step_5_verify"],
+      "purpose": "Semantic code analysis and symbol-level edits"
+    },
+    "feature_dev": {
+      "name": "Feature-Dev",
+      "detect": ["agent:feature-dev:feature-dev", "agent:feature-dev:code-architect"],
+      "role_in_protocol": ["step_2_brain", "step_4_hands", "step_5_verify"],
+      "purpose": "Guided feature development with specialized subagents"
+    },
+    "qodo": {
+      "name": "Qodo",
+      "detect": ["agent:qodo-skills:qodo-get-rules"],
+      "role_in_protocol": ["step_2_brain", "ship_lane"],
+      "purpose": "Rule loading + PR feedback resolution"
+    },
+    "frontend_design": {
+      "name": "Frontend Design",
+      "detect": ["agent:frontend-design:frontend-design"],
+      "role_in_protocol": ["step_2_brain", "step_4_hands"],
+      "purpose": "Production-grade UI component generation"
+    },
+    "ralph_loop": {
+      "name": "Ralph Loop",
+      "detect": ["agent:ralph-loop:ralph-loop"],
+      "role_in_protocol": ["step_4_hands"],
+      "purpose": "Parallel chunk execution across independent tasks"
+    },
+    "claude_md_mgmt": {
+      "name": "CLAUDE.md Management",
+      "detect": ["agent:claude-md-management:claude-md-improver"],
+      "role_in_protocol": ["step_0_bootstrap", "step_7_health"],
+      "purpose": "CLAUDE.md quality audit and targeted updates"
+    },
+    "skill_creator": {
+      "name": "Skill Creator",
+      "detect": ["agent:skill-creator:skill-creator"],
+      "role_in_protocol": ["meta"],
+      "purpose": "Create/modify/improve organism skills themselves"
+    }
+  },
+  "companions": {
+    "cursor": {
+      "detect": [".cursorrules", ".cursor/"],
+      "dim_steps": ["step_3_spine"],
+      "hook_mode": "warn_once"
+    },
+    "bugbot": {
+      "detect": [".github/workflows/*bugbot*"],
+      "dim_steps": ["step_5_verify"],
+      "note": "Bugbot will review on PR"
+    },
+    "coderabbit": {
+      "detect": [".coderabbit.yaml", ".coderabbit.yml"],
+      "dim_steps": ["step_5_verify"],
+      "note": "CodeRabbit will review on PR"
+    },
+    "greptile": {
+      "detect": [".greptile"],
+      "dim_steps": ["step_5_verify"],
+      "note": "Greptile will review on PR"
+    },
+    "qodo_pr": {
+      "detect": [".qodo/", ".pr_agent.toml"],
+      "dim_steps": ["step_5_verify"],
+      "note": "Qodo will resolve PR feedback"
     }
   },
   "mcp_servers": {
