@@ -1,0 +1,25 @@
+test/test_scope_infer.py
+  36eac8daa94fb904 64-124
+bin/scope-infer.py
+  36eac8daa94fb904 9-24,45-46,49-54,56-73,96-97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "2b3b9017ee6e14ce22e9019ed4717d3f637b9a56",
+  "prompts": {
+    "36eac8daa94fb904": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fa171b67-f6a9-431a-8b3f-feabac06d7ae",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "abryfs",
+      "messages": [],
+      "total_additions": 105,
+      "total_deletions": 5,
+      "accepted_lines": 2471,
+      "overriden_lines": 0
+    }
+  }
+}
