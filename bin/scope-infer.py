@@ -6,6 +6,22 @@ Writes JSON to stdout: {"scope": "trivial"|"moderate"|"significant", "reason": s
 """
 import json, sys, re
 
+# Paths under these prefixes are frontend/vendored/virtualenv content that
+# often contains directories named `routes/` or `charts/` in a non-sensitive
+# context (e.g. react-router, next.js, data-visualization components). We
+# skip sensitivity pattern matching for these prefixes to avoid false
+# positives.
+NON_SENSITIVE_PREFIXES = (
+    "frontend/",
+    "web/",
+    "ui/",
+    "client/",
+    "node_modules/",
+    "vendor/",
+    ".venv/",
+    "venv/",
+)
+
 SENSITIVE_PATTERNS = [
     r"(^|/)migrations?(/|$)",
     r"(^|/)alembic(/|$)",
@@ -13,7 +29,6 @@ SENSITIVE_PATTERNS = [
     r"(^|/)schemas?(/|$)",
     r"(^|/)charts?(/|$)",
     r"(^|/)helm(/|$)",
-    r"^docker-compose(\.[\w-]+)?\.ya?ml$",
     r"(^|/)docker-compose(\.[\w-]+)?\.ya?ml$",
     r"(^|/)k8s(/|$)",
     r"(^|/)kubernetes(/|$)",
@@ -27,13 +42,35 @@ SENSITIVE_PATTERNS = [
 ]
 
 def is_sensitive(path: str) -> bool:
+    if any(path.startswith(prefix) for prefix in NON_SENSITIVE_PREFIXES):
+        return False
     return any(re.search(p, path) for p in SENSITIVE_PATTERNS)
 
+def _normalize_path(value) -> str:
+    """Coerce to string and normalize Windows path separators."""
+    if not isinstance(value, str):
+        return ""
+    return value.replace("\\", "/")
+
 def infer(payload: dict) -> dict:
-    path = payload.get("file_path", "")
-    files = set(payload.get("session_files", []))
-    files.add(path)
-    edit_lines = int(payload.get("edit_lines", 0))
+    # C1: coerce null / non-string file_path to empty string.
+    path = _normalize_path(payload.get("file_path") or "")
+
+    # C3: non-list session_files should be treated as empty, not iterated
+    # (which would yield individual characters on a string).
+    raw_files = payload.get("session_files")
+    if not isinstance(raw_files, list):
+        raw_files = []
+    # I5: normalize each entry as well.
+    files = {_normalize_path(f) for f in raw_files if isinstance(f, str)}
+    if path:
+        files.add(path)
+
+    # C2: non-integer edit_lines should not crash.
+    try:
+        edit_lines = int(payload.get("edit_lines", 0))
+    except (TypeError, ValueError):
+        edit_lines = 0
 
     sensitive_hits = [f for f in files if is_sensitive(f)]
     file_count = len(files)
@@ -56,6 +93,8 @@ def main():
     except json.JSONDecodeError as e:
         print(json.dumps({"scope": "moderate", "reason": f"bad input: {e}"}))
         sys.exit(0)
+    if not isinstance(payload, dict):
+        payload = {}
     print(json.dumps(infer(payload)))
 
 if __name__ == "__main__":

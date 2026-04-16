@@ -61,6 +61,67 @@ def test_multiple_sensitive_paths_is_significant():
     out = infer("charts/api/values.yaml", session_files=files, edit_lines=5)
     assert out["scope"] == "significant"
 
+def test_null_file_path_does_not_crash():
+    # Regression: C1
+    result = subprocess.run(
+        ["python3", str(SCOPE_INFER)],
+        input='{"file_path": null}',
+        capture_output=True, text=True,
+    )
+    assert result.returncode == 0
+    out = json.loads(result.stdout)
+    assert out["scope"] in ("trivial", "moderate", "significant")
+
+def test_non_integer_edit_lines_does_not_crash():
+    # Regression: C2
+    result = subprocess.run(
+        ["python3", str(SCOPE_INFER)],
+        input='{"file_path": "foo.py", "edit_lines": "five"}',
+        capture_output=True, text=True,
+    )
+    assert result.returncode == 0
+    out = json.loads(result.stdout)
+    assert out["scope"] == "trivial"
+
+def test_non_list_session_files_does_not_misclassify():
+    # Regression: C3 — string as session_files should be treated as empty
+    out = infer("src/foo.py", session_files=None, edit_lines=5)  # None is normalized
+    assert out["scope"] == "trivial"
+    # And explicit string-where-list:
+    result = subprocess.run(
+        ["python3", str(SCOPE_INFER)],
+        input='{"file_path": "src/foo.py", "session_files": "not-a-list", "edit_lines": 5}',
+        capture_output=True, text=True, check=True,
+    )
+    assert json.loads(result.stdout)["scope"] == "trivial"
+
+def test_windows_path_separators_detected():
+    # Regression: I5
+    out = infer("backend\\alembic\\versions\\x.py", session_files=[], edit_lines=3)
+    assert out["scope"] == "moderate"
+
+def test_frontend_routes_not_flagged_as_sensitive():
+    # Regression: I4 — frontend/src/routes/ should not trigger routes/ pattern
+    out = infer("frontend/src/routes/home.tsx", session_files=[], edit_lines=5)
+    assert out["scope"] == "trivial", f"expected trivial, got {out}"
+
+def test_frontend_charts_not_flagged_as_sensitive():
+    # Regression: I4 — src/charts/ (data viz) should not trigger helm charts/ pattern
+    out = infer("frontend/src/charts/BarChart.tsx", session_files=[], edit_lines=5)
+    assert out["scope"] == "trivial", f"expected trivial, got {out}"
+
+def test_empty_stdin_does_not_crash():
+    # Robustness: empty input
+    result = subprocess.run(
+        ["python3", str(SCOPE_INFER)],
+        input="",
+        capture_output=True, text=True,
+    )
+    assert result.returncode == 0
+    # Graceful moderate on parse failure
+    out = json.loads(result.stdout)
+    assert out["scope"] in ("trivial", "moderate", "significant")
+
 if __name__ == "__main__":
     import pytest
     sys.exit(pytest.main([__file__, "-v"]))
