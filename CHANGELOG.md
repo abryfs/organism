@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.5.0 — 2026-04-17
+
+**Role-adaptive rewrite.** One organism, three roles.
+
+### Changed
+- Identity: "nervous system for autonomous engineers at lean companies"
+- Serves founders, founding engineers, and ICs from a single skill
+- All 39 organ skills unchanged — role only changes which fire automatically
+- BOOTSTRAP mode replaces BIRTH + ONBOARD: reads CLAUDE.md / .cursorrules / PRD / ROADMAP / README / ARCHITECTURE / SYSTEM_DESIGN / git log in priority order
+- Post-edit hook: scope-inferring auto-start for trivial edits instead of blunt block-all
+- Session-start hook: first-run role detection; v0.4 configs auto-upgrade to v0.5 as `role: founder`
+
+### Added
+- `bin/role-detect.sh` — first-run role + edge + companion setup
+- `bin/bootstrap.sh` — smart per-project brief synthesis
+- `bin/scope-infer.py` — file-count / line-count / path-sensitivity classifier
+- Plugin routing table v2 — context7, serena, feature-dev, qodo, frontend-design, ralph-loop, claude-md-management, skill-creator now wired at the protocol steps where they contribute
+- Companion coexistence — Cursor, Bugbot, CodeRabbit, Greptile, Qodo detected and overlapping steps dim to standby
+- `.organism/off` escape hatch — per-repo silence of the hook
+- `~/.organism/config.json` schema v0.5 with `role`, `edge`, `companions`, `organs_active` per-organ mode, `version`
+
+### Migration
+- Existing v0.4 users: no action required. Session-start detects the old config and auto-upgrades with `role: founder` (preserving v0.4 behavior). Change role anytime via `bin/role-detect.sh`.
+
 ## 0.3.0 — 2026-03-24
 
 The organs work together now. Real enforcement, not descriptions.
