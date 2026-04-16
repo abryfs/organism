@@ -7,16 +7,19 @@ source "$(dirname "$0")/test-helpers.sh"
 echo "Protocol Enforcement Tests"
 echo "=========================="
 
-# ── Test 1: No protocol state → blocks production code ──
+# ── Test 1: No protocol state + sensitive path → blocks ──
+# v0.5 semantics: trivial edits auto-start protocol; only moderate+ scope
+# (sensitive paths like migrations/alembic, multi-file edits, ≥10 lines)
+# without protocol blocks. Non-sensitive single-file edits are auto-allowed.
 
-test_no_protocol_blocks() {
+test_no_protocol_blocks_sensitive() {
   reset_protocol
-  run_hook_post_edit "/src/app.ts"
+  run_hook_post_edit "/backend/alembic/versions/xyz.py"
 
-  assert_contains "$HOOK_OUTPUT" "block" "blocks production code when no protocol"
+  assert_contains "$HOOK_OUTPUT" "block" "blocks moderate+ scope when no protocol"
   assert_exit_code "$HOOK_EXIT" "2" "blocked"
 }
-run_test "No protocol → blocks production code" test_no_protocol_blocks
+run_test "No protocol + sensitive path → blocks" test_no_protocol_blocks_sensitive
 
 # ── Test 2: No protocol → allows test files ──
 
