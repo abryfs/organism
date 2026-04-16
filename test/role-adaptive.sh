@@ -69,4 +69,30 @@ test_ic_engineer_minimal() {
 }
 run_test "IC engineer minimal organs" test_ic_engineer_minimal
 
+# Test 5: bugbot NOT detected in empty project
+test_bugbot_not_false_positive() {
+  local tmp=$(mktemp -d)
+  pushd "$tmp" > /dev/null
+  git init -q  # just to have a real project root; bugbot detection must not fire
+  local result=$("$ROLE_DETECT" --detect-only)
+  popd > /dev/null
+  rm -rf "$tmp"
+  assert_not_contains "$result" "bugbot" "bugbot not false-positive in empty project"
+  assert_eq "$result" "[]" "empty project yields empty companions array"
+}
+run_test "bugbot not false-positive" test_bugbot_not_false_positive
+
+# Test 6: bugbot IS detected when workflow file exists
+test_bugbot_detected_when_workflow_present() {
+  local tmp=$(mktemp -d)
+  mkdir -p "$tmp/.github/workflows"
+  touch "$tmp/.github/workflows/bugbot.yml"
+  pushd "$tmp" > /dev/null
+  local result=$("$ROLE_DETECT" --detect-only)
+  popd > /dev/null
+  rm -rf "$tmp"
+  assert_contains "$result" "bugbot" "bugbot detected when workflow file present"
+}
+run_test "bugbot detected when workflow present" test_bugbot_detected_when_workflow_present
+
 summary

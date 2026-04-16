@@ -8,6 +8,7 @@
 #   role-detect.sh --detect-only     — run companion detection, print JSON, no write
 
 set -e
+set -o pipefail
 
 CONFIG_DIR="$HOME/.organism"
 CONFIG_FILE="$CONFIG_DIR/config.json"
@@ -30,7 +31,7 @@ detect_companions() {
   [ -f "$cwd/.greptile" ] && found+=("greptile")
   { [ -d "$cwd/.qodo" ] || [ -f "$cwd/.pr_agent.toml" ]; } && found+=("qodo_pr")
   # GitHub bots
-  if ls "$cwd"/.github/workflows/*bugbot* 2>/dev/null | head -1 > /dev/null; then
+  if compgen -G "$cwd/.github/workflows/*bugbot*" > /dev/null; then
     found+=("bugbot")
   fi
   # Unique, emit JSON array
