@@ -1,6 +1,6 @@
 ---
 name: organism
-description: The main entry point. Use at the start of any session or when the founder gives a task. Automatically detects context, activates the right mode, and runs internal skills without manual invocation.
+description: The main entry point. Use at the start of any session or when given a task. Role-adaptive — serves founders, founding engineers, and ICs from one skill. Automatically detects context, activates the right mode, runs internal skills without manual invocation, and coordinates all installed plugins.
 ---
 
 # Organism: Main Entry Point
@@ -33,17 +33,43 @@ When invoked, Organism reads the project state and activates the appropriate mod
 ## Mode Detection
 
 ```
-Check: Does NORTH-STAR.md exist in the project root?
-  NO  → Check: Does a codebase already exist? (src/, app/, lib/, or 10+ code files)
-    YES → ONBOARD mode (existing project, no organism yet)
-    NO  → BIRTH mode (new project from scratch)
-  YES → Check: Does the founder have a specific, actionable task?
-    CLEARLY YES → WORK mode (build something)
-    AMBIGUOUS   → PULSE mode (orient first, let health check prompt a task)
-    NO          → PULSE mode (catch up, route to next action)
+Check: Does ~/.organism/config.json exist with a `role` field?
+  NO  → First-run setup: invoke bin/role-detect.sh to capture role + edge + companions
+  YES → Continue.
+
+Check: Does `.organism/brief.md` exist in the project root?
+  YES → PULSE mode (orient on existing brief + recent activity)
+  NO  → BOOTSTRAP mode (read existing docs, synthesize brief, offer to save)
+
+Check: Does the user have a specific, actionable task?
+  CLEARLY YES → WORK mode (build something)
+  AMBIGUOUS   → PULSE mode
+  NO          → PULSE mode
 ```
 
-When ambiguous (e.g., "How are we doing?", "What should I work on?", "Let's think about pricing"), default to PULSE. The health check will orient the founder and naturally lead to a task.
+When ambiguous ("How are we doing?", "What should I work on?"), default to
+PULSE. The health check will orient the user and naturally lead to a task.
+
+### BOOTSTRAP merges the old BIRTH + ONBOARD modes
+
+Instead of choosing between BIRTH (no codebase) and ONBOARD (existing
+codebase without NORTH-STAR.md), v0.5 runs one BOOTSTRAP flow that reads
+what exists in priority order:
+
+1. `CLAUDE.md`
+2. `.cursorrules`
+3. `PRD*.md` / `*-PRD.md`
+4. `ROADMAP*.md` / `.planning/ROADMAP.md`
+5. `README.md`
+6. `ARCHITECTURE.md` / `SYSTEM_DESIGN.md`
+7. Recent git log (last 30 commits)
+
+For **founder role**: if none of the above yield enough context, the old
+BIRTH 6-question north-star flow still runs.
+
+For **engineer roles**: the flow synthesizes a brief from whatever docs
+exist. Only the north-star-equivalent question — "what's the focus right
+now?" — is asked if the docs don't answer it.
 
 ## ONBOARD Mode: Existing Project, No Organism Yet
 
@@ -414,9 +440,12 @@ Example: demand research.
 
 ## Explicit Skill Override
 
-The founder CAN invoke skills directly when they want the full output:
+Every organ skill can be invoked directly regardless of role — role only
+affects which fire automatically during the coordination protocol. Use
+`/organism:<skill>` to force full output (research reports, templates,
+written artifacts):
 
-**Build Side (the product):**
+**Build Side** (the product — active by default in all roles):
 - `/organism:north-star` — Redefine product direction
 - `/organism:demand` — Research market demand for a specific question
 - `/organism:competitive` — Scan competitive landscape
@@ -428,7 +457,7 @@ The founder CAN invoke skills directly when they want the full output:
 - `/organism:sync-check` — Force doc/code consistency check
 - `/organism:split` — Spawn three-agent organism for critical work
 
-**Business Side (the company):**
+**Business Side** (the company — on-demand in engineer roles, default in founder role):
 - `/organism:voice` — Marketing, positioning, outreach, pitch, storytelling (routes to sub-skills)
 - `/organism:position` — Run a positioning exercise (April Dunford 10-step)
 - `/organism:pitch` — Prepare investor pitch materials
@@ -451,7 +480,7 @@ The founder CAN invoke skills directly when they want the full output:
 - `/organism:comp` — Research compensation benchmarks for a role
 - `/organism:team-plan` — Map team structure for next 6-12 months
 
-**Founder Side (the person):**
+**Founder Side** (the person — on-demand in engineer roles, default in founder role):
 - `/organism:eyes` — Outward awareness + inward clarity (routes to sub-skills)
 - `/organism:find` — Find a specific person and the warm path to them
 - `/organism:scan` — Scan for opportunities (grants, accelerators, partnerships)
@@ -460,7 +489,9 @@ The founder CAN invoke skills directly when they want the full output:
 - `/organism:pivot-check` — Structured pivot/persevere/quit assessment
 - `/organism:briefing` — Deep background dossier on a person before a meeting
 
-These are overrides, not the normal flow. The organism invokes the right skill internally during the coordination protocol.
+These are overrides for any role. In `founder` mode they also fire inside the
+coordination protocol when relevant; in engineer roles they only fire when
+explicitly invoked.
 
 ## Mode Transitions
 
