@@ -11,7 +11,21 @@
 set -euo pipefail
 
 MODE="${1:---interactive}"
+case "$MODE" in
+  --interactive|--dry-run|--write) ;;
+  *)
+    echo "bootstrap: unknown mode '$MODE'" >&2
+    echo "  usage: bootstrap.sh [--interactive|--dry-run|--write]" >&2
+    exit 2
+    ;;
+esac
+
 PROJECT_DIR="${PROJECT_DIR:-$PWD}"
+if [ ! -d "$PROJECT_DIR" ]; then
+  echo "bootstrap: PROJECT_DIR '$PROJECT_DIR' does not exist" >&2
+  exit 2
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ── Build priority-ordered source list ─────────────────────
@@ -60,13 +74,15 @@ extract_from_source() {
   local title=""
   local body=""
   title=$(grep -m1 '^# ' "$path" 2>/dev/null | sed 's/^# //' || true)
-  body=$(awk '/^[A-Za-z]/ && !/^#/ {print; exit}' "$path" 2>/dev/null || true)
+  body=$(awk '/^---$/ { fm = !fm; next } fm { next } /^[A-Za-z]/ && !/^#/ {print; exit}' "$path" 2>/dev/null || true)
   echo "- $rel: ${title:-<no title>} — ${body:0:120}"
 }
 
 # ── Build brief ────────────────────────────────────────────
 BRIEF_TMP=$(mktemp)
+trap 'rm -f "$BRIEF_TMP"' EXIT
 {
+  echo "<!-- organism-brief-v1 -->"
   echo "# Project Brief (organism auto-synthesized)"
   echo ""
   echo "_Generated $(date -u +%Y-%m-%dT%H:%M:%SZ) from existing project docs._"

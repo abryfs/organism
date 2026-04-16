@@ -87,4 +87,61 @@ test_write_creates_brief() {
 }
 run_test "Write creates brief" test_write_creates_brief
 
+# Test 6: interactive mode emits ORGANISM_BRIEF_APPROVAL_REQUIRED marker
+test_interactive_mode_emits_marker() {
+  local proj="$TMP/t6"
+  mkdir -p "$proj" && cd "$proj"
+  git init -q
+  echo "# Test" > README.md
+
+  local out=$("$BOOTSTRAP" 2>&1)
+  assert_contains "$out" "ORGANISM_BRIEF_APPROVAL_REQUIRED" "marker emitted in interactive mode"
+
+  local dry_out=$("$BOOTSTRAP" --dry-run 2>&1)
+  assert_not_contains "$dry_out" "ORGANISM_BRIEF_APPROVAL_REQUIRED" "marker NOT in --dry-run"
+  cd - > /dev/null
+}
+run_test "Interactive mode emits approval marker" test_interactive_mode_emits_marker
+
+# Test 7: unknown arg exits non-zero
+test_unknown_arg_rejected() {
+  local proj="$TMP/t7"
+  mkdir -p "$proj" && cd "$proj"
+  "$BOOTSTRAP" --bogus-arg 2>/dev/null
+  local exit_code=$?
+  cd - > /dev/null
+  assert_eq "$exit_code" "2" "unknown arg exits 2"
+}
+run_test "Unknown arg rejected" test_unknown_arg_rejected
+
+# Test 8: nonexistent PROJECT_DIR exits non-zero
+test_nonexistent_project_dir_rejected() {
+  PROJECT_DIR="/definitely/does/not/exist" "$BOOTSTRAP" --dry-run 2>/dev/null
+  local exit_code=$?
+  assert_eq "$exit_code" "2" "nonexistent PROJECT_DIR exits 2"
+}
+run_test "Nonexistent PROJECT_DIR rejected" test_nonexistent_project_dir_rejected
+
+# Test 9: YAML front-matter is skipped
+test_yaml_front_matter_skipped() {
+  local proj="$TMP/t9"
+  mkdir -p "$proj" && cd "$proj"
+  git init -q
+  cat > README.md <<'EOF'
+---
+title: Front Matter Title
+sidebar: true
+---
+# Real Title
+
+This is the real project body text.
+EOF
+
+  local out=$("$BOOTSTRAP" --dry-run 2>&1)
+  assert_contains "$out" "Real Title" "real title extracted"
+  assert_not_contains "$out" "title: Front Matter" "front-matter line skipped"
+  cd - > /dev/null
+}
+run_test "YAML front-matter skipped in body extraction" test_yaml_front_matter_skipped
+
 summary
