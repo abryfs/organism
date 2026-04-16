@@ -1,18 +1,32 @@
 # Organism
 
-Nine organs for founder-engineers. Build the right thing, sell it to real people, price it to survive, fund it, hire for it, and see clearly through the noise.
+The nervous system for autonomous engineers at lean companies.
 
-AI made building cheap. Everything else is still hard. Organism handles the everything else.
+One skill. Role-adaptive. Serves:
+
+- **Solo founders** building their own company end-to-end (all 9 organs active)
+- **Founding engineers** owning outcomes at a lean startup (core 4 + on-demand specialists)
+- **IC engineers** shipping features on a larger team (discipline + plugin coordination)
+
+AI made building cheap. Everything else — picking the right tool, writing
+the right test, shipping without stepping on teammates — is still work.
+Organism handles the everything else.
 
 ## What It Actually Is
 
-Organism is a CLAUDE.md file and 39 skill files across 9 organs. Opinionated prompt engineering applied as a coordination protocol. When you install it, your Claude Code sessions gain:
+Organism is a CLAUDE.md file, a SKILL.md entry point, 3 bin scripts, 2 hooks,
+a systems registry, and 39 organ skills. Opinionated prompt engineering
+applied as a coordination protocol that fires at every task. When you
+install it, your Claude Code sessions gain:
 
-- **Nine organs across three sides** of the founder's job: build the product, build the company, build yourself
+- **One entry point** — `/organism` detects role, reads project context, picks the right tool
+- **Role-adaptive behavior** — founders, founding engineers, and ICs each get a different default organ map
+- **Smart context bootstrap** — reads CLAUDE.md, `.cursorrules`, PRDs, roadmaps, READMEs; never forces a NORTH-STAR.md on existing projects
+- **Full plugin coordination** — GSD, Superpowers, gstack, context7, serena, feature-dev, qodo-skills, frontend-design, ralph-loop, claude-md-management, skill-creator all wired into the 7-step protocol
+- **Companion awareness** — Cursor, Bugbot, CodeRabbit, Greptile, Qodo detected and organism dims duplicate work
 - **A coordination protocol** where organs hand off to each other with gates between them
-- **100 named pitfalls** — the documented failure patterns from startup history, sourced from YC, a16z, Paul Graham, Annie Duke, and 60+ other references. Each organ checks your decisions against its pitfall database.
-- **A focus** that gates every task against your north star before work begins
-- **Discipline with teeth** — Spine blocks untestable plans, Blood blocks unprofitable scaling, Heart blocks hiring before PMF, Eyes blocks self-deception
+- **100 named pitfalls** — documented failure patterns from startup history (founder-mode by default; on-demand in engineer roles)
+- **Discipline with teeth** — Spine blocks untestable plans, tests gate evidence before "done," hook scope-infers instead of block-all
 
 ### The Three Sides
 
@@ -43,13 +57,24 @@ Every organ carries the documented history of failures in its domain. Not generi
 
 100 pitfalls total. Each fires as Block (stop everything), Warn (flag and continue), or Note (log for awareness). The founder always decides — but the organism never stays silent when it recognizes a pattern.
 
-Organism is powered by three open-source systems. Each contributes across the build-side organs:
+Organism coordinates the Claude Code plugin ecosystem. Each contributes to
+one or more protocol steps:
 
-- **[GSD](https://github.com/coleam00/get-shit-done-cc)** (50+ commands): Full project lifecycle — planning, state tracking, verification loops, codebase mapping, persistent debugging, workstreams, session persistence.
-- **[Superpowers](https://github.com/anthropics/claude-plugins-official)** (14 skills): Development discipline — TDD enforcement with 27+ rationalization closures, systematic debugging, brainstorming hard-gates, code review, git worktree isolation.
-- **[gstack](https://github.com/garrytan/gstack)** (30+ skills): Full product workflow — YC office hours, plan reviews, persistent browser QA, automated QA loops, ship/deploy/canary pipeline, safety guardrails, anti-slop enforcement.
+- **[GSD](https://github.com/coleam00/get-shit-done-cc)** (50+ commands) — project lifecycle, planning, state, verification, debugging, shipping
+- **[Superpowers](https://github.com/anthropics/claude-plugins-official)** — TDD, systematic debugging, brainstorming, plans, code review, git worktrees, parallel agents
+- **[gstack](https://github.com/garrytan/gstack)** — YC office hours, plan reviews, browser QA, ship/deploy/canary, safety guardrails, anti-slop
+- **[Context7](https://context7.com)** (MCP) — live library/framework docs at planning and implementation steps
+- **[Serena](https://github.com/oraios/serena)** (MCP) — semantic code analysis, symbol-level edits, precise review
+- **feature-dev** — specialized subagents (code-architect, code-explorer, code-reviewer) for deep-context feature work
+- **qodo-skills** — rule loading before plan; PR feedback resolution after review
+- **frontend-design** — production-grade UI generation at UI-heavy build steps
+- **ralph-loop** — parallel chunk execution for independent tasks
+- **claude-md-management** — CLAUDE.md quality audit at bootstrap and health-check steps
+- **skill-creator** — meta-loop when organism itself needs improvement
 
-All three are required for the build side. The business and founder organs (Voice, Legs, Blood, Heart, Eyes) work with Claude Code's built-in tools — WebSearch, WebFetch, Read/Write — no additional systems needed.
+If you have Cursor, Bugbot, CodeRabbit, Greptile, or Qodo configured in
+your repo, organism detects them and dims overlapping steps — no
+duplicate reviews, no double enforcement.
 
 ## Install
 

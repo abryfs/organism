@@ -19,6 +19,42 @@ PROJECT_DIR="${PROJECT_DIR:-$(pwd)}"
 
 MESSAGES=()
 
+# ── v0.5 role config check ─────────────────────────────
+CONFIG_FILE="$HOME/.organism/config.json"
+
+if [ ! -f "$CONFIG_FILE" ]; then
+  # First run on this machine — request setup
+  MESSAGES+=("ORGANISM_SETUP_REQUIRED: Run bin/role-detect.sh to configure role, edge, and companions.")
+else
+  # Upgrade path: v0.4 configs lack 'role' or 'version'
+  HAS_ROLE=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print('role' in d)" 2>/dev/null || echo "False")
+  HAS_VERSION=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(d.get('version','').startswith('0.5'))" 2>/dev/null || echo "False")
+
+  if [ "$HAS_ROLE" != "True" ] || [ "$HAS_VERSION" != "True" ]; then
+    # Auto-upgrade: preserve existing tier, default role to founder (v0.4 audience)
+    EXISTING_TIER=$(python3 -c "import json; print(json.load(open('$CONFIG_FILE')).get('tier','standard'))" 2>/dev/null || echo "standard")
+    UPGRADE_CWD="${PROJECT_DIR:-$HOME}"
+    (
+      cd "$UPGRADE_CWD" 2>/dev/null || cd "$HOME"
+      ORGANISM_ROLE="founder" \
+      ORGANISM_TIER="$EXISTING_TIER" \
+        "$ORGANISM_DIR/bin/role-detect.sh" --non-interactive > /dev/null
+    )
+    UPGRADE_EXIT=$?
+    if [ "$UPGRADE_EXIT" -eq 0 ]; then
+      MESSAGES+=("ORGANISM: auto-upgraded config to v0.5 (role: founder, preserved tier).")
+    else
+      MESSAGES+=("ORGANISM: v0.4→v0.5 auto-upgrade FAILED (role-detect.sh exit $UPGRADE_EXIT). Run bin/role-detect.sh manually.")
+    fi
+  fi
+fi
+
+# ── Per-project bootstrap check ────────────────────────
+if [ -n "$PROJECT_DIR" ] && [ -d "$PROJECT_DIR" ] && [ ! -d "$PROJECT_DIR/.organism" ]; then
+  # No project brief yet — emit a hint (bootstrap.sh is invoked on demand, not auto)
+  MESSAGES+=("ORGANISM: no .organism/ in project. Run bin/bootstrap.sh to synthesize a brief.")
+fi
+
 # ── Auto-update ────────────────────────────────────────
 UPDATE_MSG=$("$ORGANISM_DIR/bin/check-update.sh" 2>/dev/null)
 if [ -n "$UPDATE_MSG" ]; then
@@ -101,5 +137,10 @@ if git -C "$PROJECT_DIR" rev-parse --is-inside-work-tree &>/dev/null; then
     echo "{\"additionalContext\": \"FOCUS DRIFT: $RECENT_OVERRIDES gate overrides in the last 7 days. Check if focus needs updating.\"}"
   fi
 fi
+
+# ── Emit collected MESSAGES ────────────────────────────
+for msg in "${MESSAGES[@]}"; do
+  echo "$msg"
+done
 
 exit 0
