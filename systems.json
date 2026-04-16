@@ -145,18 +145,5 @@
       "dim_steps": ["step_5_verify"],
       "note": "Qodo will resolve PR feedback"
     }
-  },
-  "mcp_servers": {
-    "_doc": "MCP servers that extend organism capabilities. Detected automatically if configured.",
-    "context7": {
-      "name": "Context7",
-      "purpose": "Up-to-date documentation lookup for any library",
-      "protocol_steps": ["brain-plan", "hands-build"]
-    },
-    "serena": {
-      "name": "Serena",
-      "purpose": "Semantic code analysis — symbol-level reading, editing, and relationship mapping",
-      "protocol_steps": ["brain-plan", "spine-gate", "spine-verify"]
-    }
   }
 }

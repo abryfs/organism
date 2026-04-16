@@ -421,7 +421,7 @@ A system qualifies if it:
 
 ### MCP servers
 
-MCP servers extend the organism through tool access. They get registered in the `mcp_servers` section of `systems.json` and are detected by checking Claude Code's MCP configuration.
+MCP servers extend the organism through tool access. They get registered in the `systems` map of `systems.json` (with `detect: ["mcp:..."]`) and are detected by checking Claude Code's MCP configuration.
 
 ### Guidelines
 
