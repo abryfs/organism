@@ -1,0 +1,25 @@
+bin/role-detect.sh
+  36eac8daa94fb904 1-126
+test/role-adaptive.sh
+  36eac8daa94fb904 1-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "16dd4076dd5ff1e2491b395e5d1c564a8b167b45",
+  "prompts": {
+    "36eac8daa94fb904": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fa171b67-f6a9-431a-8b3f-feabac06d7ae",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "abryfs",
+      "messages": [],
+      "total_additions": 198,
+      "total_deletions": 0,
+      "accepted_lines": 2564,
+      "overriden_lines": 0
+    }
+  }
+}
