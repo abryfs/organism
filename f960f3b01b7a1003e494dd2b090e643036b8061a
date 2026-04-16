@@ -1,0 +1,23 @@
+CLAUDE.md
+  36eac8daa94fb904 209-239,429-499
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "f960f3b01b7a1003e494dd2b090e643036b8061a",
+  "prompts": {
+    "36eac8daa94fb904": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fa171b67-f6a9-431a-8b3f-feabac06d7ae",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "abryfs",
+      "messages": [],
+      "total_additions": 102,
+      "total_deletions": 19,
+      "accepted_lines": 2468,
+      "overriden_lines": 0
+    }
+  }
+}
